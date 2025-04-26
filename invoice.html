@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Invoice - Cecilia Dunn</title>
+  <title>Invoice - Tiffany Ulrich</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -278,8 +278,8 @@
       <div class="billing-info">
         <div class="bill-to">
           <h3>Payment to:</h3>
-          <p>Skyla Jasso</p>
-          <small>Skylajasso1995@gmail.com</small>
+          <p>Tiffany Ulrich</p>
+          <small>tresneuro38@yahoo.com</small>
         </div>
         <div class="invoice-details">
           <p><small>Payment Terms:</small> Net 14</p>
@@ -332,33 +332,24 @@
       return date.toLocaleDateString('en-US', options).replace(',', '');
     }
 
-    const rate = 1850;
+    const rate = 4675;
     const qty = 1;
     const tbody = document.getElementById("invoice-rows");
     let totalAmount = 0;
 
-    const dates = ["2025-03-28", "2025-04-05"];
+    const amount = rate * qty;
+    totalAmount += amount;
 
-    for (let i = 0; i < dates.length; i++) {
-      const fromDate = new Date(dates[i]);
-      const toDate = new Date(fromDate);
-      toDate.setDate(fromDate.getDate() + 6);
-
-      const amount = rate * qty;
-      totalAmount += amount;
-
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>
-          Consulting Services<br>
-          <span class="date-range">${formatDate(fromDate)} - ${formatDate(toDate)}</span>
-        </td>
-        <td class="amount">$${rate.toFixed(2)}</td>
-        <td>${qty}</td>
-        <td class="amount">$${amount.toFixed(2)}</td>
-      `;
-      tbody.appendChild(row);
-    }
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>
+        Consulting Services
+      </td>
+      <td class="amount">$${rate.toFixed(2)}</td>
+      <td>${qty}</td>
+      <td class="amount">$${amount.toFixed(2)}</td>
+    `;
+    tbody.appendChild(row);
 
     const today = new Date();
     document.getElementById("invoice-date").textContent = formatDate(today);
