@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Invoice - Tiffany Ulrich</title>
+  <title>Invoice - Masison Crites</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -15,11 +15,11 @@
       --dark-gray: #6c757d;
       --text: #212529;
     }
-  
+
     * {
       box-sizing: border-box;
     }
-  
+
     body {
       font-family: 'Inter', sans-serif;
       background: var(--light-gray);
@@ -28,7 +28,7 @@
       color: var(--text);
       line-height: 1.6;
     }
-  
+
     .invoice-container {
       max-width: 900px;
       margin: 0 auto;
@@ -37,7 +37,7 @@
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     }
-  
+
     .invoice-header {
       background: var(--primary);
       padding: 30px;
@@ -47,31 +47,31 @@
       align-items: center;
       flex-wrap: wrap;
     }
-  
+
     .logo {
       height: 32px;
     }
-  
+
     .invoice-title {
       text-align: right;
     }
-  
+
     .invoice-title h1 {
       margin: 0;
       font-size: 28px;
       font-weight: 600;
     }
-  
+
     .invoice-title p {
       margin: 3px 0;
       font-size: 14px;
       opacity: 0.9;
     }
-  
+
     .invoice-body {
       padding: 40px;
     }
-  
+
     .billing-info {
       display: flex;
       justify-content: space-between;
@@ -79,87 +79,87 @@
       gap: 20px;
       margin-bottom: 30px;
     }
-  
+
     .bill-to h3 {
       margin: 0 0 10px;
       font-size: 18px;
       color: var(--secondary);
     }
-  
+
     .invoice-details {
       text-align: right;
     }
-  
+
     .invoice-details p {
       margin: 5px 0;
       font-size: 13px;
     }
-  
+
     .invoice-details small {
       color: var(--dark-gray);
     }
-  
+
     .table-responsive {
       overflow-x: auto;
       margin: 30px 0;
       -webkit-overflow-scrolling: touch;
     }
-  
+
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
     }
-  
+
     thead {
       background: var(--primary-light);
       color: white;
     }
-  
+
     th, td {
       padding: 12px 15px;
       text-align: left;
       border-bottom: 1px solid var(--medium-gray);
     }
-  
+
     .amount {
       font-weight: 500;
       white-space: nowrap;
     }
-  
+
     .date-range {
       font-size: 13px;
       color: var(--dark-gray);
       display: block;
       margin-top: 4px;
     }
-  
+
     .totals {
       width: 100%;
       max-width: 300px;
       margin-left: auto;
       margin-top: 20px;
     }
-  
+
     .totals td {
       padding: 10px 15px;
     }
-  
+
     .totals td:first-child {
       text-align: right;
       font-weight: 500;
     }
-  
+
     .totals td:last-child {
       text-align: right;
       font-weight: 600;
     }
-  
+
     .total-row {
       font-size: 16px;
       color: var(--primary);
     }
-  
+
     .footer {
       margin-top: 60px;
       padding-top: 20px;
@@ -169,36 +169,36 @@
       text-align: center;
       clear: both;
     }
-  
+
     @media (max-width: 768px) {
       body {
         padding: 20px 10px;
       }
-  
+
       .invoice-header {
         flex-direction: column;
         align-items: flex-start;
         padding: 20px;
       }
-  
+
       .invoice-title {
         text-align: left;
         margin-top: 15px;
       }
-  
+
       .invoice-body {
         padding: 20px;
       }
-  
+
       .billing-info {
         flex-direction: column;
         gap: 15px;
       }
-  
+
       .invoice-details {
         text-align: left;
       }
-  
+
       table {
         font-size: 13px;
       }
@@ -278,8 +278,8 @@
       <div class="billing-info">
         <div class="bill-to">
           <h3>Payment to:</h3>
-          <p>Tiffany Ulrich</p>
-          <small>tresneuro38@yahoo.com</small>
+          <p>Masison Crites</p>
+          <small>madisoncrites03@gmail.com</small>
         </div>
         <div class="invoice-details">
           <p><small>Payment Terms:</small> Net 14</p>
@@ -332,24 +332,41 @@
       return date.toLocaleDateString('en-US', options).replace(',', '');
     }
 
-    const rate = 4675;
+    const rate1 = 2450;
+    const rate2 = 1850;
     const qty = 1;
     const tbody = document.getElementById("invoice-rows");
     let totalAmount = 0;
 
-    const amount = rate * qty;
-    totalAmount += amount;
+    const amount1 = rate1 * qty;
+    totalAmount += amount1;
 
-    const row = document.createElement("tr");
-    row.innerHTML = `
+    const amount2 = rate2 * qty;
+    totalAmount += amount2;
+
+    const row1 = document.createElement("tr");
+    row1.innerHTML = `
       <td>
         Consulting Services
+        <br><small>Apr 16 25</small>
       </td>
-      <td class="amount">$${rate.toFixed(2)}</td>
+      <td class="amount">$${rate1.toFixed(2)}</td>
       <td>${qty}</td>
-      <td class="amount">$${amount.toFixed(2)}</td>
+      <td class="amount">$${amount1.toFixed(2)}</td>
     `;
-    tbody.appendChild(row);
+    tbody.appendChild(row1);
+
+    const row2 = document.createElement("tr");
+    row2.innerHTML = `
+      <td>
+        Consulting Services
+        <br><small>May 2 25</small>
+      </td>
+      <td class="amount">$${rate2.toFixed(2)}</td>
+      <td>${qty}</td>
+      <td class="amount">$${amount2.toFixed(2)}</td>
+    `;
+    tbody.appendChild(row2);
 
     const today = new Date();
     document.getElementById("invoice-date").textContent = formatDate(today);
