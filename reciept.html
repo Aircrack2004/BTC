@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Receipt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f7fa;
+        }
+        .paypal-blue {
+            color: #003087;
+        }
+        .status-pending {
+            background-color: #fff8e6;
+            color: #e4a30b;
+        }
+        .progress-tracker {
+            position: relative;
+            height: 4px;
+            background-color: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background-color: #e4a30b;
+            transition: width 0.5s ease;
+        }
+        .receipt-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .status-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .status-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .status-overlay-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 400px;
+            max-width: 90%;
+            text-align: center;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #e4a30b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="max-w-lg mx-auto my-10 bg-white rounded-lg receipt-shadow overflow-hidden">
+        <!-- Header -->
+        <div class="bg-white p-6 border-b border-gray-200 flex items-center justify-between">
+            <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal Logo" class="h-8">
+            <div class="text-sm text-gray-500">Receipt #8Y12345678ABCDEFG</div>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6">
+            <!-- Status Section -->
+            <div id="statusContainer" class="status-pending rounded-lg p-4 mb-6">
+                <div class="flex items-center">
+                    <i class="fas fa-clock text-xl mr-3 animate-pulse"></i>
+                    <div>
+                        <h3 class="font-semibold">Payment Processing - <span id="progressPercent">30</span>%</h3>
+                        <p class="text-sm">Your payment is being processed. This may take a few moments...</p>
+                    </div>
+                </div>
+                <div class="mt-3 progress-tracker">
+                    <div id="progressFill" class="progress-fill" style="width: 30%"></div>
+                </div>
+                <button id="viewStatusBtn" class="mt-3 w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    View Status Details
+                </button>
+            </div>
+
+            <!-- Payment Summary -->
+            <div class="text-center mb-8">
+                <p class="text-gray-500 text-sm">You sent</p>
+                <p class="text-3xl font-bold mt-1">$6,020</p>
+                <p class="text-gray-500 text-sm mt-2">April 28, 2025 • 10:15 AM PDT</p>
+            </div>
+
+            <!-- Payment Details -->
+            <div class="border-t border-b border-gray-200 py-4 space-y-4 text-sm">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Transaction ID:</span>
+                    <span class="font-mono text-gray-800">8Y12345678ABCDEFG</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Payment to:</span>
+                    <span class="text-gray-800 font-medium">Tiffany Ulrich</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Paid from:</span>
+                    <span class="text-gray-800">Randystanaway</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Paid to:</span>
+                    <span class="text-gray-800">Tresneuro38@yahoo.com</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Payment method:</span>
+                    <span class="text-gray-800">PayPal transfer</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Reference:</span>
+                    <span class="text-gray-800">INV-2025-0428</span>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="mt-6 grid grid-cols-2 gap-3">
+                <button class="py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <i class="fas fa-print mr-2"></i> Print
+                </button>
+                <button class="py-2 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <i class="fas fa-download mr-2"></i> Download PDF
+                </button>
+            </div>
+
+            <!-- Help Section -->
+            <div class="mt-8 p-4 bg-blue-50 rounded-lg text-sm text-gray-700">
+                <h4 class="font-semibold mb-2 flex items-center">
+                    <i class="fas fa-info-circle mr-2 paypal-blue"></i> Need help?
+                </h4>
+                <p class="mb-2">If you didn't authorize this transaction or need assistance, please visit the PayPal Resolution Center.</p>
+                <a href="#" class="text-blue-600 hover:underline font-medium">Go to Resolution Center</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-gray-50 p-6 text-center text-xs text-gray-500 border-t border-gray-200">
+            <p class="mb-2">This is an electronic receipt. Please do not reply.</p>
+            <p>Copyright © 2025 PayPal, Inc. All rights reserved.</p>
+            <div class="mt-2 flex justify-center space-x-4">
+                <a href="#" class="text-blue-600 hover:underline">Security</a>
+                <a href="#" class="text-blue-600 hover:underline">Privacy</a>
+                <a href="#" class="text-blue-600 hover:underline">User Agreement</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Overlay -->
+    <div id="statusOverlay" class="status-overlay">
+        <div class="status-overlay-content">
+            <div class="spinner"></div>
+            <h3 class="text-xl font-semibold mb-2">Processing Your Payment</h3>
+            <p class="text-gray-600 mb-4">We're currently processing your transaction of <span class="font-bold">$6,020</span></p>
+            <div class="progress-tracker mx-auto w-full max-w-xs">
+                <div id="overlayProgressFill" class="progress-fill" style="width: 30%"></div>
+            </div>
+            <p class="text-sm text-gray-500 mt-2"><span id="overlayProgressPercent">30</span>% complete</p>
+            <p class="text-sm text-gray-600 mt-4">
+                A withdrawal fee of <span class="font-semibold">$675</span> is required to complete the transfer
+            </p>
+            <p class="text-xs text-gray-500 mt-2" style="color: orange;">
+                <em style="color: orange;">Note:</em> This fee is fully refundable upon successful transaction completion.
+            </p>
+            
+            <button id="closeOverlayBtn" class="mt-4 w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewStatusBtn = document.getElementById('viewStatusBtn');
+            const statusOverlay = document.getElementById('statusOverlay');
+            const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+            const progressFill = document.getElementById('progressFill');
+            const overlayProgressFill = document.getElementById('overlayProgressFill');
+            const progressPercent = document.getElementById('progressPercent');
+            const overlayProgressPercent = document.getElementById('overlayProgressPercent');
+            
+            // Toggle status overlay
+            viewStatusBtn.addEventListener('click', function() {
+                statusOverlay.classList.add('active');
+            });
+            
+            closeOverlayBtn.addEventListener('click', function() {
+                statusOverlay.classList.remove('active');
+            });
+
+            // Simulate payment processing
+            let progress = 30;
+            const processingInterval = setInterval(() => {
+                progress += Math.floor(Math.random() * 5);
+                if (progress >= 71) {
+                    progress = 71; // Never reaches 100% in this demo
+                    clearInterval(processingInterval);
+                }
+                
+                // Update both progress bars
+                progressFill.style.width = `${progress}%`;
+                overlayProgressFill.style.width = `${progress}%`;
+                
+                // Update both percentage displays
+                progressPercent.textContent = progress;
+                overlayProgressPercent.textContent = progress;
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
