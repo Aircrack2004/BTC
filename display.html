@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Verification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paypal-blue: #0070ba;
+            --paypal-light-blue: #009cde;
+            --error-red: #d93025;
+            --light-gray: #f5f7fa;
+            --medium-gray: #e9ecef;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Modern Single Spinner */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.4s ease-out;
+        }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(0, 112, 186, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--paypal-blue);
+            animation: spin 1s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            letter-spacing: 0.3px;
+        }
+
+        /* Restriction Content - Now vertically and horizontally centered */
+        .restriction-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .restriction-content {
+            display: none;
+            max-width: 440px;
+            width: 100%;
+            padding: 30px 25px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out forwards;
+            box-sizing: border-box;
+        }
+
+        .warning-icon {
+            width: 64px;
+            height: 64px;
+            background-color: #feeceb;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .warning-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--error-red);
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--error-red);
+        }
+
+        .restriction-message {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 24px;
+        }
+
+        .contact-info {
+            background-color: var(--light-gray);
+            padding: 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .support-btn {
+            display: inline-block;
+            background-color: var(--paypal-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .support-btn:hover {
+            background-color: #0061a3;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .support-btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .restriction-content {
+                padding: 25px 20px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            .restriction-message {
+                font-size: 14px;
+            }
+            
+            .contact-info {
+                padding: 15px;
+            }
+            
+            .warning-icon {
+                width: 56px;
+                height: 56px;
+                margin-bottom: 16px;
+            }
+            
+            .warning-icon svg {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .support-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .restriction-content {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 18px;
+            }
+            
+            .restriction-message {
+                font-size: 13px;
+            }
+            
+            .support-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Professional Single Spinner -->
+    <div class="loader-overlay" id="loader">
+        <div class="loader"></div>
+        <div class="loading-text">Securing your account...</div>
+    </div>
+
+    <!-- Restriction Content Container -->
+    <div class="restriction-container">
+        <div class="restriction-content" id="content">
+            <div class="warning-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+            </div>
+            <h1>Account Locked</h1>
+            <div class="restriction-message">
+                <p>We've detected unusual activity on your account and have temporarily locked it.</p>
+            </div>
+
+            <div class="contact-info">
+                <p>Please contact our support team.</p>
+            </div>
+
+            <a href="tel:1-888-221-1161" class="support-btn">Contact Support</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loader = document.getElementById('loader');
+            const content = document.getElementById('content');
+            
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    content.style.display = 'block';
+                }, 400);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
