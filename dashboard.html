@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapleBank Canada | Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== BASE STYLES ===== */
+        :root {
+            --primary: #D52B1E; /* Canadian Red */
+            --primary-dark: #A02218;
+            --text: #2D3748;
+            --text-light: #718096;
+            --bg: #F7FAFC;
+            --card-bg: #FFFFFF;
+            --border: #E2E8F0;
+            --success: #38A169;
+            --warning: #DD6B20;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --primary: #E53E3E;
+            --text: #F7FAFC;
+            --text-light: #CBD5E0;
+            --bg: #1A202C;
+            --card-bg: #2D3748;
+            --border: #4A5568;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        #app {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .bank-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bank-logo i {
+            font-size: 1.2rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .theme-toggle, .notification-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover, .notification-btn:hover {
+            color: var(--primary);
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* ===== BALANCE CARD ===== */
+        .balance-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .balance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .balance-title {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .balance-amount {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .balance-subtext {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .balance-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .action-btn {
+            background: var(--bg);
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            background: rgba(213, 43, 30, 0.1);
+        }
+
+        .action-btn i {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .action-btn span {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* ===== TRANSACTIONS ===== */
+        .transactions-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .transactions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .transaction {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .transaction:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(213, 43, 30, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .transaction-details h4 {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .transaction-details p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+        }
+
+        .transaction-amount.positive {
+            color: var(--success);
+        }
+
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.7rem;
+            gap: 4px;
+            transition: var(--transition);
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: var(--primary);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (min-width: 768px) {
+            .balance-actions {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .transactions-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+
+            .bottom-nav {
+                position: static;
+                background: transparent;
+                box-shadow: none;
+                padding: 20px 0;
+                justify-content: center;
+                gap: 30px;
+            }
+
+            .nav-item {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="bank-logo">
+                <i class="fas fa-maple-leaf"></i>
+                <span>MapleBank</span>
+            </div>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <div class="profile-pic">AB</div>
+            </div>
+        </header>
+
+        <!-- BALANCE CARD -->
+        <section class="balance-card">
+            <div class="balance-header">
+                <div class="balance-title">Available Balance</div>
+                <i class="fas fa-eye-slash" style="color: var(--text-light); cursor: pointer;"></i>
+            </div>
+            <div class="balance-amount">$2,181,247.00 CAD</div>
+            <div class="balance-subtext">Last transaction: Feb 5, 2024</div>            <div class="balance-actions">
+                <button class="action-btn" onclick="alert('Send money')">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Send</span>
+                </button>
+                <button class="action-btn" onclick="alert('Pay bills')">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Pay</span>
+                </button>
+                <button class="action-btn" onclick="alert('Deposit check')">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Deposit</span>
+                </button>
+                <button class="action-btn" onclick="window.location.href='transfer.html'">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transfer</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- TRANSACTIONS -->
+        <section class="transactions-section">
+            <div class="section-header">
+                <h3 class="section-title">Recent Transactions</h3>
+                <a class="view-all">View All</a>
+            </div>
+            <div class="transactions-list">
+                <!-- Transaction 1 -->
+                <div class="transaction">
+                    <div class="transaction-info">
+                        <div class="transaction-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="transaction-details">
+                            <h4>Amazon Canada</h4>
+                            <p>Feb 5, 2024 • Shopping</p>
+                        </div>
+                    </div>
+                    <div class="transaction-amount">-$89.99</div>
+                </div>
+            
+                <!-- Transaction 2 -->
+                <div class="transaction">
+                    <div class="transaction-info">
+                        <div class="transaction-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="transaction-details">
+                            <h4>Bank Transfer</h4>
+                            <p>Feb 3, 2024 • Deposit</p>
+                        </div>
+                    </div>
+                    <div class="transaction-amount positive">+$3,450.00</div>
+                </div>
+            
+                <!-- Transaction 3 -->
+                <div class="transaction">
+                    <div class="transaction-info">
+                        <div class="transaction-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="transaction-details">
+                            <h4>Tim Hortons</h4>
+                            <p>Feb 2, 2024 • Food & Drink</p>
+                        </div>
+                    </div>
+                    <div class="transaction-amount">-$7.25</div>
+                </div>
+            
+                <!-- Transaction 4 -->
+                <div class="transaction">
+                    <div class="transaction-info">
+                        <div class="transaction-icon">
+                            <i class="fas fa-subway"></i>
+                        </div>
+                        <div class="transaction-details">
+                            <h4>TTC Metro Pass</h4>
+                            <p>Feb 1, 2024 • Transportation</p>
+                        </div>
+                    </div>
+                    <div class="transaction-amount">-$156.00</div>
+                </div>
+            
+                <!-- Transaction 5 -->
+                <div class="transaction">
+                    <div class="transaction-info">
+                        <div class="transaction-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="transaction-details">
+                            <h4>Bank Transfer</h4>
+                            <p>Jan 30, 2024 • Withdrawal</p>
+                        </div>
+                    </div>
+                    <div class="transaction-amount">-$1,200.00</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOTTOM NAVIGATION -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-credit-card"></i>
+                <span>Accounts</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Invest</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-concierge-bell"></i>
+                <span>Services</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>More</span>
+            </a>
+        </nav>
+    </div>
+    <script>
+        // Theme Management with localStorage
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Load saved theme or default to light
+        const savedTheme = localStorage.getItem('bankTheme') || 'light';
+        if (savedTheme === 'dark') {
+            html.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        // Theme Toggle Functionality
+        themeToggle.addEventListener('click', () => {
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('bankTheme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('bankTheme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+
+        // Bottom Navigation Active State
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (this.href) { // Only prevent default if it's a # link
+                    e.preventDefault();
+                }
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Balance Visibility Toggle
+        const balanceAmount = document.querySelector('.balance-amount');
+        const eyeIcon = document.querySelector('.fa-eye-slash');
+        const actualBalance = '$2,181,425.00 CAD';
+
+        eyeIcon.addEventListener('click', () => {
+            if (balanceAmount.textContent === actualBalance) {
+                balanceAmount.textContent = '••••••••';
+                eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            } else {
+                balanceAmount.textContent = actualBalance;
+                eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            }
+        });
+
+        // Set initial balance
+        balanceAmount.textContent = actualBalance;
+</script>
+</body>
+</html>

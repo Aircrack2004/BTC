@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapleBank - Transfer Funds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #D52B1E; /* Canadian red */
+            --primary-light: #f8d7da;
+            --text: #2D3748;
+            --text-light: #718096;
+            --bg: #F7FAFC;
+            --card-bg: #FFFFFF;
+            --border: #E2E8F0;
+            --error: #E53E3E;
+            --success: #38A169;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.2s ease;
+        }
+
+        [data-theme="dark"] {
+            --primary: #E53E3E;
+            --primary-light: #4a1c1c;
+            --text: #F7FAFC;
+            --text-light: #CBD5E0;
+            --bg: #1A202C;
+            --card-bg: #2D3748;
+            --border: #4A5568;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: var(--transition);
+            line-height: 1.5;
+        }
+
+        #app {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            min-height: 100vh;
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .bank-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .theme-toggle, .back-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        /* Transfer Form */
+        .transfer-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .account-selector {
+            position: relative;
+        }
+
+        .account-selector::after {
+            content: "\f078";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            pointer-events: none;
+        }
+
+        .amount-group {
+            position: relative;
+        }
+
+        .amount-prefix {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .amount-input {
+            padding-left: 30px !important;
+        }
+
+        .transfer-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .transfer-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(213, 43, 30, 0.2);
+        }
+
+        .transfer-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Recent Recipients */
+        .recipients-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .recipients-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .recipients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+        }
+
+        .recipient {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .recipient-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            transition: var(--transition);
+        }
+
+        .recipient:hover .recipient-avatar {
+            transform: scale(1.05);
+        }
+
+        .recipient-name {
+            font-size: 0.7rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        /* Error Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .error-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active .error-card {
+            transform: translateY(0);
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            color: var(--error);
+            margin-bottom: 20px;
+        }
+
+        .error-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .error-message {
+            color: var(--text-light);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .close-btn {
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-width: 600px;
+            margin: 0 auto;
+            border-top: 1px solid var(--border);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.7rem;
+            gap: 4px;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: 8px;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            #app {
+                padding: 30px;
+                padding-bottom: 90px;
+            }
+
+            .transfer-card {
+                padding: 30px;
+            }
+
+            .form-title {
+                font-size: 1.8rem;
+            }
+
+            .recipients-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            .bottom-nav {
+                padding: 15px 0;
+                border-radius: 16px 16px 0 0;
+                max-width: 600px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 10px 0;
+            }
+
+            .transfer-card {
+                padding: 20px;
+            }
+
+            .form-title {
+                font-size: 1.3rem;
+                margin-bottom: 20px;
+            }
+
+            select, input {
+                padding: 12px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <button class="back-btn" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="bank-logo">
+                <i class="fas fa-maple-leaf"></i>
+                <span>MapleBank</span>
+            </div>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="profile-pic">JP</div>
+            </div>
+        </header>
+
+        <!-- Transfer Form -->
+        <section class="transfer-card">
+            <h2 class="form-title">Transfer Funds</h2>
+            
+            <div class="form-group">
+                <label for="from-account">From Account</label>
+                <div class="account-selector">
+                    <select id="from-account">
+                        <option value="">Select Account</option>
+                        <option value="chequing">Chequing</option>
+                        <option value="savings">Savings</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="to-bank">To Bank</label>
+                <div class="account-selector">
+                    <select id="to-bank">
+                        <option value="">Select Bank</option>
+                        
+                        <!-- Canadian Banks -->
+                        <optgroup label="Canadian Banks">
+                          <option value="rbc">RBC Royal Bank ••••5195</option>
+                          <option value="td">TD Canada Trust ••••4790</option>
+                          <option value="scotia">Scotiabank ••••1261</option>
+                          <option value="bmo">BMO Bank of Montreal ••••0061</option>
+                          <option value="cibc">CIBC ••••5531</option>
+                        </optgroup>
+                        
+                        <!-- U.S. Banks -->
+                        <optgroup label="U.S. Banks">
+                          <option value="chase">Chase ••••3741</option>
+                          <option value="bankofamerica">Bank of America ••••0066</option>
+                          <option value="wellsfargo">Wells Fargo ••••9993</option>
+                          <option value="citi">Citibank ••••6519</option>
+                          <option value="usbank">U.S. Bank ••••9810</option>
+                        </optgroup>
+                        
+                        <!-- Other -->
+                        <option value="other">Other Financial Institution</option>
+                      </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="amount">Amount (CAD)</label>
+                <div class="amount-group">
+                    <span class="amount-prefix">$</span>
+                    <input type="number" id="amount" class="amount-input" placeholder="0.00" min="0" step="0.01">
+                </div>
+            </div>
+            
+            <button class="transfer-btn" id="transferBtn">
+                <i class="fas fa-paper-plane" style="margin-right: 8px;"></i>
+                Transfer Now
+            </button>
+        </section>
+
+        <!-- Recent Recipients -->
+        <section class="recipients-section">
+            <h3 class="recipients-title">
+                Recent Recipients
+                <span style="font-size: 0.8rem; font-weight: normal;"><a href="#" style="color: var(--primary); text-decoration: none;">View All</a></span>
+            </h3>
+            <div class="recipients-grid">
+                <div class="recipient">
+                    <div class="recipient-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="recipient-name">Sarah J.</span>
+                </div>
+                <div class="recipient">
+                    <div class="recipient-avatar">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <span class="recipient-name">Rent</span>
+                </div>
+                <div class="recipient">
+                    <div class="recipient-avatar">TD</div>
+                    <span class="recipient-name">TD Bank</span>
+                </div>
+                <div class="recipient">
+                    <div class="recipient-avatar">
+                        <i class="fas fa-utilities"></i>
+                    </div>
+                    <span class="recipient-name">Hydro</span>
+                </div>
+                <div class="recipient">
+                    <div class="recipient-avatar">AM</div>
+                    <span class="recipient-name">Alex M.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Error Overlay -->
+        <div class="overlay" id="errorOverlay">
+            <div class="error-card">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3 class="error-title">Transfer Restriction</h3>
+                <p class="error-message">
+                    For your security, international transfers require additional verification. 
+                    Please visit your nearest branch or contact customer support at 
+                    <strong>1-800-MAPLE-BANK</strong> to enable this feature.
+                </p>
+                <button class="close-btn" id="closeBtn">
+                    <i class="fas fa-times" style="margin-right: 8px;"></i>
+                    Close
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-credit-card"></i>
+                <span>Accounts</span>
+            </a>
+            <a href="#" class="nav-item active">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Transfer</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Invest</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>More</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // Theme Management
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Load theme from localStorage
+        const savedTheme = localStorage.getItem('bankTheme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        themeToggle.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+        // Toggle theme
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('bankTheme', newTheme);
+            themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+
+        // Transfer Error Handling
+        const transferBtn = document.getElementById('transferBtn');
+        const errorOverlay = document.getElementById('errorOverlay');
+        const closeBtn = document.getElementById('closeBtn');
+
+        transferBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            errorOverlay.classList.add('active');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            errorOverlay.classList.remove('active');
+        });
+
+        // Recent Recipient Selection
+        document.querySelectorAll('.recipient').forEach(recipient => {
+            recipient.addEventListener('click', function() {
+                const name = this.querySelector('.recipient-name').textContent;
+                document.getElementById('to-bank').value = "other";
+                // In a real app, would auto-fill recipient details
+            });
+        });
+
+        // Form Validation
+        document.getElementById('from-account').addEventListener('change', function() {
+            if (this.value === 'savings') {
+                document.getElementById('amount').max = "2181425.00";
+            } else {
+                document.getElementById('amount').max = "12845.90";
+            }
+        });
+    </script>
+</body>
+</html>
