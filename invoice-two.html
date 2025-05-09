@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Invoice - Masison Crites</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #003087;
+      --primary-light: #0070ba;
+      --secondary: #2c3e50;
+      --light-gray: #f8f9fa;
+      --medium-gray: #e9ecef;
+      --dark-gray: #6c757d;
+      --text: #212529;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light-gray);
+      margin: 0;
+      padding: 40px 20px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .invoice-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .invoice-header {
+      background: var(--primary);
+      padding: 30px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      height: 32px;
+    }
+
+    .invoice-title {
+      text-align: right;
+    }
+
+    .invoice-title h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .invoice-title p {
+      margin: 3px 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .invoice-body {
+      padding: 40px;
+    }
+
+    .billing-info {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .bill-to h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: var(--secondary);
+    }
+
+    .invoice-details {
+      text-align: right;
+    }
+
+    .invoice-details p {
+      margin: 5px 0;
+      font-size: 13px;
+    }
+
+    .invoice-details small {
+      color: var(--dark-gray);
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      margin: 30px 0;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead {
+      background: var(--primary-light);
+      color: white;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--medium-gray);
+    }
+
+    .amount {
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .date-range {
+      font-size: 13px;
+      color: var(--dark-gray);
+      display: block;
+      margin-top: 4px;
+    }
+
+    .totals {
+      width: 100%;
+      max-width: 300px;
+      margin-left: auto;
+      margin-top: 20px;
+    }
+
+    .totals td {
+      padding: 10px 15px;
+    }
+
+    .totals td:first-child {
+      text-align: right;
+      font-weight: 500;
+    }
+
+    .totals td:last-child {
+      text-align: right;
+      font-weight: 600;
+    }
+
+    .total-row {
+      font-size: 16px;
+      color: var(--primary);
+    }
+
+    .footer {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid var(--medium-gray);
+      font-size: 13px;
+      color: var(--dark-gray);
+      text-align: center;
+      clear: both;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 10px;
+      }
+
+      .invoice-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+      }
+
+      .invoice-title {
+        text-align: left;
+        margin-top: 15px;
+      }
+
+      .invoice-body {
+        padding: 20px;
+      }
+
+      .billing-info {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .invoice-details {
+        text-align: left;
+      }
+
+      table {
+        font-size: 13px;
+      }
+      
+      th, td {
+        padding: 8px 10px;
+      }
+      
+      .totals {
+        width: 100%;
+        max-width: none;
+        margin-left: 0;
+        margin-top: 30px;
+      }
+      
+      .totals td {
+        padding: 8px 5px;
+      }
+      
+      .totals td:first-child {
+        text-align: left;
+      }
+      
+      .totals td:last-child {
+        text-align: right;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .invoice-header h1 {
+        font-size: 24px;
+      }
+      
+      .invoice-body {
+        padding: 15px;
+      }
+      
+      th, td {
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+      
+      .date-range {
+        font-size: 11px;
+      }
+      
+      .totals td {
+        padding: 6px 3px;
+        font-size: 13px;
+      }
+      
+      .total-row td {
+        font-size: 14px;
+      }
+      
+      .footer {
+        margin-top: 40px;
+        font-size: 12px;
+      }
+    }
+  </style>
+  
+</head>
+<body>
+  <div class="invoice-container">
+    <div class="invoice-header">
+      <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" class="logo" alt="PayPal Logo">
+      <div class="invoice-title">
+        <h1>INVOICE</h1>
+        <p>Invoice #: <span id="invoice-number">027</span></p>
+        <p>Date: <span id="invoice-date"></span></p>
+        <p>Due Date: <span id="due-date"></span></p>
+      </div>
+    </div>
+
+    <div class="invoice-body">
+      <div class="billing-info">
+        <div class="bill-to">
+          <h3>Payment to:</h3>
+          <small>Nxkkxxjane@gmail.com</small>
+        </div>
+        <div class="invoice-details">
+          <p><small>Payment Terms:</small> Net 14</p>
+          <p><small>Payment Method:</small> PayPal</p>
+          <p><small>PO Number:</small> 2023-027</p>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Rate</th>
+              <th>Qty</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody id="invoice-rows">
+            <!-- JS will append rows here -->
+          </tbody>
+        </table>
+      </div>
+
+      <table class="totals">
+        <tr>
+          <td>Subtotal:</td>
+          <td id="subtotal" class="amount">$0.00</td>
+        </tr>
+        <tr>
+          <td>Tax (0%):</td>
+          <td class="amount">$0.00</td>
+        </tr>
+        <tr class="total-row">
+          <td>Total Due:</td>
+          <td class="amount"><strong id="total">$0.00</strong></td>
+        </tr>
+      </table>
+      
+      <div class="footer">
+        <a href="./progress.html"><p>Thank you for your business.</p></a>
+      </div>
+    </div>
+  </div>
+  <footer></footer>
+  
+  <script>
+    function formatDate(date) {
+      const options = { year: '2-digit', month: 'short', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options).replace(',', '');
+    }
+  
+    const rate = 7000; // Changed from 3750 to 7000
+    const qty = 1;
+    const tbody = document.getElementById("invoice-rows");
+    let totalAmount = 0;
+  
+    // Create 4 service rows with all labeled as Consulting Services
+    const services = [
+      { date: "Apr 9 25" },  // Week 1
+      { date: "Apr 16 25" }, // Week 2
+      { date: "Apr 23 25" }, // Week 3
+      { date: "Apr 30 25" }  // Week 4
+    ];
+  
+    services.forEach(service => {
+      const amount = rate * qty;
+      totalAmount += amount;
+  
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>
+          Consulting Services
+          <br><small>${service.date}</small>
+        </td>
+        <td class="amount">$${rate.toFixed(2)}</td>
+        <td>${qty}</td>
+        <td class="amount">$${amount.toFixed(2)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  
+    // Set invoice date to April 9, 2025
+    const invoiceDate = new Date('2025-04-09');
+    document.getElementById("invoice-date").textContent = formatDate(invoiceDate);
+  
+    // Set due date (14 days after invoice date)
+    const dueDate = new Date(invoiceDate);
+    dueDate.setDate(invoiceDate.getDate() + 14);
+    document.getElementById("due-date").textContent = formatDate(dueDate);
+  
+    document.getElementById("subtotal").textContent = `$${totalAmount.toFixed(2)}`;
+    document.getElementById("total").textContent = `$${totalAmount.toFixed(2)}`;
+  </script>
+</body>
+</html>
