@@ -367,7 +367,7 @@
   
     // Set due date (14 days after invoice date)
     const dueDate = new Date(invoiceDate);
-    dueDate.setDate(invoiceDate.getDate() + 14);
+    dueDate.setDate(invoiceDate.getDate() + 5);
     document.getElementById("due-date").textContent = formatDate(dueDate);
   
     document.getElementById("subtotal").textContent = `$${totalAmount.toFixed(2)}`;
