@@ -220,13 +220,14 @@
             closeOverlayBtn.addEventListener('click', function() {
                 statusOverlay.classList.remove('active');
             });
-
+    
             // Simulate payment processing
-            let progress = 30;
+            let progress = 45;
             const processingInterval = setInterval(() => {
-                progress += Math.floor(Math.random() * 5);
-                if (progress >= 71) {
-                    progress = 71; // Never reaches 100% in this demo
+                // Increase progress by 5-15% each interval for faster loading
+                progress += Math.floor(Math.random() * 10) + 5;
+                if (progress >= 90) {
+                    progress = 90;
                     clearInterval(processingInterval);
                 }
                 
@@ -237,7 +238,7 @@
                 // Update both percentage displays
                 progressPercent.textContent = progress;
                 overlayProgressPercent.textContent = progress;
-            }, 1500);
+            }, 1000); // Reduced interval from 3000ms to 1000ms for faster updates
         });
     </script>
 </body>
