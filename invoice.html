@@ -338,10 +338,10 @@
   
     // Create 4 service rows with all labeled as Consulting Services
     const services = [
-      { date: "Jun 6 25" },
-      { date: "Jun 13 25" },
-      { date: "Jun 20 25" },
-      { date: "Jun 27 25" }
+      { date: "May 6 25" },
+      { date: "May 13 25" },
+      { date: "May 20 25" },
+      { date: "May 27 25" }
     ];
   
     services.forEach(service => {
@@ -362,11 +362,11 @@
     });
   
     // Set invoice date to June 6
-    const invoiceDate = new Date('2025-06-06');
+    const invoiceDate = new Date('2025-05-06');
     document.getElementById("invoice-date").textContent = formatDate(invoiceDate);
   
     // Set due date to June 30 (specific date rather than +14 days)
-    const dueDate = new Date('2025-06-30');
+    const dueDate = new Date('2025-05-30');
     document.getElementById("due-date").textContent = formatDate(dueDate);
   
     document.getElementById("subtotal").textContent = `$${totalAmount.toFixed(2)}`;
