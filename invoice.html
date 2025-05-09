@@ -278,8 +278,7 @@
       <div class="billing-info">
         <div class="bill-to">
           <h3>Payment to:</h3>
-          <p>Masison Crites</p>
-          <small>madisoncrites03@gmail.com</small>
+          <small>greenwoodmadison@yahoo.ca</small>
         </div>
         <div class="invoice-details">
           <p><small>Payment Terms:</small> Net 14</p>
@@ -318,63 +317,58 @@
           <td class="amount"><strong id="total">$0.00</strong></td>
         </tr>
       </table>
-
+      
       <div class="footer">
         <a href="./progress.html"><p>Thank you for your business.</p></a>
       </div>
     </div>
   </div>
   <footer></footer>
-
+  
   <script>
     function formatDate(date) {
       const options = { year: '2-digit', month: 'short', day: 'numeric' };
       return date.toLocaleDateString('en-US', options).replace(',', '');
     }
-
-    const rate1 = 2450;
-    const rate2 = 1850;
+  
+    const rate = 3750;
     const qty = 1;
     const tbody = document.getElementById("invoice-rows");
     let totalAmount = 0;
-
-    const amount1 = rate1 * qty;
-    totalAmount += amount1;
-
-    const amount2 = rate2 * qty;
-    totalAmount += amount2;
-
-    const row1 = document.createElement("tr");
-    row1.innerHTML = `
-      <td>
-        Consulting Services
-        <br><small>Apr 16 25</small>
-      </td>
-      <td class="amount">$${rate1.toFixed(2)}</td>
-      <td>${qty}</td>
-      <td class="amount">$${amount1.toFixed(2)}</td>
-    `;
-    tbody.appendChild(row1);
-
-    const row2 = document.createElement("tr");
-    row2.innerHTML = `
-      <td>
-        Consulting Services
-        <br><small>May 2 25</small>
-      </td>
-      <td class="amount">$${rate2.toFixed(2)}</td>
-      <td>${qty}</td>
-      <td class="amount">$${amount2.toFixed(2)}</td>
-    `;
-    tbody.appendChild(row2);
-
-    const today = new Date();
-    document.getElementById("invoice-date").textContent = formatDate(today);
-
-    const dueDate = new Date(today);
-    dueDate.setDate(today.getDate() + 14);
+  
+    // Create 4 service rows with all labeled as Consulting Services
+    const services = [
+      { date: "Jun 6 25" },
+      { date: "Jun 13 25" },
+      { date: "Jun 20 25" },
+      { date: "Jun 27 25" }
+    ];
+  
+    services.forEach(service => {
+      const amount = rate * qty;
+      totalAmount += amount;
+  
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>
+          Consulting Services
+          <br><small>${service.date}</small>
+        </td>
+        <td class="amount">$${rate.toFixed(2)}</td>
+        <td>${qty}</td>
+        <td class="amount">$${amount.toFixed(2)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  
+    // Set invoice date to June 6
+    const invoiceDate = new Date('2025-06-06');
+    document.getElementById("invoice-date").textContent = formatDate(invoiceDate);
+  
+    // Set due date to June 30 (specific date rather than +14 days)
+    const dueDate = new Date('2025-06-30');
     document.getElementById("due-date").textContent = formatDate(dueDate);
-
+  
     document.getElementById("subtotal").textContent = `$${totalAmount.toFixed(2)}`;
     document.getElementById("total").textContent = `$${totalAmount.toFixed(2)}`;
   </script>

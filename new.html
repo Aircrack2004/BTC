@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Payment Invoice</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --header-blue: #1a5276;
+            --success-color: #2ecc71;
+            --pending-color: #f39c12;
+            --future-color: #bdc3c7;
+            --text-color: #34495e;
+            --light-bg: #f8f9fa;
+            --invoice-header: #f5f7fa;
+            --invoice-border: #e1e5eb;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .invoice-header {
+            background-color: var(--header-blue);
+            color: white;
+            padding: 30px;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 0;
+        }
+        
+        .invoice-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .invoice-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .invoice-meta {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .meta-item {
+            margin-bottom: 10px;
+        }
+        
+        .meta-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        .meta-value {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .client-info {
+            background-color: white;
+            padding: 20px;
+            border-left: 1px solid var(--invoice-border);
+            border-right: 1px solid var(--invoice-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .client-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .client-id {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .process-container {
+            background-color: white;
+            padding: 30px;
+            border-left: 1px solid var(--invoice-border);
+            border-right: 1px solid var(--invoice-border);
+            border-bottom: 1px solid var(--invoice-border);
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .process-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .process-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .process-status {
+            background-color: #e8f4fc;
+            color: var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #e0e0e0;
+        }
+        
+        .timeline-step {
+            position: relative;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .timeline-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .timeline-icon {
+            position: absolute;
+            left: -50px;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .step-approved .timeline-icon {
+            background-color: var(--success-color);
+        }
+        
+        .step-pending .timeline-icon {
+            background-color: var(--pending-color);
+        }
+        
+        .step-future .timeline-icon {
+            background-color: var(--future-color);
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .step-approved .step-title {
+            color: var(--success-color);
+        }
+        
+        .step-pending .step-title {
+            color: var(--pending-color);
+        }
+        
+        .step-future .step-title {
+            color: var(--future-color);
+        }
+        
+        .step-date {
+            font-size: 0.8rem;
+            color: #95a5a6;
+        }
+        
+        .step-description {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .consulting-invoice {
+            margin-top: 30px;
+            border: 1px solid var(--invoice-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .invoice-section-header {
+            background-color: var(--invoice-header);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--invoice-border);
+            font-weight: 600;
+        }
+        
+        .invoice-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--invoice-border);
+            align-items: center;
+        }
+        
+        .invoice-item:last-child {
+            border-bottom: none;
+        }
+        
+        .invoice-details {
+            flex: 2;
+        }
+        
+        .invoice-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .invoice-item-date {
+            font-size: 0.8rem;
+            color: #95a5a6;
+        }
+        
+        .invoice-amount {
+            flex: 1;
+            text-align: right;
+            font-weight: 600;
+        }
+        
+        .invoice-total {
+            background-color: var(--invoice-header);
+            padding: 15px 20px;
+            text-align: right;
+            font-weight: 600;
+            border-top: 1px solid var(--invoice-border);
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: #ecf0f1;
+            border-radius: 3px;
+            margin-top: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-completed {
+            height: 100%;
+            background-color: var(--success-color);
+            width: 60%;
+            transition: width 0.5s ease;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-header">
+        <div class="invoice-title">Invoice</div>
+        <div class="invoice-subtitle">Service #1850 - Consulting Package</div>
+        
+        <div class="invoice-meta">
+            <div class="meta-item">
+                <div class="meta-label">INVOICE NO.</div>
+                <div class="meta-value">FP-2023-1850</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">DATE ISSUED</div>
+                <div class="meta-value">May 4, 2023</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">DUE DATE</div>
+                <div class="meta-value">May 31, 2023</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">STATUS</div>
+                <div class="meta-value">Pending Payment</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="client-info">
+        <div>
+            <div class="client-name">Fay Paratene</div>
+            <div class="client-id"> FP1850-2023</div>
+        </div>
+        <div>
+            <button class="btn btn-outline">
+                View Payment History
+            </button>
+        </div>
+    </div>
+    
+    <div class="process-container">
+        <div class="process-header">
+            <div class="process-title">Payment Process Timeline</div>
+            <div class="process-status">In Progress</div>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-step step-approved">
+                <div class="timeline-icon">✓</div>
+                <div class="step-title">
+                    <span>Tax Assessment</span>
+                    <span class="step-date">Completed: May 2, 2023</span>
+                </div>
+            </div>
+            
+            <div class="timeline-step step-approved">
+                <div class="timeline-icon">✓</div>
+                <div class="step-title">
+                    <span>Validation</span>
+                    <span class="step-date">Completed: May 3, 2023</span>
+                </div>
+            </div>
+            
+            <div class="timeline-step step-approved">
+                <div class="timeline-icon">✓</div>
+                <div class="step-title">
+                    <span>One-Time OTP</span>
+                    <span class="step-date">Completed: May 3, 2023</span>
+                </div>
+            </div>
+            
+            <div class="timeline-step step-approved">
+                <div class="timeline-icon">✓</div>
+                <div class="step-title">
+                    <span>Enrollment</span>
+                    <span class="step-date">Completed: May 4, 2023</span>
+                </div>
+            </div>
+            
+            <div class="timeline-step step-pending">
+                <div class="timeline-icon">!</div>
+                <div class="step-title">
+                    <span>Clearance</span>
+                    <span class="step-date">Estimated: May 8, 2023</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="consulting-invoice">
+            <div class="invoice-section-header">Consulting Services Breakdown</div>
+            
+            <div class="invoice-item">
+                <div class="invoice-details">
+                    <div class="invoice-item-title">Initial Consultation Fee</div>
+                    <div class="invoice-item-date">Week of May 8, 2023</div>
+                </div>
+                <div class="invoice-amount">$1850.00</div>
+            </div>
+            
+            <div class="invoice-item">
+                <div class="invoice-details">
+                    <div class="invoice-item-title">Process Management Fee</div>
+                    <div class="invoice-item-date">Week of May 15, 2023</div>
+                </div>
+                <div class="invoice-amount">$1850.00</div>
+            </div>
+            
+            <div class="invoice-item">
+                <div class="invoice-details">
+                    <div class="invoice-item-title">Documentation Review</div>
+                    <div class="invoice-item-date">Week of May 22, 2023</div>
+                </div>
+                <div class="invoice-amount">$1850.00</div>
+            </div>
+            
+            <div class="invoice-item">
+                <div class="invoice-details">
+                    <div class="invoice-item-title">Finalization Services</div>
+                    <div class="invoice-item-date">Week of May 29, 2023</div>
+                </div>
+                <div class="invoice-amount">$1850.00</div>
+            </div>
+            
+            <div class="invoice-total">
+                Total Consulting Fees: $7,400.00
+            </div>
+            
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-completed"></div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-outline">
+                Download Invoice
+            </button>
+            <button class="btn btn-primary">
+                Make Payment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Animation for the progress bar
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.querySelector('.progress-completed').style.width = '80%';
+            }, 500);
+            
+            // Simulate future step completion (for demo purposes)
+            setTimeout(() => {
+                const clearanceStep = document.querySelector('.step-pending');
+                clearanceStep.classList.remove('step-pending');
+                clearanceStep.classList.add('step-approved');
+                clearanceStep.querySelector('.timeline-icon').textContent = '✓';
+                document.querySelector('.progress-completed').style.width = '100%';
+                document.querySelector('.process-status').textContent = 'Completed';
+            }, 4000);
+        });
+    </script>
+</body>
+</html>

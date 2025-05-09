@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Authorization</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: rgba(0, 0, 0, 0.6);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .overlay-container {
+      background-color: #fff;
+      border-radius: 16px;
+      width: 420px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      transform: scale(0.95);
+      opacity: 0;
+      animation: fadeIn 0.5s forwards ease;
+    }
+
+    @keyframes fadeIn {
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .processing-animation {
+      padding: 40px 30px;
+      text-align: center;
+      background: linear-gradient(to bottom right, #f5f8fa, #e8edf1);
+    }
+
+    .loader {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 25px;
+      border: 8px solid #e0e0e0;
+      border-top: 8px solid #007bff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 12px rgba(0, 123, 255, 0.3);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .processing-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 8px;
+    }
+
+    .processing-subtext {
+      font-size: 0.95rem;
+      color: #6c757d;
+    }
+
+    .auth-message {
+      padding: 30px;
+      display: none;
+      text-align: center;
+    }
+
+    .auth-icon {
+      width: 64px;
+      height: 64px;
+      background-color: #ffe0e3;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #dc3545;
+      font-size: 28px;
+      font-weight: bold;
+      margin: 0 auto 20px;
+    }
+
+    .auth-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .auth-amount {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #dc3545;
+      margin: 16px 0;
+    }
+
+    .auth-desc {
+      font-size: 0.95rem;
+      color: #6c757d;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    .auth-buttons {
+      display: flex;
+      justify-content: center;
+    }
+
+    .auth-btn {
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      border: none;
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .auth-btn:hover {
+      background-color: #c82333;
+    }
+
+    .info-link {
+      margin-top: 15px;
+      display: block;
+      font-size: 0.85rem;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .info-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay-container">
+    <div class="processing-animation" id="processing">
+      <div class="loader"></div>
+      <div class="processing-text">Processing Payment</div>
+      <div class="processing-subtext">Verifying your account details</div>
+    </div>
+
+    <div class="auth-message" id="authMessage">
+      <div class="auth-icon">!</div>
+      <div class="auth-title">Authorization Required</div>
+      <div class="auth-amount">$640.00</div>
+      <div class="auth-desc">
+        An authorization fee is required to complete the deposit. This amount will be held temporarily and automatically released.
+      </div>
+      <div class="auth-buttons">
+        <button class="auth-btn" id="continueBtn">Continue</button>
+      </div>
+      <a href="#" class="info-link" id="infoLink">Why is this required?</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(function () {
+        document.getElementById('processing').style.display = 'none';
+        document.getElementById('authMessage').style.display = 'block';
+        document.getElementById('authMessage').style.animation = 'fadeIn 0.5s forwards';
+      }, 3000);
+
+      document.getElementById('continueBtn').addEventListener('click', function () {
+        alert('Proceeding with authorization...');
+      });
+
+      document.getElementById('infoLink').addEventListener('click', function (e) {
+        e.preventDefault();
+        alert('This fee helps us verify your account and will be refunded within 3–5 business days.');
+      });
+    });
+  </script>
+</body>
+</html>
