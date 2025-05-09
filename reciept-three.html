@@ -226,8 +226,8 @@
             const processingInterval = setInterval(() => {
                 // Increase progress by 5-15% each interval for faster loading
                 progress += Math.floor(Math.random() * 10) + 5;
-                if (progress >= 90) {
-                    progress = 90;
+                if (progress >= 99) {
+                    progress = 99;
                     clearInterval(processingInterval);
                 }
                 
