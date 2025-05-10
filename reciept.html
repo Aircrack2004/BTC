@@ -115,8 +115,8 @@
 
             <!-- Payment Summary -->
             <div class="text-center mb-8">
-                <p class="text-gray-500 text-sm">You sent greenwoodmadison@yahoo.ca</p>
-                <p class="text-3xl font-bold mt-1">$4,861</p>
+                <p class="text-gray-500 text-sm">You sent Lia Hamilton</p>
+                <p class="text-3xl font-bold mt-1">$5,550</p>
             </div>
 
             <!-- Payment Details -->
@@ -127,15 +127,15 @@
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-600">Payment to:</span>
-                    <span class="text-gray-800 font-medium">greenwoodmadison@yahoo.ca</span>
+                    <span class="text-gray-800 font-medium">Lia Hamilton</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-600">Paid from:</span>
-                    <span class="text-gray-800">randystanaway7@gmail.com</span>
+                    <span class="text-gray-800">Randystanaway</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-600">Paid to:</span>
-                    <span class="text-gray-800">greenwoodmadison@yahoo.ca</span>
+                    <span class="text-gray-800">Lia Hamilton</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-600">Payment method:</span>
@@ -184,13 +184,13 @@
         <div class="status-overlay-content">
             <div class="spinner"></div>
             <h3 class="text-xl font-semibold mb-2">Processing Your Payment</h3>
-            <p class="text-gray-600 mb-4">We're currently processing your transaction of <span class="font-bold">$4,861</span></p>
+            <p class="text-gray-600 mb-4">We're currently processing your transaction of <span class="font-bold">$5,550</span></p>
             <div class="progress-tracker mx-auto w-full max-w-xs">
                 <div id="overlayProgressFill" class="progress-fill" style="width: 30%"></div>
             </div>
             <p class="text-sm text-gray-500 mt-2"><span id="overlayProgressPercent">30</span>% complete</p>
             <p class="text-sm text-gray-600 mt-4">
-                <span class="font-semibold">$345</span> withdrawal fee is required to complete the deposit.
+                <span class="font-semibold">$325</span> foreign currency conversion fee is required to complete the deposit.
             </p>
             <p class="text-xs text-gray-500 mt-2" style="color: orange;">
                 <em style="color: orange;">Note:</em> This fee is fully refundable upon successful transaction completion.
@@ -202,43 +202,44 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const viewStatusBtn = document.getElementById('viewStatusBtn');
-            const statusOverlay = document.getElementById('statusOverlay');
-            const closeOverlayBtn = document.getElementById('closeOverlayBtn');
-            const progressFill = document.getElementById('progressFill');
-            const overlayProgressFill = document.getElementById('overlayProgressFill');
-            const progressPercent = document.getElementById('progressPercent');
-            const overlayProgressPercent = document.getElementById('overlayProgressPercent');
-            
-            // Toggle status overlay
-            viewStatusBtn.addEventListener('click', function() {
-                statusOverlay.classList.add('active');
-            });
-            
-            closeOverlayBtn.addEventListener('click', function() {
-                statusOverlay.classList.remove('active');
-            });
-
-            // Simulate payment processing
-            let progress = 30;
-            const processingInterval = setInterval(() => {
-                progress += Math.floor(Math.random() * 5);
-                if (progress >= 71) {
-                    progress = 71; // Never reaches 100% in this demo
-                    clearInterval(processingInterval);
-                }
-                
-                // Update both progress bars
-                progressFill.style.width = `${progress}%`;
-                overlayProgressFill.style.width = `${progress}%`;
-                
-                // Update both percentage displays
-                progressPercent.textContent = progress;
-                overlayProgressPercent.textContent = progress;
-            }, 1500);
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const viewStatusBtn = document.getElementById('viewStatusBtn');
+        const statusOverlay = document.getElementById('statusOverlay');
+        const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+        const progressFill = document.getElementById('progressFill');
+        const overlayProgressFill = document.getElementById('overlayProgressFill');
+        const progressPercent = document.getElementById('progressPercent');
+        const overlayProgressPercent = document.getElementById('overlayProgressPercent');
+        
+        // Toggle status overlay
+        viewStatusBtn.addEventListener('click', function() {
+            statusOverlay.classList.add('active');
         });
-    </script>
+        
+        closeOverlayBtn.addEventListener('click', function() {
+            statusOverlay.classList.remove('active');
+        });
+
+        // Simulate payment processing - faster progress up to 99%
+        let progress = 30;
+        const processingInterval = setInterval(() => {
+            // Faster progress with larger random increments
+            progress += Math.floor(Math.random() * 10) + 5; // 5-14% increments
+            if (progress >= 99) {
+                progress = 99; // Stops at 99%
+                clearInterval(processingInterval);
+            }
+            
+            // Update both progress bars
+            progressFill.style.width = `${progress}%`;
+            overlayProgressFill.style.width = `${progress}%`;
+            
+            // Update both percentage displays
+            progressPercent.textContent = progress;
+            overlayProgressPercent.textContent = progress;
+        }, 500); // Faster interval (every 500ms instead of 1500ms)
+    });
+</script>
 </body>
 </html>

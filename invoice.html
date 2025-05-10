@@ -278,7 +278,7 @@
       <div class="billing-info">
         <div class="bill-to">
           <h3>Payment to:</h3>
-          <small>greenwoodmadison@yahoo.ca</small>
+          <small>Lia Hamilton</small>
         </div>
         <div class="invoice-details">
           <p><small>Payment Terms:</small> Net 14</p>
@@ -330,21 +330,32 @@
       const options = { year: '2-digit', month: 'short', day: 'numeric' };
       return date.toLocaleDateString('en-US', options).replace(',', '');
     }
+    
+    function getWeeklyDates(startDate, endDate) {
+      const dates = [];
+      const currentDate = new Date(startDate);
+      const lastDate = new Date(endDate);
+      
+      while (currentDate <= lastDate) {
+        dates.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 7);
+      }
+      
+      return dates;
+    }
   
-    const rate = 3750;
+    const rate = 1850;
     const qty = 1;
     const tbody = document.getElementById("invoice-rows");
     let totalAmount = 0;
   
-    // Create 4 service rows with all labeled as Consulting Services
-    const services = [
-      { date: "May 6 25" },
-      { date: "May 13 25" },
-      { date: "May 20 25" },
-      { date: "May 27 25" }
-    ];
+    // Generate weekly dates from April 23, 2025 to yesterday (May 9, 2025)
+    const startDate = new Date('2025-04-24');
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
+    const serviceDates = getWeeklyDates(startDate, yesterday);
   
-    services.forEach(service => {
+    serviceDates.forEach(date => {
       const amount = rate * qty;
       totalAmount += amount;
   
@@ -352,7 +363,7 @@
       row.innerHTML = `
         <td>
           Consulting Services
-          <br><small>${service.date}</small>
+          <br><small>${formatDate(date)}</small>
         </td>
         <td class="amount">$${rate.toFixed(2)}</td>
         <td>${qty}</td>
@@ -361,16 +372,17 @@
       tbody.appendChild(row);
     });
   
-    // Set invoice date to June 6
-    const invoiceDate = new Date('2025-05-06');
+    // Set invoice date to today
+    const invoiceDate = new Date();
     document.getElementById("invoice-date").textContent = formatDate(invoiceDate);
   
-    // Set due date to June 30 (specific date rather than +14 days)
-    const dueDate = new Date('2025-05-30');
+    // Set due date to 14 days from today
+    const dueDate = new Date();
+    dueDate.setDate(dueDate.getDate() + 14);
     document.getElementById("due-date").textContent = formatDate(dueDate);
   
     document.getElementById("subtotal").textContent = `$${totalAmount.toFixed(2)}`;
     document.getElementById("total").textContent = `$${totalAmount.toFixed(2)}`;
-  </script>
+</script>
 </body>
 </html>
