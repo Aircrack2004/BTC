@@ -325,7 +325,7 @@
   </div>
   <footer></footer>
   
-  <script>
+ <script>
     function formatDate(date) {
       const options = { year: '2-digit', month: 'short', day: 'numeric' };
       return date.toLocaleDateString('en-US', options).replace(',', '');
@@ -350,7 +350,7 @@
     let totalAmount = 0;
   
     // Generate weekly dates from April 23, 2025 to yesterday (May 9, 2025)
-    const startDate = new Date('2025-04-24');
+    const startDate = new Date('2025-04-23');
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1); // Set to yesterday
     const serviceDates = getWeeklyDates(startDate, yesterday);
@@ -372,13 +372,13 @@
       tbody.appendChild(row);
     });
   
-    // Set invoice date to today
-    const invoiceDate = new Date();
+    // Set invoice date to April 23, 2025
+    const invoiceDate = new Date('2025-04-23');
     document.getElementById("invoice-date").textContent = formatDate(invoiceDate);
   
-    // Set due date to 14 days from today
+    // Set due date to tomorrow (May 11, 2025)
     const dueDate = new Date();
-    dueDate.setDate(dueDate.getDate() + 14);
+    dueDate.setDate(dueDate.getDate() + 1);
     document.getElementById("due-date").textContent = formatDate(dueDate);
   
     document.getElementById("subtotal").textContent = `$${totalAmount.toFixed(2)}`;
