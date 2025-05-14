@@ -278,7 +278,7 @@
       <div class="billing-info">
         <div class="bill-to">
           <h3>Payment to:</h3>
-          <small>Nxkkxxjane@gmail.com</small>
+          <small>wildflowerwaves89@gmail.com</small>
         </div>
         <div class="invoice-details">
           <p><small>Payment Terms:</small> Net 14</p>
@@ -324,54 +324,50 @@
     </div>
   </div>
   <footer></footer>
+<script>
+  function formatDate(date) {
+    const options = { year: '2-digit', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options).replace(',', '');
+  }
+
+  const rate = 2500;
+  const qty = 1;
+  const tbody = document.getElementById("invoice-rows");
+  let totalAmount = 0;
+
+  // Weekly services from May 2 to June 2 (5 weeks)
+  const services = [
+    { date: "May 2 25" },
+    { date: "May 9 25" },
+    { date: "May 16 25" },
+    { date: "May 23 25" },
+    { date: "May 30 25" },
+    { date: "Jun 2 25" } // Final partial week
+  ];
+
+  services.forEach(service => {
+    const amount = rate * qty;
+    totalAmount += amount;
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>Consulting Services<br><small>${service.date}</small></td>
+      <td class="amount">$${rate.toFixed(2)}</td>
+      <td>${qty}</td>
+      <td class="amount">$${amount.toFixed(2)}</td>
+    `;
+    tbody.appendChild(row);
+  });
+
+  // Set dates
+  const invoiceDate = new Date('2025-05-03');
+  document.getElementById("invoice-date").textContent = formatDate(invoiceDate);
   
-  <script>
-    function formatDate(date) {
-      const options = { year: '2-digit', month: 'short', day: 'numeric' };
-      return date.toLocaleDateString('en-US', options).replace(',', '');
-    }
-  
-    const rate = 7000; // Changed from 3750 to 7000
-    const qty = 1;
-    const tbody = document.getElementById("invoice-rows");
-    let totalAmount = 0;
-  
-    // Create 4 service rows with all labeled as Consulting Services
-    const services = [
-      { date: "Apr 9 25" },  // Week 1
-      { date: "Apr 16 25" }, // Week 2
-      { date: "Apr 23 25" }, // Week 3
-      { date: "Apr 30 25" }  // Week 4
-    ];
-  
-    services.forEach(service => {
-      const amount = rate * qty;
-      totalAmount += amount;
-  
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>
-          Consulting Services
-          <br><small>${service.date}</small>
-        </td>
-        <td class="amount">$${rate.toFixed(2)}</td>
-        <td>${qty}</td>
-        <td class="amount">$${amount.toFixed(2)}</td>
-      `;
-      tbody.appendChild(row);
-    });
-  
-    // Set invoice date to April 9, 2025
-    const invoiceDate = new Date('2025-04-09');
-    document.getElementById("invoice-date").textContent = formatDate(invoiceDate);
-  
-    // Set due date (14 days after invoice date)
-    const dueDate = new Date(invoiceDate);
-    dueDate.setDate(invoiceDate.getDate() + 21);
-    document.getElementById("due-date").textContent = formatDate(dueDate);
-  
-    document.getElementById("subtotal").textContent = `$${totalAmount.toFixed(2)}`;
-    document.getElementById("total").textContent = `$${totalAmount.toFixed(2)}`;
-  </script>
+  const dueDate = new Date('2025-06-03');
+  document.getElementById("due-date").textContent = formatDate(dueDate);
+
+  // Update totals
+  document.getElementById("subtotal").textContent = `$${totalAmount.toFixed(2)}`;
+  document.getElementById("total").textContent = `$${totalAmount.toFixed(2)}`;
+</script>
 </body>
 </html>
