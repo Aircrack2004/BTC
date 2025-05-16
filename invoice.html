@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Invoice - Masison Crites</title>
+  <title>Invoice - Lauren Agostino</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -268,7 +268,7 @@
       <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" class="logo" alt="PayPal Logo">
       <div class="invoice-title">
         <h1>INVOICE</h1>
-        <p>Invoice #: <span id="invoice-number">027</span></p>
+        <p>Invoice #: <span id="invoice-number">028</span></p>
         <p>Date: <span id="invoice-date"></span></p>
         <p>Due Date: <span id="due-date"></span></p>
       </div>
@@ -278,13 +278,12 @@
       <div class="billing-info">
         <div class="bill-to">
           <h3>Payment to:</h3>
-          <small>Yadira Moreno
-</small>
+          <small>Lauren Agostino</small>
         </div>
         <div class="invoice-details">
           <p><small>Payment Terms:</small> Net 14</p>
           <p><small>Payment Method:</small> PayPal</p>
-          <p><small>PO Number:</small> 2023-027</p>
+          <p><small>PO Number:</small> 2023-028</p>
         </div>
       </div>
 
@@ -345,15 +344,14 @@
       return dates;
     }
   
-    const rate = 1875;
+    const rate = 3750;
     const qty = 1;
     const tbody = document.getElementById("invoice-rows");
     let totalAmount = 0;
   
-    // Generate weekly dates from today (May 14, 2025) to next four weeks (June 11, 2025)
-    const startDate = new Date();
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 28); // Set to 4 weeks from today
+    // Set start date to May 13, 2024 and end date to June 10, 2024 (1 month)
+    const startDate = new Date('2024-05-14');
+    const endDate = new Date('2024-06-10');
     const serviceDates = getWeeklyDates(startDate, endDate);
   
     serviceDates.forEach(date => {
@@ -373,13 +371,12 @@
       tbody.appendChild(row);
     });
   
-    // Set invoice date to today (May 14, 2025)
-    const invoiceDate = new Date();
+    // Set invoice date to May 13, 2024
+    const invoiceDate = new Date('2024-05-14');
     document.getElementById("invoice-date").textContent = formatDate(invoiceDate);
   
-    // Set due date to 4 weeks from today (June 11, 2025)
-    const dueDate = new Date();
-    dueDate.setDate(dueDate.getDate() + 28);
+    // Set due date to June 10, 2024
+    const dueDate = new Date('2024-06-10');
     document.getElementById("due-date").textContent = formatDate(dueDate);
   
     document.getElementById("subtotal").textContent = `$${totalAmount.toFixed(2)}`;
