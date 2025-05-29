@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Proof - MoonPay to CashApp</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .receipt-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #6e48aa 0%, #9d50bb 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+        
+        .header p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .transaction-details {
+            padding: 20px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .detail-label {
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .detail-value {
+            font-weight: bold;
+            text-align: right;
+        }
+        
+        .amount {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            color: #2ecc71;
+        }
+        
+        .logos {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .logo {
+            height: 40px;
+            object-fit: contain;
+        }
+        
+        .status {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        
+        .timestamp {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        
+        .download-btn {
+            background-color: #6e48aa;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .download-btn:hover {
+            background-color: #5d3a99;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <div class="header">
+            <h1>Payment Receipt</h1>
+            <p>Transaction successful</p>
+        </div>
+        
+        <div class="transaction-details">
+            <div class="amount">$100.00</div>
+            
+            <div class="detail-row">
+                <span class="detail-label">From</span>
+                <span class="detail-value">MoonPay</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">To</span>
+                <span class="detail-value">Paypal</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Transaction ID</span>
+                <span class="detail-value" id="transaction-id">MPX-789456123</span>
+            </div>
+            
+            <div class="detail-row">
+                <span class="detail-label">Date & Time</span>
+                <span class="detail-value" id="transaction-date">Loading...</span>
+            </div>
+            
+            <div class="status">Completed</div>
+        </div>
+        
+        <div class="logos">
+            <span>→</span>
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" class="logo" style="height: 22px;">
+        </div>
+        
+        <div class="timestamp">
+            Generated on <span id="generation-date">Loading...</span>
+        </div>
+        
+        <button class="download-btn" id="download-btn">Download Receipt</button>
+    </div>
+
+    <script>
+        // Set current dates
+        const now = new Date();
+        const transactionDate = document.getElementById('transaction-date');
+        const generationDate = document.getElementById('generation-date');
+        
+        // Format dates
+        const options = { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        
+        transactionDate.textContent = now.toLocaleDateString('en-US', options);
+        generationDate.textContent = now.toLocaleDateString('en-US', options);
+        
+        // Generate random transaction ID
+        const transactionId = document.getElementById('transaction-id');
+        const randomId = 'MPX-' + Math.floor(Math.random() * 1000000000);
+        transactionId.textContent = randomId;
+        
+        // Download button functionality
+        document.getElementById('download-btn').addEventListener('click', function() {
+            alert('Receipt downloaded successfully!');
+            // In a real implementation, you would generate a PDF or image here
+        });
+    </script>
+</body>
+</html>
