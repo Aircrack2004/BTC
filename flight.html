@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flight Cancellation Notice</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f2f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .notice-container {
+      max-width: 500px;
+      background: #ffffff;
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+
+    .icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 16px;
+    }
+
+    h2 {
+      color: #d9534f;
+      margin: 12px 0 20px;
+      font-size: 24px;
+    }
+
+    .notice-container p {
+      color: #444;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .reason-box {
+      background: #fef1f1;
+      padding: 18px;
+      border-left: 5px solid #d9534f;
+      margin: 25px 0;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    .reason-box h4 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: #b52b27;
+    }
+
+    .reason-text {
+      color: #555;
+      font-size: 14px;
+    }
+
+   .next-steps {
+  text-align: left;
+  margin-top: 30px;
+}
+
+.next-steps h4 {
+  font-size: 17px;
+  margin-bottom: 18px;
+  color: #222;
+  font-weight: 600;
+}
+
+.step-card {
+  display: flex;
+  gap: 16px;
+  background: #f7fafd;
+  border: 1px solid #dde8f0;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+
+.step-icon {
+  font-size: 20px;
+  margin-top: 4px;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-title {
+  margin: 0 0 4px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #333;
+}
+
+.step-desc {
+  margin: 0;
+  font-size: 13.5px;
+  color: #555;
+}
+
+.apology-text {
+  font-size: 13.5px;
+  color: #666;
+  margin-top: 25px;
+  padding: 14px 18px;
+  background: #fff8f2;
+  border-left: 4px solid #f0ad4e;
+  border-radius: 8px;
+}
+
+    .apology-text {
+      font-size: 13.5px;
+      color: #666;
+      margin-top: 22px;
+    }
+
+    button {
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 25px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #c9302c;
+    }
+
+    @media (max-width: 600px) {
+      .notice-container {
+        padding: 20px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="notice-container">
+    <div class="icon">
+      <svg viewBox="0 0 24 24" fill="#d9534f" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 21h22L12 2 1 21zm13-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+      </svg>
+    </div>
+    <h2>Flight Cancellation Notice</h2>
+    <p>
+      We regret to inform you that your flight from <strong>Sioux Falls, South Dakota</strong> to 
+      <strong>Calgary, Alberta</strong> scheduled for <strong>April 30, 2025</strong> has been cancelled.
+    </p>
+
+    <div class="reason-box">
+      <h4>Reason for cancellation:</h4>
+      <p class="reason-text">
+        Due to unexpected technical and operational issues with the aircraft, the airline has made the 
+        difficult decision to cancel this flight to ensure passenger safety.
+      </p>
+    </div>
+
+<div class="next-steps">
+  <h4>Next Steps</h4>
+  
+  <div class="step-card">
+    <div class="step-icon">💳</div>
+    <div class="step-content">
+      <p class="step-title">Automatic Refund</p>
+      <p class="step-desc">A full refund will be processed within 5–7 business days to your original payment method.</p>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-icon">✈️</div>
+    <div class="step-content">
+      <p class="step-title">Rebook Easily</p>
+      <p class="step-desc">You may rebook an alternative flight at no additional cost via our booking portal.</p>
+    </div>
+  </div>
+
+  <div class="step-card">
+    <div class="step-icon">📞</div>
+    <div class="step-content">
+      <p class="step-title">Get Support</p>
+      <p class="step-desc">Our support team is available 24/7 to assist with rebooking or other concerns.</p>
+    </div>
+  </div>
+</div>
+
+<p class="apology-text">
+  We sincerely apologize for any disruption to your travel plans. Your comfort and satisfaction are important to us, and we're here to help however we can.
+</p>
+
+
+
+
+    <button onclick="contactSupport()">Contact Support</button>
+  </div>
+
+  <script>
+    function contactSupport() {
+      window.location.href = "mailto:support@airline.com";
+    }
+  </script>
+</body>
+</html>

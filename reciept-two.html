@@ -3,241 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Receipt</title>
+    <title>Navbar</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f5f7fa;
+        /* Custom styles for sidebar and hamburger animation */
+        .sidebar {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            background-color: #f3f4f6; /* Light gray background */
         }
-        .paypal-blue {
-            color: #003087;
+        .sidebar.open {
+            transform: translateX(0);
         }
-        .status-pending {
-            background-color: #fff8e6;
-            color: #e4a30b;
+        .hamburger span {
+            transition: all 0.3s ease-in-out;
+            background-color: #4b5563; /* Dark gray for hamburger */
         }
-        .progress-tracker {
-            position: relative;
-            height: 4px;
-            background-color: #e5e7eb;
-            border-radius: 2px;
-            overflow: hidden;
+        .hamburger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
         }
-        .progress-fill {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            background-color: #e4a30b;
-            transition: width 0.5s ease;
-        }
-        .receipt-shadow {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .status-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+        .hamburger.open span:nth-child(2) {
             opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
         }
-        .status-overlay.active {
-            opacity: 1;
-            pointer-events: all;
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
         }
-        .status-overlay-content {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            width: 400px;
-            max-width: 90%;
-            text-align: center;
+        /* Yellow accent styles */
+        .nav-item li a:hover {
+            color: #ca8a04 !important; /* Yellow-600 for hover */
         }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #e4a30b;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+        .social-link:hover {
+            transform: translateX(5px);
+            transition: transform 0.2s ease;
+            color: #ca8a04 !important; /* Yellow-600 for hover */
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .sidebar li a:hover {
+            color: #ca8a04 !important; /* Yellow-600 for hover */
+        }
+        /* Active menu item style */
+        .active {
+            color: #ca8a04 !important; /* Yellow-600 for active item */
+            font-weight: 600;
+        }
+        /* Navbar container adjustments */
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <div class="max-w-lg mx-auto my-10 bg-white rounded-lg receipt-shadow overflow-hidden">
-        <!-- Header -->
-        <div class="bg-white p-6 border-b border-gray-200 flex items-center justify-between">
-            <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal Logo" class="h-8">
-            <div class="text-sm text-gray-500">Receipt #8YUIX6</div>
-        </div>
+<body>
+    <nav class="navbar bg-gray-200 shadow-md sticky top-0 z-50">
+        <div class="navbar-container px-4 py-4"> <!-- Changed to use custom container -->
+            <!-- Logo -->
+            <div class="flex-shrink-0">
+                <img src="./logo.png" alt="Logo" class="h-24 md:h-[150px] w-auto">
+            </div>
 
-        <!-- Body -->
-        <div class="p-6">
-            <!-- Status Section -->
-            <div id="statusContainer" class="status-pending rounded-lg p-4 mb-6">
-                <div class="flex items-center">
-                    <i class="fas fa-clock text-xl mr-3 animate-pulse"></i>
-                    <div>
-                        <h3 class="font-semibold">Payment Processing - <span id="progressPercent">30</span>%</h3>
-                        <p class="text-sm">Your payment is being processed. This may take a few moments...</p>
-                    </div>
-                </div>
-                <div class="mt-3 progress-tracker">
-                    <div id="progressFill" class="progress-fill" style="width: 30%"></div>
-                </div>
-                <button id="viewStatusBtn" class="mt-3 w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    View Status Details
+            <!-- Desktop Menu -->
+            <div class="nav-item-container hidden md:flex items-center">
+                <ul class="nav-item flex items-center gap-8">
+                    <li><a href="#" class="text-gray-700 hover:text-yellow-600 font-medium transition-colors active">Home</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-yellow-600 font-medium transition-colors">About</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-yellow-600 font-medium transition-colors">Services</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-yellow-600 font-medium transition-colors">Track</a></li>
+                    <li><a href="#" class="text-gray-700 hover:text-yellow-600 font-medium transition-colors">Contacts</a></li>
+                </ul>
+            </div>
+
+            <!-- Hamburger Button -->
+            <div class="md:hidden">
+                <button class="hamburger flex flex-col gap-1.5 p-2" onclick="toggleSidebar()">
+                    <span class="w-6 h-0.5 bg-gray-700"></span>
+                    <span class="w-6 h-0.5 bg-gray-700"></span>
+                    <span class="w-6 h-0.5 bg-gray-700"></span>
                 </button>
             </div>
+        </div>
 
-            <!-- Payment Summary -->
-            <div class="text-center mb-8">
-                <p class="text-gray-500 text-sm">You sent Nxkkxxjane@gmail.com</p>
-                <p class="text-3xl font-bold mt-1">$7,000.00</p>
-            </div>
-
-            <!-- Payment Details -->
-            <div class="border-t border-b border-gray-200 py-4 space-y-4 text-sm">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Transaction ID:</span>
-                    <span class="font-mono text-gray-800">8YUIX6</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Payment to:</span>
-                    <span class="text-gray-800 font-medium">Nxkkxxjane@gmail.com</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Paid from:</span>
-                    <span class="text-gray-800">RoyDamian990@gmail.com</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Paid to:</span>
-                    <span class="text-gray-800">Nxkkxxjane@gmail.com</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Payment method:</span>
-                    <span class="text-gray-800">PayPal transfer</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Reference:</span>
-                    <span class="text-gray-800">INV-2025-0428</span>
-                </div>
-            </div>
-
-            <!-- Actions -->
-            <div class="mt-6 grid grid-cols-2 gap-3">
-                <button class="py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    <i class="fas fa-print mr-2"></i> Print
-                </button>
-                <button class="py-2 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    <i class="fas fa-download mr-2"></i> Download PDF
+        <!-- Sidebar for Mobile -->
+        <div class="sidebar fixed top-0 right-0 h-full w-64 shadow-lg md:hidden bg-gray-200">
+            <div class="flex justify-end p-4">
+                <button class="hamburger flex flex-col gap-1.5 p-2" onclick="toggleSidebar()">
+                    <span class="w-6 h-0.5 bg-gray-700"></span>
+                    <span class="w-6 h-0.5 bg-gray-700"></span>
+                    <span class="w-6 h-0.5 bg-gray-700"></span>
                 </button>
             </div>
-
-            <!-- Help Section -->
-            <div class="mt-8 p-4 bg-blue-50 rounded-lg text-sm text-gray-700">
-                <h4 class="font-semibold mb-2 flex items-center">
-                    <i class="fas fa-info-circle mr-2 paypal-blue"></i> Need help?
-                </h4>
-                <p class="mb-2">If you didn't authorize this transaction or need assistance, please visit the PayPal Resolution Center.</p>
-                <a href="#" class="text-blue-600 hover:underline font-medium">Go to Resolution Center</a>
+            <ul class="flex flex-col gap-4 p-4">
+                <li><a href="#" class="text-gray-700 hover:text-yellow-600 font-medium active">Home</a><br></li>
+                <li><a href="#" class="text-gray-700 hover:text-yellow-600 font-medium">About</a><br></li>
+                <li><a href="#" class="text-gray-700 hover:text-yellow-600 font-medium">Services</a><br></li>
+                <li><a href="#" class="text-gray-700 hover:text-yellow-600 font-medium">Track</a><br></li>
+                <li><a href="#" class="text-gray-700 hover:text-yellow-600 font-medium">Contacts</a><br></li>
+            </ul>
+            <!-- Social Media Links -->
+            <div class="absolute bottom-0 w-full p-4 border-t border-gray-300">
+                <ul class="flex flex-col gap-4">
+                    <li>
+                        <a href="#" class="social-link flex items-center gap-2 text-gray-700 hover:text-yellow-600">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </a><br>
+                    </li>
+                    <li>
+                        <a href="#" class="social-link flex items-center gap-2 text-gray-700 hover:text-yellow-600">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </a><br>
+                    </li>
+                    <li>
+                        <a href="#" class="social-link flex items-center gap-2 text-gray-700 hover:text-yellow-600">
+                            <i class="fab fa-discord"></i> Discord
+                        </a><br>
+                    </li>
+                </ul>
             </div>
         </div>
-
-        <!-- Footer -->
-        <div class="bg-gray-50 p-6 text-center text-xs text-gray-500 border-t border-gray-200">
-            <p class="mb-2">This is an electronic receipt. Please do not reply.</p>
-            <p>Copyright © 2025 PayPal, Inc. All rights reserved.</p>
-            <div class="mt-2 flex justify-center space-x-4">
-                <a href="#" class="text-blue-600 hover:underline">Security</a>
-                <a href="#" class="text-blue-600 hover:underline">Privacy</a>
-                <a href="#" class="text-blue-600 hover:underline">User Agreement</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Status Overlay -->
-    <div id="statusOverlay" class="status-overlay">
-        <div class="status-overlay-content">
-            <div class="spinner"></div>
-            <h3 class="text-xl font-semibold mb-2">Processing Your Payment</h3>
-            <p class="text-gray-600 mb-4">We're currently processing your transaction of <span class="font-bold">$7,000</span></p>
-            <div class="progress-tracker mx-auto w-full max-w-xs">
-                <div id="overlayProgressFill" class="progress-fill" style="width: 30%"></div>
-            </div>
-            <p class="text-sm text-gray-500 mt-2"><span id="overlayProgressPercent">30</span>% complete</p>
-            <p class="text-sm text-gray-600 mt-4">
-                <span class="font-semibold">$228</span> enrollment fee is required to complete this deposit.
-            </p>
-            <p class="text-xs text-gray-500 mt-2" style="color: orange;">
-                <em style="color: orange;">Note:</em> This fee is fully refundable upon successful transaction completion.
-            </p>
-            
-            <button id="closeOverlayBtn" class="mt-4 w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                Close
-            </button>
-        </div>
-    </div>
+    </nav>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const viewStatusBtn = document.getElementById('viewStatusBtn');
-            const statusOverlay = document.getElementById('statusOverlay');
-            const closeOverlayBtn = document.getElementById('closeOverlayBtn');
-            const progressFill = document.getElementById('progressFill');
-            const overlayProgressFill = document.getElementById('overlayProgressFill');
-            const progressPercent = document.getElementById('progressPercent');
-            const overlayProgressPercent = document.getElementById('overlayProgressPercent');
-            
-            // Toggle status overlay
-            viewStatusBtn.addEventListener('click', function() {
-                statusOverlay.classList.add('active');
-            });
-            
-            closeOverlayBtn.addEventListener('click', function() {
-                statusOverlay.classList.remove('active');
-            });
-
-            // Simulate payment processing
-            let progress = 30;
-            const processingInterval = setInterval(() => {
-                progress += Math.floor(Math.random() * 5);
-                if (progress >= 71) {
-                    progress = 71; // Never reaches 100% in this demo
-                    clearInterval(processingInterval);
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const hamburger = document.querySelector('.hamburger');
+            sidebar.classList.toggle('open');
+            hamburger.classList.toggle('open');
+        }
+        
+        // Add active class to current menu item
+        document.querySelectorAll('.nav-item a, .sidebar a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item a, .sidebar a').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+                if (window.innerWidth < 768) { // Close sidebar on mobile after click
+                    toggleSidebar();
                 }
-                
-                // Update both progress bars
-                progressFill.style.width = `${progress}%`;
-                overlayProgressFill.style.width = `${progress}%`;
-                
-                // Update both percentage displays
-                progressPercent.textContent = progress;
-                overlayProgressPercent.textContent = progress;
-            }, 1500);
+            });
         });
     </script>
 </body>
