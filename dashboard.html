@@ -3,38 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MapleBank Canada | Dashboard</title>
+    <title>Suncorp Bank | Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== BASE STYLES ===== */
         :root {
-            --primary: #D52B1E; /* Canadian Red */
-            --primary-dark: #A02218;
-            --text: #2D3748;
-            --text-light: #718096;
-            --bg: #F7FAFC;
+            --primary: #004F9F;  /* Classic Australian banking blue */
+            --primary-light: #E6F0FA;
+            --secondary: #E4002B;  /* Australian accent red */
+            --success: #00A651;   /* Green for positive amounts */
+            --text: #2C3E50;
+            --text-light: #7F8C8D;
+            --bg: #F5F7FA;
             --card-bg: #FFFFFF;
-            --border: #E2E8F0;
-            --success: #38A169;
-            --warning: #DD6B20;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --transition: all 0.3s ease;
+            --border: #E0E0E0;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.2s ease;
         }
 
         [data-theme="dark"] {
-            --primary: #E53E3E;
-            --text: #F7FAFC;
-            --text-light: #CBD5E0;
-            --bg: #1A202C;
-            --card-bg: #2D3748;
-            --border: #4A5568;
+            --primary: #1E88E5;
+            --primary-light: #0D3050;
+            --secondary: #FF5A5F;
+            --text: #ECF0F1;
+            --text-light: #BDC3C7;
+            --bg: #121A24;
+            --card-bg: #1E2A3A;
+            --border: #2C3E50;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
@@ -45,179 +48,228 @@
         }
 
         #app {
-            max-width: 1200px;
+            max-width: 480px;
             margin: 0 auto;
-            padding: 20px;
+            padding-bottom: 80px;
         }
 
-        /* ===== HEADER ===== */
-        .header {
+        /* Header */
+        .app-header {
+            padding: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
-            margin-bottom: 20px;
+            background: var(--primary);
+            color: white;
         }
 
         .bank-logo {
-            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary);
+            font-size: 20px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .bank-logo i {
-            font-size: 1.2rem;
+        .logo-icon {
+            color: white;
         }
 
         .header-actions {
             display: flex;
-            gap: 15px;
-            align-items: center;
+            gap: 16px;
         }
 
-        .theme-toggle, .notification-btn {
+        .header-btn {
             background: none;
             border: none;
-            color: var(--text);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .theme-toggle:hover, .notification-btn:hover {
-            color: var(--primary);
-        }
-
-        .profile-pic {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary);
             color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            cursor: pointer;
+            font-size: 18px;
         }
 
-        /* ===== BALANCE CARD ===== */
-        .balance-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .balance-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .balance-title {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            font-weight: 500;
-        }
-
-        .balance-amount {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin: 10px 0;
-        }
-
-        .balance-subtext {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            margin-bottom: 20px;
-        }
-
-        .balance-actions {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-        .action-btn {
+        /* Accounts Section - Now at the top */
+        .accounts-section {
+            padding: 16px;
             background: var(--bg);
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .action-btn:hover {
-            transform: translateY(-3px);
-            background: rgba(213, 43, 30, 0.1);
-        }
-
-        .action-btn i {
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-
-        .action-btn span {
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        /* ===== TRANSACTIONS ===== */
-        .transactions-section {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .section-title {
-            font-size: 1.2rem;
+            font-size: 18px;
             font-weight: 600;
         }
 
         .view-all {
             color: var(--primary);
-            font-size: 0.9rem;
+            font-size: 14px;
             font-weight: 500;
             text-decoration: none;
-            cursor: pointer;
         }
 
-        .transactions-list {
+        .account-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .account-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .account-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .account-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .account-number {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .account-balance {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 8px 0;
+        }
+
+        .account-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .small-btn {
+            padding: 6px 12px;
+            background: var(--bg);
+            border: none;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            padding: 16px;
+            gap: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            background: var(--card-bg);
+            margin: 0 16px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quick-actions::-webkit-scrollbar {
+            display: none;
+        }
+
+        .action-btn {
+            min-width: 80px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 8px;
+            background: var(--bg);
+            border-radius: 12px;
+            border: none;
+            color: var(--text);
+        }
+
+        .action-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .action-label {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Quick Payees */
+        .quick-payees {
+            display: flex;
+            padding: 16px;
+            gap: 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            margin: 16px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quick-payees::-webkit-scrollbar {
+            display: none;
+        }
+
+        .quick-payee {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 64px;
+        }
+
+        .payee-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .payee-name {
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* Transactions */
+        .transactions-section {
+            padding: 16px;
+            margin-top: 8px;
         }
 
         .transaction {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             padding: 12px 0;
             border-bottom: 1px solid var(--border);
-        }
-
-        .transaction:last-child {
-            border-bottom: none;
         }
 
         .transaction-info {
@@ -230,7 +282,7 @@
             width: 40px;
             height: 40px;
             border-radius: 12px;
-            background: rgba(213, 43, 30, 0.1);
+            background: var(--primary-light);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -238,25 +290,38 @@
         }
 
         .transaction-details h4 {
-            font-size: 0.95rem;
+            font-size: 15px;
             font-weight: 500;
-            margin-bottom: 4px;
         }
 
         .transaction-details p {
-            font-size: 0.8rem;
+            font-size: 12px;
             color: var(--text-light);
+            margin-top: 2px;
         }
 
         .transaction-amount {
             font-weight: 600;
+            text-align: right;
         }
 
         .transaction-amount.positive {
             color: var(--success);
         }
 
-        /* ===== BOTTOM NAV ===== */
+        /* Australian Specific Elements */
+        .pay-id-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -268,8 +333,9 @@
             padding: 12px 0;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             z-index: 100;
-            max-width: 1200px;
+            max-width: 480px;
             margin: 0 auto;
+            border-top: 1px solid var(--border);
         }
 
         .nav-item {
@@ -278,199 +344,244 @@
             align-items: center;
             color: var(--text-light);
             text-decoration: none;
-            font-size: 0.7rem;
+            font-size: 10px;
             gap: 4px;
-            transition: var(--transition);
         }
 
-        .nav-item i {
-            font-size: 1.2rem;
+        .nav-icon {
+            font-size: 20px;
         }
 
-        .nav-item.active, .nav-item:hover {
+        .nav-item.active {
             color: var(--primary);
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
-        @media (min-width: 768px) {
-            .balance-actions {
-                grid-template-columns: repeat(4, 1fr);
-                max-width: 600px;
-                margin: 0 auto;
-            }
-
-            .transactions-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
-            }
-
-            .bottom-nav {
-                position: static;
-                background: transparent;
-                box-shadow: none;
-                padding: 20px 0;
-                justify-content: center;
-                gap: 30px;
-            }
-
-            .nav-item {
-                font-size: 0.8rem;
-            }
+        .nav-item.active .nav-icon {
+            color: var(--primary);
         }
     </style>
 </head>
 <body>
     <div id="app">
-        <!-- HEADER -->
-        <header class="header">
+        <!-- Header -->
+        <header class="app-header">
             <div class="bank-logo">
-                <i class="fas fa-maple-leaf"></i>
-                <span>MapleBank</span>
+                <i class="fas fa-dollar-sign logo-icon"></i>
+                <span>Suncorp Bank</span>
             </div>
             <div class="header-actions">
-                <button class="theme-toggle" id="themeToggle">
+                <button class="header-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="header-btn" id="themeToggle">
                     <i class="fas fa-moon"></i>
                 </button>
-                <button class="notification-btn">
-                    <i class="fas fa-bell"></i>
-                </button>
-                <div class="profile-pic">AB</div>
             </div>
         </header>
 
-        <!-- BALANCE CARD -->
-        <section class="balance-card">
-            <div class="balance-header">
-                <div class="balance-title">Available Balance</div>
-                <i class="fas fa-eye-slash" style="color: var(--text-light); cursor: pointer;"></i>
-            </div>
-            <div class="balance-amount">$2,181,247.00 CAD</div>
-            <div class="balance-subtext">Last transaction: Feb 5, 2025</div>            <div class="balance-actions">
-                <button class="action-btn" onclick="alert('Send money')">
-                    <i class="fas fa-paper-plane"></i>
-                    <span>Send</span>
-                </button>
-                <button class="action-btn" onclick="alert('Pay bills')">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                    <span>Pay</span>
-                </button>
-                <button class="action-btn" onclick="alert('Deposit check')">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <span>Deposit</span>
-                </button>
-                <button class="action-btn" onclick="window.location.href='transfer.html'">
-                    <i class="fas fa-exchange-alt"></i>
-                    <span>Transfer</span>
-                </button>
-            </div>
-        </section>
-
-        <!-- TRANSACTIONS -->
-        <section class="transactions-section">
+        <!-- My Accounts Section - Now at the top -->
+        <section class="accounts-section">
             <div class="section-header">
-                <h3 class="section-title">Bank Transfers</h3>
-                <a class="view-all">View All</a>
+                <h2 class="section-title">My Accounts</h2>
+                <a href="#" class="view-all">View all</a>
             </div>
-            <div class="transactions-list">
-                <!-- Transfer 1 -->
-                <div class="transaction">
-                    <div class="transaction-info">
-                        <div class="transaction-icon">
-                            <i class="fas fa-dollar-sign"></i> <!-- Consistent with your Transaction 2 -->
-                        </div>
-                        <div class="transaction-details">
-                            <h4>Bank Transfer</h4>
-                            <p>Feb 5, 2025 •  Deposit</p>
-                        </div>
+
+            <div class="account-card">
+                <div class="account-header">
+                    <div>
+                        <div class="account-name">Everyday Account</div>
+                        <div class="account-number">•••• 7832</div>
+                        <span class="pay-id-badge">PayID: 0400 123 456</span>
                     </div>
-                    <div class="transaction-amount positive">+$5,000.00</div>
+                    <i class="fas fa-eye" style="color: var(--text-light);"></i>
                 </div>
-            
-                <!-- Transfer 2 -->
-                <div class="transaction">
-                    <div class="transaction-info">
-                        <div class="transaction-icon">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                        <div class="transaction-details">
-                            <h4>Bank Transfer</h4>
-                            <p>Feb 3, 2025 •  Deposit</p>
-                        </div>
-                    </div>
-                    <div class="transaction-amount positive">+$3,450.00</div>
+                <div class="account-balance">$3,842,500.37</div>
+                <div class="account-actions">
+                    <button class="small-btn">Details</button>
+                    <button class="small-btn">Transfer</button>
                 </div>
-            
-                <!-- Transfer 3 -->
-                <div class="transaction">
-                    <div class="transaction-info">
-                        <div class="transaction-icon">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                        <div class="transaction-details">
-                            <h4>Bank Transfer</h4>
-                            <p>Feb 1, 2025 •  Deposit</p>
-                        </div>
+            </div>
+
+            <div class="account-card">
+                <div class="account-header">
+                    <div>
+                        <div class="account-name">Savings Account</div>
+                        <div class="account-number">•••• 4519</div>
                     </div>
-                    <div class="transaction-amount positive">+$2,800.00</div>
+                    <i class="fas fa-eye-slash" style="color: var(--text-light);"></i>
                 </div>
-            
-                <!-- Transfer 4 -->
-                <div class="transaction">
-                    <div class="transaction-info">
-                        <div class="transaction-icon">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                        <div class="transaction-details">
-                            <h4>Bank Transfer</h4>
-                            <p>Jan 30, 2025 •  Deposit</p>
-                        </div>
-                    </div>
-                    <div class="transaction-amount positive">+$1,200.00</div>
-                </div>
-            
-                <!-- Transfer 5 -->
-                <div class="transaction">
-                    <div class="transaction-info">
-                        <div class="transaction-icon">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                        <div class="transaction-details">
-                            <h4>Bank Transfer</h4>
-                            <p>Jan 28, 2025 • Deposit</p>
-                        </div>
-                    </div>
-                    <div class="transaction-amount positive">+$4,750.00</div>
+                <div class="account-balance">$45,219.87</div>
+                <div class="account-actions">
+                    <button class="small-btn">Details</button>
+                    <button class="small-btn">Transfer</button>
                 </div>
             </div>
         </section>
 
-        <!-- BOTTOM NAVIGATION -->
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <button class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
+                <span class="action-label">Pay</span>
+            </button>
+            <button class="action-btn">
+                <div class="action-icon">
+                    <a href="./transfer.html"></a><i class="fas fa-exchange-alt"></i>
+                </div>
+                <span class="action-label">Transfer</span>
+            </button>
+            <button class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <span class="action-label">BPAY</span>
+            </button>
+            <button class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <span class="action-label">PayID</span>
+            </button>
+            <button class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <span class="action-label">Deposit</span>
+            </button>
+        </section>
+
+        <!-- Quick Payees -->
+        <section class="quick-payees">
+            <div class="quick-payee">
+                <div class="payee-avatar">
+                    <i class="fas fa-home"></i>
+                </div>
+                <span class="payee-name">Rent</span>
+            </div>
+            <div class="quick-payee">
+                <div class="payee-avatar">WW</div>
+                <span class="payee-name">Woolies</span>
+            </div>
+            <div class="quick-payee">
+                <div class="payee-avatar">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <span class="payee-name">Energy</span>
+            </div>
+            <div class="quick-payee">
+                <div class="payee-avatar">SJ</div>
+                <span class="payee-name">Sarah J.</span>
+            </div>
+            <div class="quick-payee">
+                <div class="payee-avatar">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <span class="payee-name">Telstra</span>
+            </div>
+        </section>
+
+        <!-- Transactions -->
+<section class="transactions-section">
+    <div class="section-header">
+        <h2 class="section-title">Recent Bank Deposits</h2>
+        <a href="#" class="view-all">View all</a>
+    </div>
+
+    <div class="transaction">
+        <div class="transaction-info">
+            <div class="transaction-icon" style="background: #EEF7FF; color: #004F9F;">
+                <i class="fas fa-exchange-alt"></i>
+            </div>
+            <div class="transaction-details">
+                <h4>Bank Transfer</h4>
+                <p>Today • From: Company XYZ (Acc...7890)</p>
+            </div>
+        </div>
+        <div class="transaction-amount positive">+$5,800.00</div>
+    </div>
+
+    <div class="transaction">
+        <div class="transaction-info">
+            <div class="transaction-icon" style="background: #EEF7FF; color: #004F9F;">
+                <i class="fas fa-exchange-alt"></i>
+            </div>
+            <div class="transaction-details">
+                <h4>Bank Transfer</h4>
+                <p>Feb 5, 2025 • From: John Smith (Acc...4567)</p>
+            </div>
+        </div>
+        <div class="transaction-amount positive">+$1,200.00</div>
+    </div>
+
+    <div class="transaction">
+        <div class="transaction-info">
+            <div class="transaction-icon" style="background: #EEF7FF; color: #004F9F;">
+                <i class="fas fa-exchange-alt"></i>
+            </div>
+            <div class="transaction-details">
+                <h4>Refund Deposit</h4>
+                <p>Feb 1, 2025 • From: Online Store (Acc...2345)</p>
+            </div>
+        </div>
+        <div class="transaction-amount positive">+$98.75</div>
+    </div>
+
+    <div class="transaction">
+        <div class="transaction-info">
+            <div class="transaction-icon" style="background: #EEF7FF; color: #004F9F;">
+                <i class="fas fa-exchange-alt"></i>
+            </div>
+            <div class="transaction-details">
+                <h4>Bank Transfer</h4>
+                <p>Jan 30, 2025 • From: Jane Doe (Acc...6789)</p>
+            </div>
+        </div>
+        <div class="transaction-amount positive">+$500.00</div>
+    </div>
+
+    <div class="transaction">
+        <div class="transaction-info">
+            <div class="transaction-icon" style="background: #EEF7FF; color: #004F9F;">
+                <i class="fas fa-exchange-alt"></i>
+            </div>
+            <div class="transaction-details">
+                <h4>Interest Deposit</h4>
+                <p>Jan 28, 2025 • From: Bank Interest</p>
+            </div>
+        </div>
+        <div class="transaction-amount positive">+$15.20</div>
+    </div>
+</section>
+
+        <!-- Bottom Navigation -->
         <nav class="bottom-nav">
             <a href="#" class="nav-item active">
-                <i class="fas fa-home"></i>
+                <i class="fas fa-home nav-icon"></i>
                 <span>Home</span>
             </a>
             <a href="#" class="nav-item">
-                <i class="fas fa-credit-card"></i>
-                <span>Accounts</span>
+                <i class="fas fa-credit-card nav-icon"></i>
+                <span>Cards</span>
+            </a>
+            <a href="./transfer.html" class="nav-item">
+                <i class="fas fa-chart-line nav-icon"></i>
+                <span>Insights</span>
             </a>
             <a href="#" class="nav-item">
-                <i class="fas fa-chart-line"></i>
-                <span>Invest</span>
+                <i class="fas fa-bell nav-icon"></i>
+                <span>Alerts</span>
             </a>
             <a href="#" class="nav-item">
-                <i class="fas fa-concierge-bell"></i>
-                <span>Services</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-ellipsis-h"></i>
+                <i class="fas fa-ellipsis-h nav-icon"></i>
                 <span>More</span>
             </a>
         </nav>
     </div>
+
     <script>
-        // Theme Management with localStorage
+        // Theme Management
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
 
@@ -481,7 +592,7 @@
             themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
         }
 
-        // Theme Toggle Functionality
+        // Toggle theme
         themeToggle.addEventListener('click', () => {
             if (html.getAttribute('data-theme') === 'dark') {
                 html.removeAttribute('data-theme');
@@ -494,36 +605,22 @@
             }
         });
 
-        // Bottom Navigation Active State
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                if (this.href) { // Only prevent default if it's a # link
-                    e.preventDefault();
+        // Balance visibility toggle
+        const balanceElements = document.querySelectorAll('.account-balance');
+        const eyeIcons = document.querySelectorAll('.fa-eye, .fa-eye-slash');
+        const actualBalances = ['$3,842,500.37', '$45,219.87'];
+
+        eyeIcons.forEach((icon, index) => {
+            icon.addEventListener('click', () => {
+                if (balanceElements[index].textContent === actualBalances[index]) {
+                    balanceElements[index].textContent = '•••••••';
+                    icon.classList.replace('fa-eye', 'fa-eye-slash');
+                } else {
+                    balanceElements[index].textContent = actualBalances[index];
+                    icon.classList.replace('fa-eye-slash', 'fa-eye');
                 }
-                document.querySelectorAll('.nav-item').forEach(nav => {
-                    nav.classList.remove('active');
-                });
-                this.classList.add('active');
             });
         });
-
-        // Balance Visibility Toggle
-        const balanceAmount = document.querySelector('.balance-amount');
-        const eyeIcon = document.querySelector('.fa-eye-slash');
-        const actualBalance = '$2,181,425.00 CAD';
-
-        eyeIcon.addEventListener('click', () => {
-            if (balanceAmount.textContent === actualBalance) {
-                balanceAmount.textContent = '••••••••';
-                eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
-            } else {
-                balanceAmount.textContent = actualBalance;
-                eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
-            }
-        });
-
-        // Set initial balance
-        balanceAmount.textContent = actualBalance;
-</script>
+    </script>
 </body>
 </html>
