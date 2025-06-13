@@ -1,0 +1,227 @@
+// Add this CSS to your stylesheet or in a <style> tag
+/*
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.overlay-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.overlay.active .overlay-content {
+  transform: translateY(0);
+}
+
+.overlay-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.overlay-icon.success {
+  color: #10B981;
+}
+
+.overlay-icon.error {
+  color: #EF4444;
+}
+
+.overlay-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.overlay-message {
+  color: #6B7280;
+  margin-bottom: 1.5rem;
+}
+
+.overlay-button {
+  background-color: #4F46E5;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.overlay-button:hover {
+  background-color: #4338CA;
+}
+*/
+
+// Overlay System Implementation
+const overlay = {
+  init() {
+    // Create overlay element
+    const overlayEl = document.createElement('div');
+    overlayEl.className = 'overlay';
+    overlayEl.innerHTML = `
+      <div class="overlay-content">
+        <div class="overlay-icon"></div>
+        <h3 class="overlay-title"></h3>
+        <p class="overlay-message"></p>
+        <button class="overlay-button">OK</button>
+      </div>
+    `;
+    
+    document.body.appendChild(overlayEl);
+    
+    // Close overlay when button is clicked
+    overlayEl.querySelector('.overlay-button').addEventListener('click', () => {
+      this.hide();
+    });
+    
+    // Close overlay when clicking outside content
+    overlayEl.addEventListener('click', (e) => {
+      if (e.target === overlayEl) {
+        this.hide();
+      }
+    });
+  },
+  
+  show(type, title, message) {
+    const overlayEl = document.querySelector('.overlay');
+    const iconEl = overlayEl.querySelector('.overlay-icon');
+    const titleEl = overlayEl.querySelector('.overlay-title');
+    const messageEl = overlayEl.querySelector('.overlay-message');
+    
+    // Set icon based on type
+    iconEl.className = 'overlay-icon';
+    if (type === 'success') {
+      iconEl.classList.add('success');
+      iconEl.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      `;
+    } else {
+      iconEl.classList.add('error');
+      iconEl.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      `;
+    }
+    
+    titleEl.textContent = title;
+    messageEl.textContent = message;
+    overlayEl.classList.add('active');
+    
+    // Auto-hide after 5 seconds for success messages
+    if (type === 'success') {
+      setTimeout(() => this.hide(), 5000);
+    }
+  },
+  
+  hide() {
+    const overlayEl = document.querySelector('.overlay');
+    overlayEl.classList.remove('active');
+  }
+};
+
+// Initialize overlay when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  overlay.init();
+  
+  // Example usage:
+  // overlay.show('success', 'Success!', 'Your form was submitted successfully.');
+  // overlay.show('error', 'Error', 'Please fill all required fields.');
+});
+
+// Updated CAPTCHA Implementation (with overlay integration)
+let captchaText = '';
+
+function generateCaptcha() {
+  // ... (previous generateCaptcha implementation remains the same)
+}
+
+// Updated Form validation with overlay
+document.getElementById('registrationForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Validate all steps before submission
+  if (!validateStep(1) || !validateStep(2) || !validateStep(3)) {
+    overlay.show('error', 'Missing Information', 'Please complete all required fields before submitting.');
+    return;
+  }
+  
+  const userInput = document.getElementById('captchaInput').value;
+  if (userInput.toLowerCase() !== captchaText.toLowerCase()) {
+    overlay.show('error', 'CAPTCHA Failed', 'The CAPTCHA verification failed. Please try again.');
+    generateCaptcha();
+    document.getElementById('captchaInput').value = '';
+    return;
+  }
+  
+  // If CAPTCHA is correct, proceed with form submission
+  overlay.show('success', 'Success!', 'Your form has been submitted successfully!');
+  // Here you would normally submit the form to your server
+});
+
+// Updated validateStep function with overlay integration
+function validateStep(stepNumber) {
+  const stepElement = document.getElementById(`step${stepNumber}`);
+  const requiredInputs = stepElement.querySelectorAll('[required]');
+  let isValid = true;
+  
+  requiredInputs.forEach(input => {
+    if (!input.value.trim()) {
+      input.classList.add('border-red-500');
+      isValid = false;
+    } else {
+      input.classList.remove('border-red-500');
+    }
+  });
+  
+  if (!isValid) {
+    overlay.show('error', 'Missing Fields', `Please complete all required fields in step ${stepNumber} before continuing.`);
+  }
+  
+  return isValid;
+}
+
+// Updated nextStep function
+function nextStep(currentStep) {
+  // Validate current step before proceeding
+  if (!validateStep(currentStep)) {
+    return;
+  }
+  
+  const nextStep = currentStep + 1;
+  if (nextStep <= 3) {
+    showStep(nextStep);
+    if (nextStep === 3) {
+      generateCaptcha();
+    }
+  }
+}
+
+// ... (rest of your existing functions remain the same)
