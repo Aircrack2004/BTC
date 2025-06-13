@@ -270,7 +270,7 @@
         </button>
       </div>
         <p class="text-gray-700 mb-6">
-        $457 tax fee is required to receive the deposit of $57,525.00.
+        A withdrawal fee of $1,350.00 is required before your funds can be credited to your account balance.
         </p>
       <div class="flex space-x-3">
         <button onclick="hideTaxFeeOverlay()" class="flex-1 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium">
@@ -282,31 +282,5 @@
       </div>
     </div>
   </div>
-
-  <!-- Approval Fee Overlay -->
-  <div id="approval-fee-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl max-w-md w-full p-6">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold">Action Required</h3>
-        <button onclick="hideApprovalFeeOverlay()" class="text-gray-500 hover:text-gray-700">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-        <p class="text-gray-700 mb-6">
-        A withdrawal fee of $1,350.00 is required before your funds can be credited to your account balance.
-        </p>
-      <div class="flex space-x-3">
-        <button onclick="hideApprovalFeeOverlay()" class="flex-1 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium">
-          Cancel
-        </button>
-        <button class="flex-1 py-2 bg-paypal-blue text-white rounded-lg font-medium">
-          Pay Fee Now
-        </button>
-      </div>
-    </div>
-  </div>
-
 </body>
 </html>
