@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation - Booking.com</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'booking-blue': '#003580',
+                        'booking-light-blue': '#E6F2FF',
+                        'booking-dark-blue': '#002050',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-hotel text-2xl sm:text-3xl text-booking-blue mr-2"></i>
+                    <span class="text-xl sm:text-2xl font-bold text-booking-blue">Booking.com</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button class="hidden sm:block bg-white border border-gray-300 rounded-md px-3 py-1.5 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-150">
+                        List your property
+                    </button>
+                    <button class="bg-white border border-gray-300 rounded-md px-3 py-1.5 text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-150">
+                        <i class="fas fa-user-circle mr-1"></i> <span class="hidden sm:inline">Your account</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 py-6 max-w-4xl">
+        <!-- Success Card -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden animate-fade-in">
+            <!-- Success Header -->
+            <div class="bg-green-50 px-4 sm:px-6 py-4 border-l-4 border-green-500 flex items-start">
+                <div class="flex-shrink-0 pt-1">
+                    <i class="fas fa-check-circle text-green-500 text-xl sm:text-2xl mr-3"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold text-gray-800">Your bank transfer payment was successful!</h1>
+                    <p class="mt-1 text-sm sm:text-base text-gray-600">We've received your payment of <span class="font-bold text-green-600">$4,015.00</span> for your upcoming stay.</p>
+                </div>
+            </div>
+
+            <!-- Booking Summary -->
+            <div class="px-4 sm:px-6 py-4 border-b">
+                <h2 class="text-base sm:text-lg font-semibold text-gray-800 mb-3">Your booking details</h2>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    <div class="animate-slide-up" style="animation-delay: 0.1s">
+                        <p class="text-xs sm:text-sm text-gray-500">Booking number</p>
+                        <p class="font-medium text-sm sm:text-base">BKG-98765432</p>
+                    </div>
+                    <div class="animate-slide-up" style="animation-delay: 0.2s">
+                        <p class="text-xs sm:text-sm text-gray-500">Date</p>
+                        <p class="font-medium text-sm sm:text-base">June 24, 2025</p>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1 animate-slide-up" style="animation-delay: 0.3s">
+                        <p class="text-xs sm:text-sm text-gray-500">Payment method</p>
+                        <p class="font-medium text-sm sm:text-base flex items-center">
+                            <i class="fas fa-university mr-2 text-booking-blue"></i> Bank Transfer
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Details -->
+            <div class="px-4 sm:px-6 py-4 border-b">
+                <h2 class="text-base sm:text-lg font-semibold text-gray-800 mb-3">Payment summary</h2>
+                
+                <div class="bg-booking-light-blue rounded-lg p-3 sm:p-4 space-y-2">
+                    <div class="flex justify-between animate-slide-up" style="animation-delay: 0.1s">
+                        <span class="text-sm sm:text-base">Room charge</span>
+                        <span class="font-medium text-sm sm:text-base">$3,800.00</span>
+                    </div>
+                    <div class="flex justify-between animate-slide-up" style="animation-delay: 0.2s">
+                        <span class="text-sm sm:text-base">Taxes & fees</span>
+                        <span class="font-medium text-sm sm:text-base">$215.00</span>
+                    </div>
+                    <div class="flex justify-between pt-2 mt-2 border-t border-booking-blue border-opacity-30 animate-slide-up" style="animation-delay: 0.3s">
+                        <span class="font-semibold text-sm sm:text-base">Total paid</span>
+                        <span class="font-bold text-base sm:text-lg text-booking-blue">$4,015.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="px-4 sm:px-6 py-4">
+                <h2 class="text-base sm:text-lg font-semibold text-gray-800 mb-3">What's next?</h2>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start animate-slide-up" style="animation-delay: 0.1s">
+                        <div class="flex-shrink-0 pt-1">
+                            <div class="bg-booking-light-blue p-2 rounded-full">
+                                <i class="fas fa-envelope text-booking-blue text-sm sm:text-base"></i>
+                            </div>
+                        </div>
+                        <div class="ml-3">
+                            <p class="font-medium text-sm sm:text-base">Confirmation email sent</p>
+                            <p class="text-gray-600 text-xs sm:text-sm mt-1">We've sent a confirmation email with all the details to your registered email address.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start animate-slide-up" style="animation-delay: 0.2s">
+                        <div class="flex-shrink-0 pt-1">
+                            <div class="bg-booking-light-blue p-2 rounded-full">
+                                <i class="fas fa-hotel text-booking-blue text-sm sm:text-base"></i>
+                            </div>
+                        </div>
+                        <div class="ml-3">
+                            <p class="font-medium text-sm sm:text-base">Prepare for your stay</p>
+                            <p class="text-gray-600 text-xs sm:text-sm mt-1">The property has been notified of your booking. You'll receive check-in instructions closer to your arrival date.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start animate-slide-up" style="animation-delay: 0.3s">
+                        <div class="flex-shrink-0 pt-1">
+                            <div class="bg-booking-light-blue p-2 rounded-full">
+                                <i class="fas fa-receipt text-booking-blue text-sm sm:text-base"></i>
+                            </div>
+                        </div>
+                        <div class="ml-3">
+                            <p class="font-medium text-sm sm:text-base">Receipt available</p>
+                            <p class="text-gray-600 text-xs sm:text-sm mt-1">You can download a receipt for this payment from your booking confirmation page.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="px-4 sm:px-6 py-4 bg-gray-50 flex flex-col sm:flex-row justify-between gap-3">
+                <button class="bg-booking-blue hover:bg-booking-dark-blue text-white font-medium py-2 px-4 sm:px-6 rounded-md transition duration-150 transform hover:scale-105 shadow-sm">
+                    View booking details
+                </button>
+                <button class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 sm:px-6 rounded-md transition duration-150">
+                    Download receipt
+                </button>
+                <button class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 sm:px-6 rounded-md transition duration-150 sm:hidden">
+                    Back to homepage
+                </button>
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="mt-4 sm:mt-6 bg-white rounded-xl shadow-md overflow-hidden animate-fade-in" style="animation-delay: 0.2s">
+            <div class="px-4 sm:px-6 py-4 border-b">
+                <h2 class="text-base sm:text-lg font-semibold text-gray-800">Need help with your booking?</h2>
+            </div>
+            <div class="px-4 sm:px-6 py-4">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 pt-1">
+                        <div class="bg-booking-light-blue p-2 rounded-full">
+                            <i class="fas fa-headset text-booking-blue"></i>
+                        </div>
+                    </div>
+                    <div class="ml-3">
+                        <p class="font-medium text-sm sm:text-base">Contact Customer Service</p>
+                        <p class="text-gray-600 text-xs sm:text-sm mt-1">Our customer service team is available 24/7 to assist you with any questions about your booking.</p>
+                        <button class="mt-2 text-booking-blue font-medium text-sm sm:text-base hover:underline flex items-center">
+                            Get help now <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Help Options (Mobile Only) -->
+        <div class="mt-4 bg-white rounded-xl shadow-md overflow-hidden sm:hidden">
+            <div class="px-4 py-3 border-b">
+                <h3 class="text-sm font-semibold text-gray-800">More help options</h3>
+            </div>
+            <div class="divide-y divide-gray-200">
+                <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+                    <i class="fas fa-comment-alt mr-3 text-booking-blue"></i> Live chat
+                </a>
+                <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+                    <i class="fas fa-phone-alt mr-3 text-booking-blue"></i> Call us
+                </a>
+                <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 flex items-center">
+                    <i class="fas fa-question-circle mr-3 text-booking-blue"></i> FAQs
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 border-t mt-6 sm:mt-8 py-6 sm:py-8">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
+                <div>
+                    <h3 class="text-sm sm:text-base font-semibold mb-2 sm:mb-3">Booking.com</h3>
+                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
+                        <li><a href="#" class="hover:underline">About</a></li>
+                        <li><a href="#" class="hover:underline">Careers</a></li>
+                        <li><a href="#" class="hover:underline">Press</a></li>
+                        <li><a href="#" class="hover:underline">Sustainability</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm sm:text-base font-semibold mb-2 sm:mb-3">Terms & policies</h3>
+                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
+                        <li><a href="#" class="hover:underline">Privacy policy</a></li>
+                        <li><a href="#" class="hover:underline">Terms of use</a></li>
+                        <li><a href="#" class="hover:underline">Payment terms</a></li>
+                        <li><a href="#" class="hover:underline">Cancellation policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm sm:text-base font-semibold mb-2 sm:mb-3">Help & support</h3>
+                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
+                        <li><a href="#" class="hover:underline">Contact us</a></li>
+                        <li><a href="#" class="hover:underline">FAQs</a></li>
+                        <li><a href="#" class="hover:underline">Travel restrictions</a></li>
+                        <li><a href="#" class="hover:underline">Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="col-span-2 sm:col-span-1">
+                    <h3 class="text-sm sm:text-base font-semibold mb-2 sm:mb-3">Download our app</h3>
+                    <div class="flex space-x-2">
+                        <a href="#" class="block w-1/2">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/1200px-Download_on_the_App_Store_Badge.svg.png" alt="App Store" class="w-full h-auto">
+                        </a>
+                        <a href="#" class="block w-1/2">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1200px-Google_Play_Store_badge_EN.svg.png" alt="Google Play" class="w-full h-auto">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 text-xs sm:text-sm text-gray-500">
+                <p>© 2025 Booking.com. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
