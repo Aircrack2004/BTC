@@ -7,10 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
         
         body {
             font-family: 'Open Sans', sans-serif;
+            background-color: #f8fafc;
         }
         
         .booking-blue {
@@ -25,15 +26,20 @@
         .btn-primary {
             background-color: #0071c2;
             color: white;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .btn-primary:hover {
             background-color: #0062a3;
             transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 113, 194, 0.2);
         }
         .card-shadow {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-shadow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         .flight-icon-container {
             position: relative;
@@ -43,17 +49,34 @@
             content: '';
             position: absolute;
             top: 50%;
-            width: 50px;
+            width: 60px;
             height: 1px;
-            background-color: #e2e8f0;
+            background: linear-gradient(90deg, rgba(226,232,240,1) 0%, rgba(226,232,240,0) 100%);
         }
         .flight-icon-container::before {
             right: 100%;
         }
         .flight-icon-container::after {
             left: 100%;
+            background: linear-gradient(270deg, rgba(226,232,240,1) 0%, rgba(226,232,240,0) 100%);
         }
-        @media (max-width: 640px) {
+        .confirmation-badge {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        .info-card {
+            transition: all 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+        }
+        .airline-logo {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+        @media (max-width: 768px) {
             .flight-icon-container::before,
             .flight-icon-container::after {
                 display: none;
@@ -64,25 +87,30 @@
             }
             .flight-icon {
                 transform: rotate(90deg);
-                margin: 8px 0;
+                margin: 12px 0;
+            }
+            .flight-details-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body class="bg-gray-50">
     <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-10">
+    <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
             <div class="flex items-center">
-                <span class="text-2xl font-bold booking-blue">booking.com</span>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/2560px-Booking.com_logo.svg.png" alt="Booking.com" class="h-8">
             </div>
             <div class="hidden md:flex items-center space-x-4">
-                <button class="text-sm font-medium text-gray-600 hover:text-booking-blue transition-colors">USD</button>
+                <button class="text-sm font-medium text-gray-600 hover:text-booking-blue transition-colors flex items-center">
+                    <i class="fas fa-dollar-sign mr-1"></i> USD
+                </button>
                 <button class="text-sm font-medium text-gray-600 hover:text-booking-blue transition-colors">Help</button>
                 <button class="text-sm font-medium text-gray-600 hover:text-booking-blue transition-colors">List your property</button>
                 <div class="flex items-center space-x-2">
-                    <button class="text-sm font-medium px-3 py-1 rounded border border-gray-300 hover:border-booking-blue transition-colors">Register</button>
-                    <button class="text-sm font-medium px-3 py-1 rounded bg-white border border-booking-blue text-booking-blue hover:bg-blue-50 transition-colors">Sign in</button>
+                    <button class="text-sm font-medium px-3 py-1 rounded-lg border border-gray-300 hover:border-booking-blue transition-colors">Register</button>
+                    <button class="text-sm font-medium px-3 py-1 rounded-lg bg-white border border-booking-blue text-booking-blue hover:bg-blue-50 transition-colors">Sign in</button>
                 </div>
             </div>
             <button class="md:hidden text-gray-600">
@@ -92,7 +120,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-6 md:py-8 max-w-4xl">
+    <main class="container mx-auto px-4 py-6 md:py-8 max-w-5xl">
         <!-- Confirmation Card -->
         <div class="bg-white rounded-xl card-shadow overflow-hidden mb-8">
             <!-- Confirmation Header -->
@@ -102,65 +130,129 @@
                 </div>
                 <div>
                     <h1 class="text-xl md:text-2xl font-bold text-gray-800 mb-1">Your booking is confirmed!</h1>
-                    <p class="text-gray-600 text-sm md:text-base">We've sent the confirmation to <span class="font-medium">dreamschase30@gmail.com</span></p>
+                    <p class="text-gray-600 text-sm md:text-base">We've sent the confirmation to <span class="font-medium text-booking-blue">dreamschase30@gmail.com</span></p>
                     <div class="mt-3 flex flex-wrap items-center gap-2">
-                        <span class="bg-white px-3 py-1 rounded-full text-xs font-medium shadow-sm">Booking #BKG7709735</span>
-                        <span class="bg-white px-3 py-1 rounded-full text-xs font-medium shadow-sm">E-ticket #ETKT72886149</span>
+                        <span class="confirmation-badge px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                            <i class="fas fa-ticket-alt mr-2"></i> Booking #BKG7709735
+                        </span>
+                        <span class="confirmation-badge px-3 py-1 rounded-full text-xs font-medium flex items-center">
+                            <i class="fas fa-receipt mr-2"></i> E-ticket #ETKT72886149
+                        </span>
                     </div>
                 </div>
             </div>
 
             <!-- Flight Details -->
             <div class="p-4 md:p-6 border-b border-gray-100">
-                <div class="flex justify-between items-center mb-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
                     <h2 class="text-lg md:text-xl font-bold text-gray-800">Your flight details</h2>
-                    <button class="text-sm font-medium text-booking-blue hover:underline flex items-center">
-                        <i class="fas fa-print mr-1"></i> Print itinerary
-                    </button>
+                    <div class="flex space-x-3">
+                        <button class="text-sm font-medium text-booking-blue hover:underline flex items-center whitespace-nowrap">
+                            <i class="fas fa-print mr-1.5"></i> Print itinerary
+                        </button>
+                        <button class="text-sm font-medium text-booking-blue hover:underline flex items-center whitespace-nowrap">
+                            <i class="fas fa-share-alt mr-1.5"></i> Share
+                        </button>
+                    </div>
                 </div>
                 
-                <div class="flight-route flex items-center justify-between mb-6">
+                <!-- Flight Route -->
+                <div class="flight-route flex flex-col md:flex-row items-stretch md:items-center justify-between mb-6 gap-4 md:gap-2">
                     <div class="flex-1">
                         <p class="text-gray-500 text-xs md:text-sm uppercase tracking-wider font-medium">Departure</p>
-                        <p class="text-base md:text-lg font-bold mt-1">San Antonio (SAT)</p>
-                        <p class="text-gray-600 text-sm md:text-base">San Antonio, Texas, USA</p>
-                        <p class="text-gray-800 font-medium mt-2">Fri, Jul 4 · 10:30 AM</p>
-                    </div>
-                    <div class="text-center mx-2 md:mx-4 flight-icon-container">
-                        <div class="w-12 h-12 md:w-16 md:h-16 bg-blue-50 rounded-full flex items-center justify-center flight-icon">
-                            <i class="fas fa-plane text-gray-500 text-lg md:text-xl"></i>
+                        <div class="flex items-center">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/San_Antonio_International_Airport_logo.svg/1200px-San_Antonio_International_Airport_logo.svg.png" alt="SAT Airport" class="h-8 mr-2">
+                            <div>
+                                <p class="text-base md:text-lg font-bold mt-1">San Antonio (SAT)</p>
+                                <p class="text-gray-600 text-sm md:text-base">San Antonio International Airport</p>
+                            </div>
                         </div>
-                        <p class="text-xs text-gray-500 mt-1 font-medium">Non-stop · 9h 45m</p>
+                        <p class="text-gray-800 font-medium mt-2 flex items-center">
+                            <span class="bg-gray-100 px-2 py-1 rounded mr-2 text-xs">Fri, Jul 4</span>
+                            10:30 AM
+                        </p>
                     </div>
-                    <div class="flex-1 text-right">
+                    
+                    <div class="flex flex-col items-center justify-center relative px-4 py-2 md:py-0">
+                        <div class="hidden md:block absolute inset-y-0 left-0 right-0 border-t border-gray-200 border-dashed"></div>
+                        <div class="w-12 h-12 md:w-16 md:h-16 bg-blue-50 rounded-full flex items-center justify-center z-10 shadow-inner">
+                            <i class="fas fa-plane text-gray-500 text-lg md:text-xl transform md:rotate-0 -rotate-90"></i>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1 font-medium bg-white md:bg-transparent px-1 z-10">Non-stop · 9h 45m</p>
+                    </div>
+                    
+                    <div class="flex-1 md:text-right">
                         <p class="text-gray-500 text-xs md:text-sm uppercase tracking-wider font-medium">Arrival</p>
-                        <p class="text-base md:text-lg font-bold mt-1">Venlo/Roermond</p>
-                        <p class="text-gray-600 text-sm md:text-base">Netherlands</p>
-                        <p class="text-gray-800 font-medium mt-2">Fri, Jul 4 · 7:15 PM</p>
+                        <div class="flex items-center md:justify-end">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Flughafen_D%C3%BCsseldorf_Logo.svg/1200px-Flughafen_D%C3%BCsseldorf_Logo.svg.png" alt="DUS Airport" class="h-8 mr-2">
+                            <div>
+                                <p class="text-base md:text-lg font-bold mt-1">Düsseldorf (DUS)</p>
+                                <p class="text-gray-600 text-sm md:text-base">Düsseldorf Airport</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-800 font-medium mt-2 flex md:justify-end items-center">
+                            <span class="bg-gray-100 px-2 py-1 rounded mr-2 text-xs">Sat, Jul 5</span>
+                            7:15 AM <span class="text-xs text-gray-500 ml-1">(+1 day)</span>
+                        </p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
-                    <div class="border border-gray-100 rounded-lg p-3 md:p-4 bg-gray-50">
-                        <p class="text-gray-500 text-xs md:text-sm uppercase tracking-wider font-medium">Flight number</p>
-                        <p class="font-bold text-sm md:text-base mt-1">BA 249</p>
-                        <p class="text-lg font-bold">Düsseldorf (DUS) • Lufthansa/American</p>                    </div>
-                    <div class="border border-gray-100 rounded-lg p-3 md:p-4 bg-gray-50">
-                        <p class="text-gray-500 text-xs md:text-sm uppercase tracking-wider font-medium">Return flight</p>
-                        <p class="font-bold text-sm md:text-base mt-1">Wed, Aug 6 · 2:15 PM</p>
-                        <p class="text-gray-600 text-xs md:text-sm mt-1">BA 250</p>
+                <!-- Flight Info Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 flight-details-grid">
+                    <div class="border border-gray-100 rounded-lg p-3 md:p-4 bg-gray-50 info-card">
+                        <p class="text-gray-500 text-xs md:text-sm uppercase tracking-wider font-medium">Outbound Flight</p>
+                        <p class="font-bold text-sm md:text-base mt-1">BA 249 · Boeing 787-9</p>
+                        <div class="flex items-center mt-2">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/British_Airways_Logo.svg/240px-British_Airways_Logo.svg.png" alt="British Airways" class="airline-logo mr-2">
+                            <span class="text-gray-600 text-xs md:text-sm">British Airways / American Airlines</span>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-gray-200 flex justify-between">
+                            <div>
+                                <p class="text-xs text-gray-500 font-medium">Terminal 1</p>
+                                <p class="text-xs text-gray-500">Gate A12</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-gray-500 font-medium">Seat 24B</p>
+                                <p class="text-xs text-gray-500">Window</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="border border-gray-100 rounded-lg p-3 md:p-4 bg-gray-50">
-                        <p class="text-gray-500 text-xs md:text-sm uppercase tracking-wider font-medium">Travel details</p>
-                        <p class="font-bold text-sm md:text-base mt-1">Economy Class</p>
-                        <p class="text-gray-600 text-xs md:text-sm mt-1">1 adult · 20kg baggage</p>
+                    
+                    <div class="border border-gray-100 rounded-lg p-3 md:p-4 bg-gray-50 info-card">
+                        <p class="text-gray-500 text-xs md:text-sm uppercase tracking-wider font-medium">Return Flight</p>
+                        <p class="font-bold text-sm md:text-base mt-1">Wed, Aug 6 · 2:15 PM</p>
+                        <div class="flex items-center mt-2">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/British_Airways_Logo.svg/240px-British_Airways_Logo.svg.png" alt="British Airways" class="airline-logo mr-2">
+                            <span class="text-gray-600 text-xs md:text-sm">BA 250 · Boeing 787-9</span>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-gray-200">
+                            <p class="text-xs text-gray-500">Check-in opens 24 hours before departure</p>
+                        </div>
+                    </div>
+                    
+                    <div class="border border-gray-100 rounded-lg p-3 md:p-4 bg-gray-50 info-card">
+                        <p class="text-gray-500 text-xs md:text-sm uppercase tracking-wider font-medium">Travel Details</p>
+                        <div class="flex justify-between mt-1">
+                            <div>
+                                <p class="font-bold text-sm md:text-base">Economy Class</p>
+                                <p class="text-gray-600 text-xs md:text-sm">Meal: Standard</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-sm md:text-base">1 Adult</p>
+                                <p class="text-gray-600 text-xs md:text-sm">20kg checked</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-gray-200 flex justify-between">
+                            <p class="text-xs text-gray-500">7kg cabin bag</p>
+                            <p class="text-xs text-gray-500">Personal item</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Price Summary -->
             <div class="p-4 md:p-6 border-b border-gray-100">
-                <h2 class="text-lg md:text-xl font-bold text-gray-800 mb-4">Price summary</h2>
+                <h2 class="text-lg md:text-xl font-bold text-gray-800 mb-4">Price Summary</h2>
                 <div class="space-y-3">
                     <div class="flex justify-between items-center">
                         <div>
@@ -178,6 +270,14 @@
                             <p class="text-gray-600 text-sm md:text-base">$124.50</p>
                         </div>
                     </div>
+                    <div class="flex justify-between items-center pt-2">
+                        <div>
+                            <p class="text-gray-600 text-sm md:text-base">Travel insurance</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-gray-600 text-sm md:text-base">$29.99</p>
+                        </div>
+                    </div>
                     <div class="border-t border-gray-200 pt-3 mt-2">
                         <div class="flex justify-between items-center">
                             <div>
@@ -185,7 +285,10 @@
                                 <p class="text-gray-500 text-xs">All prices in USD</p>
                             </div>
                             <div class="text-right">
-                                <p class="text-gray-800 text-xl md:text-2xl font-bold">$824.50</p>
+                                <div class="flex items-center justify-end">
+                                    <p class="text-gray-500 line-through mr-2 text-sm">$854.49</p>
+                                    <p class="text-gray-800 text-xl md:text-2xl font-bold">$824.50</p>
+                                </div>
                                 <p class="text-green-600 text-xs md:text-sm flex items-center justify-end">
                                     <i class="fas fa-tag mr-1"></i> You saved $150.00
                                 </p>
@@ -197,33 +300,36 @@
 
             <!-- Important Information -->
             <div class="p-4 md:p-6">
-                <h2 class="text-lg md:text-xl font-bold text-gray-800 mb-4">Important information</h2>
+                <h2 class="text-lg md:text-xl font-bold text-gray-800 mb-4">Important Information</h2>
                 <div class="space-y-3">
-                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 md:p-4 rounded-r-lg">
-                        <div class="flex items-start">
-                            <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-3"></i>
-                            <div>
-                                <p class="font-bold text-yellow-800 text-sm md:text-base">Check-in requirements</p>
-                                <p class="text-yellow-700 text-sm md:text-base mt-1">Please arrive at least 3 hours before departure for international flights. Have your passport and boarding pass ready.</p>
-                            </div>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 md:p-4 rounded-r-lg flex items-start">
+                        <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-3 text-lg"></i>
+                        <div>
+                            <p class="font-bold text-yellow-800 text-sm md:text-base">Check-in requirements</p>
+                            <p class="text-yellow-700 text-sm md:text-base mt-1">Online check-in opens 24 hours before departure. Airport check-in closes 60 minutes prior to departure.</p>
+                            <button class="text-yellow-700 text-xs font-medium mt-2 hover:underline flex items-center">
+                                <i class="fas fa-external-link-alt mr-1"></i> Check-in now (available Jul 3)
+                            </button>
                         </div>
                     </div>
-                    <div class="bg-blue-50 border-l-4 border-blue-400 p-3 md:p-4 rounded-r-lg">
-                        <div class="flex items-start">
-                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
-                            <div>
-                                <p class="font-bold text-blue-800 text-sm md:text-base">COVID-19 travel information</p>
-                                <p class="text-blue-700 text-sm md:text-base mt-1">Check the latest travel restrictions for your destination before departure. Some countries may require proof of vaccination or negative test results.</p>
-                            </div>
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-3 md:p-4 rounded-r-lg flex items-start">
+                        <i class="fas fa-info-circle text-blue-500 mt-1 mr-3 text-lg"></i>
+                        <div>
+                            <p class="font-bold text-blue-800 text-sm md:text-base">Travel documents</p>
+                            <p class="text-blue-700 text-sm md:text-base mt-1">Ensure you have a valid passport with at least 6 months validity. Some countries may require a visa.</p>
+                            <button class="text-blue-700 text-xs font-medium mt-2 hover:underline flex items-center">
+                                <i class="fas fa-search mr-1"></i> Check visa requirements
+                            </button>
                         </div>
                     </div>
-                    <div class="bg-gray-50 border-l-4 border-gray-400 p-3 md:p-4 rounded-r-lg">
-                        <div class="flex items-start">
-                            <i class="fas fa-suitcase text-gray-500 mt-1 mr-3"></i>
-                            <div>
-                                <p class="font-bold text-gray-800 text-sm md:text-base">Baggage allowance</p>
-                                <p class="text-gray-700 text-sm md:text-base mt-1">1 cabin bag (max 7kg) and 1 checked bag (max 20kg) included. Excess baggage fees apply for additional items.</p>
-                            </div>
+                    <div class="bg-gray-50 border-l-4 border-gray-400 p-3 md:p-4 rounded-r-lg flex items-start">
+                        <i class="fas fa-suitcase text-gray-500 mt-1 mr-3 text-lg"></i>
+                        <div>
+                            <p class="font-bold text-gray-800 text-sm md:text-base">Baggage policy</p>
+                            <p class="text-gray-700 text-sm md:text-base mt-1">1 cabin bag (max 7kg, 55x40x20cm) and 1 checked bag (max 20kg) included. Excess baggage fees apply.</p>
+                            <button class="text-gray-700 text-xs font-medium mt-2 hover:underline flex items-center">
+                                <i class="fas fa-plus-circle mr-1"></i> Add extra baggage
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -236,38 +342,43 @@
                 <h2 class="text-lg md:text-xl font-bold text-gray-800 mb-4">What's next?</h2>
                 <div class="space-y-4">
                     <div class="flex items-start">
-                        <div class="mr-3 md:mr-4 text-booking-blue bg-blue-50 p-2 rounded-full">
+                        <div class="mr-3 md:mr-4 text-white bg-booking-blue p-3 rounded-full shadow-md">
                             <i class="fas fa-envelope text-lg md:text-xl"></i>
                         </div>
                         <div>
                             <p class="font-bold text-sm md:text-base">Check your email</p>
-                            <p class="text-gray-600 text-sm md:text-base mt-1">We've sent your e-ticket to your email address. Check your spam folder if you don't see it within 15 minutes.</p>
-                            <button class="text-booking-blue text-sm font-medium mt-2 hover:underline flex items-center">
-                                <i class="fas fa-paper-plane mr-1"></i> Resend confirmation
-                            </button>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <div class="mr-3 md:mr-4 text-booking-blue bg-blue-50 p-2 rounded-full">
-                            <i class="fas fa-mobile-alt text-lg md:text-xl"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-sm md:text-base">Download your ticket</p>
-                            <p class="text-gray-600 text-sm md:text-base mt-1">Access your booking anytime with the Booking.com app. Your ticket is also available in the app.</p>
-                            <div class="flex space-x-3 mt-3">
-                                <img src="https://via.placeholder.com/120x40?text=App+Store" alt="App Store" class="h-10">
-                                <img src="https://via.placeholder.com/120x40?text=Google+Play" alt="Google Play" class="h-10">
+                            <p class="text-gray-600 text-sm md:text-base mt-1">We've sent your e-ticket and itinerary to <span class="font-medium">dreamschase30@gmail.com</span>. Check your spam folder if you don't see it.</p>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <button class="text-booking-blue text-sm font-medium hover:underline flex items-center border border-blue-100 px-3 py-1 rounded-lg">
+                                    <i class="fas fa-paper-plane mr-1"></i> Resend confirmation
+                                </button>
+                                <button class="text-booking-blue text-sm font-medium hover:underline flex items-center border border-blue-100 px-3 py-1 rounded-lg">
+                                    <i class="fas fa-envelope-open-text mr-1"></i> View e-ticket
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="flex items-start">
-                        <div class="mr-3 md:mr-4 text-booking-blue bg-blue-50 p-2 rounded-full">
+                        <div class="mr-3 md:mr-4 text-white bg-booking-blue p-3 rounded-full shadow-md">
+                            <i class="fas fa-mobile-alt text-lg md:text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm md:text-base">Get the mobile app</p>
+                            <p class="text-gray-600 text-sm md:text-base mt-1">Access your booking, check-in, and get flight updates on the go with our mobile app.</p>
+                            <div class="flex flex-wrap gap-3 mt-3">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/1280px-Download_on_the_App_Store_Badge.svg.png" alt="App Store" class="h-10 rounded-lg">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1280px-Google_Play_Store_badge_EN.svg.png" alt="Google Play" class="h-10 rounded-lg">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="mr-3 md:mr-4 text-white bg-booking-blue p-3 rounded-full shadow-md">
                             <i class="fas fa-credit-card text-lg md:text-xl"></i>
                         </div>
                         <div>
                             <p class="font-bold text-sm md:text-base">Payment receipt</p>
-                            <p class="text-gray-600 text-sm md:text-base mt-1">Your payment receipt has been sent to your email. You can also download it from your Booking.com account.</p>
-                            <button class="text-booking-blue text-sm font-medium mt-2 hover:underline flex items-center">
+                            <p class="text-gray-600 text-sm md:text-base mt-1">Your payment of $824.50 was processed successfully. A receipt has been sent to your email.</p>
+                            <button class="text-booking-blue text-sm font-medium mt-2 hover:underline flex items-center border border-blue-100 px-3 py-1 rounded-lg">
                                 <i class="fas fa-download mr-1"></i> Download receipt
                             </button>
                         </div>
@@ -283,45 +394,49 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <a href="#" class="border border-gray-200 rounded-lg p-3 md:p-4 hover:bg-blue-50 transition-colors group">
                         <div class="flex items-center">
-                            <div class="mr-3 md:mr-4 text-booking-blue bg-blue-100 p-2 rounded-full group-hover:bg-blue-200 transition-colors">
+                            <div class="mr-3 md:mr-4 text-white bg-booking-blue p-3 rounded-full group-hover:bg-blue-800 transition-colors">
                                 <i class="fas fa-phone-alt text-lg md:text-xl"></i>
                             </div>
                             <div>
-                                <p class="font-bold text-sm md:text-base">Contact customer service</p>
-                                <p class="text-gray-600 text-xs md:text-sm mt-1">Available 24/7 for urgent matters</p>
+                                <p class="font-bold text-sm md:text-base">24/7 Customer Service</p>
+                                <p class="text-gray-600 text-xs md:text-sm mt-1">+1 (555) 123-4567</p>
+                                <p class="text-booking-blue text-xs mt-1 font-medium">Available for urgent matters</p>
                             </div>
                         </div>
                     </a>
                     <a href="#" class="border border-gray-200 rounded-lg p-3 md:p-4 hover:bg-blue-50 transition-colors group">
                         <div class="flex items-center">
-                            <div class="mr-3 md:mr-4 text-booking-blue bg-blue-100 p-2 rounded-full group-hover:bg-blue-200 transition-colors">
+                            <div class="mr-3 md:mr-4 text-white bg-booking-blue p-3 rounded-full group-hover:bg-blue-800 transition-colors">
                                 <i class="fas fa-comments text-lg md:text-xl"></i>
                             </div>
                             <div>
-                                <p class="font-bold text-sm md:text-base">Live chat</p>
-                                <p class="text-gray-600 text-xs md:text-sm mt-1">Get instant help from our agents</p>
+                                <p class="font-bold text-sm md:text-base">Live Chat Support</p>
+                                <p class="text-gray-600 text-xs md:text-sm mt-1">Average wait time: 2 minutes</p>
+                                <p class="text-booking-blue text-xs mt-1 font-medium">Get instant help</p>
                             </div>
                         </div>
                     </a>
                     <a href="#" class="border border-gray-200 rounded-lg p-3 md:p-4 hover:bg-blue-50 transition-colors group">
                         <div class="flex items-center">
-                            <div class="mr-3 md:mr-4 text-booking-blue bg-blue-100 p-2 rounded-full group-hover:bg-blue-200 transition-colors">
-                                <i class="fas fa-question-circle text-lg md:text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-sm md:text-base">FAQs</p>
-                                <p class="text-gray-600 text-xs md:text-sm mt-1">Find answers to common questions</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="border border-gray-200 rounded-lg p-3 md:p-4 hover:bg-blue-50 transition-colors group">
-                        <div class="flex items-center">
-                            <div class="mr-3 md:mr-4 text-booking-blue bg-blue-100 p-2 rounded-full group-hover:bg-blue-200 transition-colors">
+                            <div class="mr-3 md:mr-4 text-white bg-booking-blue p-3 rounded-full group-hover:bg-blue-800 transition-colors">
                                 <i class="fas fa-exchange-alt text-lg md:text-xl"></i>
                             </div>
                             <div>
-                                <p class="font-bold text-sm md:text-base">Manage booking</p>
-                                <p class="text-gray-600 text-xs md:text-sm mt-1">Make changes or cancel your flight</p>
+                                <p class="font-bold text-sm md:text-base">Manage Booking</p>
+                                <p class="text-gray-600 text-xs md:text-sm mt-1">Change flight, select seats, add baggage</p>
+                                <p class="text-booking-blue text-xs mt-1 font-medium">Modify your reservation</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="border border-gray-200 rounded-lg p-3 md:p-4 hover:bg-blue-50 transition-colors group">
+                        <div class="flex items-center">
+                            <div class="mr-3 md:mr-4 text-white bg-booking-blue p-3 rounded-full group-hover:bg-blue-800 transition-colors">
+                                <i class="fas fa-question-circle text-lg md:text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-sm md:text-base">FAQs & Help Center</p>
+                                <p class="text-gray-600 text-xs md:text-sm mt-1">Find answers to common questions</p>
+                                <p class="text-booking-blue text-xs mt-1 font-medium">Browse help topics</p>
                             </div>
                         </div>
                     </a>
@@ -337,44 +452,50 @@
                 <div>
                     <h3 class="font-bold text-gray-800 mb-4 text-sm">CUSTOMER SERVICE</h3>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors">Help Center</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors">Contact Us</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors">Feedback</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Help Center</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Contact Us</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Feedback</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="font-bold text-gray-800 mb-4 text-sm">LEGAL</h3>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors">Terms & Conditions</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Terms & Conditions</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Cookie Policy</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="font-bold text-gray-800 mb-4 text-sm">COMPANY</h3>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors">About Booking.com</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors">Careers</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors">Press Center</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> About Booking.com</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Careers</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-booking-blue text-sm transition-colors flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Press Center</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="font-bold text-gray-800 mb-4 text-sm">STAY CONNECTED</h3>
                     <div class="flex space-x-4 mb-4">
-                        <a href="#" class="text-gray-600 hover:text-booking-blue transition-colors"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-gray-600 hover:text-booking-blue transition-colors"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-gray-600 hover:text-booking-blue transition-colors"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-600 hover:text-booking-blue transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-booking-blue transition-colors bg-white p-2 rounded-full w-8 h-8 flex items-center justify-center"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-booking-blue transition-colors bg-white p-2 rounded-full w-8 h-8 flex items-center justify-center"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-booking-blue transition-colors bg-white p-2 rounded-full w-8 h-8 flex items-center justify-center"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-booking-blue transition-colors bg-white p-2 rounded-full w-8 h-8 flex items-center justify-center"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <div class="flex space-x-2">
-                        <img src="https://via.placeholder.com/80x40?text=App+Store" alt="App Store" class="h-10">
-                        <img src="https://via.placeholder.com/80x40?text=Google+Play" alt="Google Play" class="h-10">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/1280px-Download_on_the_App_Store_Badge.svg.png" alt="App Store" class="h-10">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1280px-Google_Play_Store_badge_EN.svg.png" alt="Google Play" class="h-10">
                     </div>
                 </div>
             </div>
             <div class="mt-8 pt-8 border-t text-center text-gray-500 text-xs">
                 <p>© 2023 Booking.com. Part of Booking Holdings Inc. All rights reserved.</p>
-                <p class="mt-2">Booking.com is an online travel agency, offering accommodation booking services through its own websites.</p>
+                <p class="mt-2">Booking.com is an online travel agency, offering accommodation and flight booking services through its own websites.</p>
+                <div class="flex justify-center space-x-4 mt-4">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" class="h-6">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="Mastercard" class="h-6">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/American_Express_logo.svg/1200px-American_Express_logo.svg.png" alt="American Express" class="h-6">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1280px-PayPal.svg.png" alt="PayPal" class="h-6">
+                </div>
             </div>
         </div>
     </footer>
