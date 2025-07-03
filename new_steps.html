@@ -1,0 +1,569 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 max-w-3xl" style="background-color: #2f304e;">
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-2 text-white">Transfer Funds</h2>
+        <p class="text-[#b8b9d6]">Choose transfer type and enter recipient details</p>
+    </div>
+
+    <!-- Transfer Type Selection -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <button id="internalTransferBtn" class="transfer-type-btn bg-[#3d3e5e] text-white py-4 rounded-xl border-2 border-[#4a4b6a] transition-all hover:border-[#7d83ff] hover:bg-[#4a4b6a] font-medium">
+            <i class="fas fa-users mr-2"></i>
+            Internal Transfer
+        </button>
+        <button id="externalTransferBtn" class="transfer-type-btn bg-[#3d3e5e] text-white py-4 rounded-xl border-2 border-[#4a4b6a] transition-all hover:border-[#7d83ff] hover:bg-[#4a4b6a] font-medium">
+            <i class="fas fa-external-link-alt mr-2"></i>
+            External Transfer
+        </button>
+    </div>
+
+    <!-- Internal Transfer Form -->
+    <div id="internalTransferForm" class="hidden">
+        <div class="bg-[#3d3e5e] rounded-xl shadow-lg p-6 mb-6 border border-[#4a4b6a]">
+            <!-- Wallet ID Input -->
+            <div class="mb-6">
+                <label class="block text-white font-medium mb-2" for="walletId">
+                    Recipient Wallet ID
+                </label>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="text" id="walletId" class="flex-1 bg-[#2f304e] border border-[#4a4b6a] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7d83ff] text-white" placeholder="Enter wallet ID">
+                    <button id="fetchUserBtn" class="bg-[#7d83ff] text-white px-6 py-3 rounded-lg hover:bg-[#6a70e0] transition-colors whitespace-nowrap">
+                        Verify
+                    </button>
+                </div>
+            </div>
+
+            <!-- Verified User Info -->
+            <div id="userInfo" class="hidden mb-6 p-4 bg-[#2f304e] rounded-lg border border-[#4a4b6a]">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-[#7d83ff] flex items-center justify-center text-white mr-4">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h4 id="recipientUsername" class="font-medium text-white">Loading...</h4>
+                        <p class="text-[#b8b9d6] text-sm">Wallet ID: <span id="displayWalletId" class="text-white">----</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transfer Source -->
+            <div class="mb-6">
+                <label class="block text-white font-medium mb-2" for="transferSource">
+                    Transfer From
+                </label>
+                <select id="transferSource" class="w-full bg-[#2f304e] border border-[#4a4b6a] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7d83ff] text-white">
+                    <option value="main">Main Balance</option>
+                    <option value="holding">Active Holding</option>
+                </select>
+            </div>
+
+            <!-- Coin Selection -->
+            <div id="coinSelection" class="hidden mb-6">
+                <label class="block text-white font-medium mb-2" for="coin">
+                    Select Coin
+                </label>
+                <select id="coin" class="w-full bg-[#2f304e] border border-[#4a4b6a] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7d83ff] text-white">
+                    {% if coin_data %}
+                        <option value="" disabled selected>-- Select Coin --</option>
+                        {% for symbol, amount in coin_data %}
+                            <option value="{{ symbol }}">{{ symbol }} — {{ amount|floatformat:8 }}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="" disabled selected>No holdings available</option>
+                    {% endif %}
+                </select>
+            </div>
+
+            <!-- Amount -->
+            <div class="mb-6">
+                <label class="block text-white font-medium mb-2" for="amount">
+                    Amount
+                </label>
+                <input type="number" id="amount" class="w-full bg-[#2f304e] border border-[#4a4b6a] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7d83ff] text-white" placeholder="0.00">
+                <div id="coinAmountLabel" class="text-[#b8b9d6] text-sm mt-2 hidden">
+                    Enter amount in <span id="selectedCoin" class="text-white font-medium"></span>
+                </div>
+            </div>
+
+            <input type="hidden" id="verifiedAccountId">
+
+            <button id="submitInternalTransfer" class="w-full bg-[#7d83ff] text-white py-3 rounded-lg hover:bg-[#6a70e0] transition-colors font-medium">
+                Transfer Funds
+            </button>
+        </div>
+    </div>
+
+    <!-- External Transfer Form -->
+    <div id="externalTransferForm" class="hidden">
+        <div class="bg-[#3d3e5e] rounded-xl shadow-lg p-6 border border-[#4a4b6a]">
+            <div class="mb-6">
+                <label class="block text-white font-medium mb-2" for="externalWalletId">
+                    Recipient Wallet Address
+                </label>
+                <input type="text" id="externalWalletId" class="w-full bg-[#2f304e] border border-[#4a4b6a] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7d83ff] text-white" placeholder="Enter external wallet address">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-white font-medium mb-2" for="externalAmount">
+                    Amount
+                </label>
+                <input type="number" id="externalAmount" class="w-full bg-[#2f304e] border border-[#4a4b6a] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7d83ff] text-white" placeholder="0.00">
+            </div>
+
+            <button id="submitExternalTransfer" class="w-full bg-[#7d83ff] text-white py-3 rounded-lg hover:bg-[#6a70e0] transition-colors font-medium">
+                Send Funds
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Processing Overlay -->
+<div id="processingOverlay" class="fixed inset-0 bg-[#2f304e] bg-opacity-95 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-[#3d3e5e] rounded-xl p-8 max-w-md w-full mx-4 text-center border border-[#4a4b6a]">
+        <div class="w-full bg-[#2f304e] rounded-full h-2.5 mb-6">
+            <div id="progressBar" class="bg-[#7d83ff] h-2.5 rounded-full" style="width: 0%"></div>
+        </div>
+        
+        <div class="animate-pulse flex flex-col items-center mb-6">
+            <div class="h-16 w-16 bg-[#7d83ff] rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-spinner text-white text-2xl animate-spin"></i>
+            </div>
+            <h3 class="text-xl font-medium text-white mb-2" id="processingStep">Initializing Transfer</h3>
+            <p class="text-[#b8b9d6]">Please wait while we process your request</p>
+        </div>
+    </div>
+</div>
+
+<!-- Verification Code Overlay -->
+<div id="verificationOverlay" class="fixed inset-0 bg-[#2f304e] bg-opacity-95 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-[#3d3e5e] rounded-xl p-8 max-w-md w-full mx-4 border border-[#4a4b6a]">
+        <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-[#2f304e] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#7d83ff]">
+                <i class="fas fa-shield-alt text-[#7d83ff] text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-medium text-white mb-2" id="verificationCodeTitle">Security Verification</h3>
+            <p class="text-[#b8b9d6] text-sm mb-2" id="verificationStepInfo">Step 1 of 3</p>
+            <p class="text-[#b8b9d6]" id="verificationCodeMessage">Please enter your 6-digit verification code</p>
+        </div>
+        
+        <div class="mb-6">
+            <label class="block text-white font-medium mb-2" for="verificationCodeInput">
+                Verification Code
+            </label>
+            <input type="text" id="verificationCodeInput" class="w-full bg-[#2f304e] border border-[#4a4b6a] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#7d83ff] text-white text-center text-xl tracking-widest" placeholder="______" maxlength="6">
+            <p class="text-[#b8b9d6] text-sm mt-2">Check your verification codes in the Security section</p>
+        </div>
+        
+        <div class="flex gap-2">
+            <button id="cancelVerification" class="flex-1 bg-[#4a4b6a] text-white py-3 rounded-lg hover:bg-[#3d3e5e] transition-colors">
+                Cancel
+            </button>
+            <button id="submitVerification" class="flex-1 bg-[#7d83ff] text-white py-3 rounded-lg hover:bg-[#6a70e0] transition-colors">
+                Verify
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Authorization Overlay -->
+<div id="authorizationOverlay" class="fixed inset-0 bg-[#2f304e] bg-opacity-95 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-[#3d3e5e] rounded-xl p-8 max-w-md w-full mx-4 text-center border border-[#4a4b6a]">
+        <div class="w-16 h-16 bg-[#2f304e] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#f59e0b]">
+            <i class="fas fa-exclamation-triangle text-[#f59e0b] text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-medium text-white mb-2">Authorization Required</h3>
+        <p class="text-[#b8b9d6] mb-6" id="authorizationMessage">You need to verify your identity to complete this action.</p>
+        <button id="proceedToVerificationBtn" class="bg-[#7d83ff] text-white px-6 py-2 rounded-lg hover:bg-[#6a70e0] transition-colors mr-2">
+            Verify Now
+        </button>
+        <button id="cancelAuthorizationBtn" class="bg-[#4a4b6a] text-white px-6 py-2 rounded-lg hover:bg-[#3d3e5e] transition-colors">
+            Cancel
+        </button>
+    </div>
+</div>
+
+<!-- Success Overlay -->
+<div id="successOverlay" class="fixed inset-0 bg-[#2f304e] bg-opacity-95 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-[#3d3e5e] rounded-xl p-8 max-w-md w-full mx-4 text-center border border-[#4a4b6a]">
+        <div class="w-16 h-16 bg-[#2f304e] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#4ade80]">
+            <i class="fas fa-check text-[#4ade80] text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-medium text-white mb-2">Transfer Successful!</h3>
+        <p class="text-[#b8b9d6] mb-6" id="successMessage">Your funds have been sent successfully</p>
+        <button id="closeSuccessOverlay" class="bg-[#7d83ff] text-white px-6 py-2 rounded-lg hover:bg-[#6a70e0] transition-colors">
+            Done
+        </button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // DOM Elements
+    const internalBtn = document.getElementById('internalTransferBtn');
+    const externalBtn = document.getElementById('externalTransferBtn');
+    const internalForm = document.getElementById('internalTransferForm');
+    const externalForm = document.getElementById('externalTransferForm');
+    const fetchUserBtn = document.getElementById('fetchUserBtn');
+    const userInfo = document.getElementById('userInfo');
+    const walletIdInput = document.getElementById('walletId');
+    const displayWalletId = document.getElementById('displayWalletId');
+    const recipientUsername = document.getElementById('recipientUsername');
+    const verifiedAccountId = document.getElementById('verifiedAccountId');
+    const transferSource = document.getElementById('transferSource');
+    const coinSelection = document.getElementById('coinSelection');
+    const coinSelect = document.getElementById('coin');
+    const coinAmountLabel = document.getElementById('coinAmountLabel');
+    const selectedCoinSpan = document.getElementById('selectedCoin');
+    const submitExternalBtn = document.getElementById('submitExternalTransfer');
+    const verificationOverlay = document.getElementById('verificationOverlay');
+    const verificationInput = document.getElementById('verificationCodeInput');
+    const submitVerificationBtn = document.getElementById('submitVerification');
+    const cancelVerificationBtn = document.getElementById('cancelVerification');
+    const processingOverlay = document.getElementById('processingOverlay');
+    const progressBar = document.getElementById('progressBar');
+    const processingStep = document.getElementById('processingStep');
+    const successOverlay = document.getElementById('successOverlay');
+    const successMessage = document.getElementById('successMessage');
+    const authorizationOverlay = document.getElementById('authorizationOverlay');
+    const authorizationMessage = document.getElementById('authorizationMessage');
+    const proceedToVerificationBtn = document.getElementById('proceedToVerificationBtn');
+    const cancelAuthorizationBtn = document.getElementById('cancelAuthorizationBtn');
+    const closeSuccessOverlay = document.getElementById('closeSuccessOverlay');
+
+    // Initialize UI
+    internalBtn.classList.add('border-[#7d83ff]', 'bg-[#4a4b6a]');
+    internalForm.classList.remove('hidden');
+
+    // Event Listeners
+    internalBtn.addEventListener('click', () => toggleTransferType('internal'));
+    externalBtn.addEventListener('click', () => toggleTransferType('external'));
+    transferSource.addEventListener('change', handleTransferSourceChange);
+    if (coinSelect) coinSelect.addEventListener('change', handleCoinSelection);
+    fetchUserBtn.addEventListener('click', verifyRecipient);
+    document.getElementById('submitInternalTransfer').addEventListener('click', submitInternalTransfer);
+    submitExternalBtn.addEventListener('click', initiateExternalTransfer);
+    submitVerificationBtn.addEventListener('click', verifyTransferCode);
+    cancelVerificationBtn.addEventListener('click', cancelVerification);
+    proceedToVerificationBtn.addEventListener('click', proceedToVerification);
+    cancelAuthorizationBtn.addEventListener('click', cancelAuthorization);
+    closeSuccessOverlay.addEventListener('click', closeSuccess);
+    verificationInput.addEventListener('input', handleVerificationInput);
+
+    // Functions
+    function toggleTransferType(type) {
+        if (type === 'internal') {
+            internalBtn.classList.add('border-[#7d83ff]', 'bg-[#4a4b6a]');
+            externalBtn.classList.remove('border-[#7d83ff]', 'bg-[#4a4b6a]');
+            internalForm.classList.remove('hidden');
+            externalForm.classList.add('hidden');
+        } else {
+            externalBtn.classList.add('border-[#7d83ff]', 'bg-[#4a4b6a]');
+            internalBtn.classList.remove('border-[#7d83ff]', 'bg-[#4a4b6a]');
+            externalForm.classList.remove('hidden');
+            internalForm.classList.add('hidden');
+        }
+    }
+
+    function handleTransferSourceChange() {
+        const isHolding = this.value === 'holding';
+        coinSelection.classList.toggle('hidden', !isHolding);
+        coinAmountLabel.classList.toggle('hidden', !isHolding);
+        if (!isHolding && coinSelect) coinSelect.value = '';
+    }
+
+    function handleCoinSelection() {
+        if (this.value) {
+            selectedCoinSpan.textContent = this.value.split(' ')[0];
+            coinAmountLabel.classList.remove('hidden');
+        } else {
+            coinAmountLabel.classList.add('hidden');
+        }
+    }
+
+    async function verifyRecipient() {
+        const accountId = walletIdInput.value.trim();
+        if (!accountId) return showAuthorizationMessage("Please enter a wallet ID");
+
+        showProcessing("Verifying recipient...");
+
+        try {
+            const response = await fetch("/transfer/verify-user/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie('csrftoken')
+                },
+                body: JSON.stringify({ account_id: accountId })
+            });
+            const data = await response.json();
+
+            hideProcessing();
+            
+            if (data.success) {
+                displayWalletId.textContent = accountId;
+                recipientUsername.textContent = data.username;
+                verifiedAccountId.value = accountId;
+                userInfo.classList.remove('hidden');
+            } else {
+                showAuthorizationMessage(data.error || "User not found.");
+                userInfo.classList.add('hidden');
+            }
+        } catch (error) {
+            hideProcessing();
+            showAuthorizationMessage("Something went wrong. Try again.");
+        }
+    }
+
+    async function submitInternalTransfer() {
+        const accountId = verifiedAccountId.value.trim();
+        const amountInput = document.getElementById('amount').value.trim();
+        const amount = parseFloat(amountInput);
+        const source = transferSource.value;
+        const coin = coinSelect ? coinSelect.value : null;
+
+        if (!accountId) return showAuthorizationMessage("Please verify the recipient first.");
+        if (!amountInput || isNaN(amount) || amount <= 0) return showAuthorizationMessage("Enter a valid amount greater than zero.");
+        if (source === "holding" && (!coin || coin.trim() === "")) return showAuthorizationMessage("Please select a coin from your holdings.");
+
+        showProcessing("Processing internal transfer...");
+
+        try {
+            const response = await fetch("/transfer/internal-transfer/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    recipient_account_id: accountId,
+                    amount,
+                    source,
+                    coin: source === "holding" ? coin : null
+                })
+            });
+            const data = await response.json();
+
+            hideProcessing();
+            
+            if (data.success) {
+                successMessage.textContent = "✅ Transfer successful!";
+                successOverlay.classList.remove('hidden');
+                // Reset form
+                document.getElementById('amount').value = '';
+                if (coinSelect) coinSelect.value = '';
+                userInfo.classList.add('hidden');
+                verifiedAccountId.value = '';
+            } else {
+                showAuthorizationMessage(data.error || "Transfer failed.");
+            }
+        } catch (error) {
+            hideProcessing();
+            showAuthorizationMessage("Error during transfer. Try again.");
+        }
+    }
+
+    async function initiateExternalTransfer() {
+        const walletAddress = document.getElementById('externalWalletId').value.trim();
+        const amount = document.getElementById('externalAmount').value.trim();
+        
+        if (!walletAddress) return showAuthorizationMessage("Please enter a wallet address");
+        if (!amount || parseFloat(amount) <= 0) return showAuthorizationMessage("Please enter a valid amount");
+
+        showProcessing("Initiating transfer...");
+
+        try {
+            const response = await fetch("/transfer/external-transfer/initiate/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    wallet_address: walletAddress,
+                    amount: amount
+                })
+            });
+            const data = await response.json();
+
+            hideProcessing();
+            
+            if (data.success) {
+                showVerificationOverlay(data.transfer_request_id, data.verification);
+            } else {
+                showAuthorizationMessage(data.error || "Failed to initiate transfer");
+            }
+        } catch (error) {
+            hideProcessing();
+            showAuthorizationMessage("Network error. Please try again.");
+        }
+    }
+
+    async function verifyTransferCode() {
+        const code = verificationInput.value.trim();
+        const transferRequestId = submitVerificationBtn.dataset.transferRequestId;
+        
+        if (code.length !== 6) return showAuthorizationMessage("Please enter a 6-digit code");
+
+        verificationOverlay.classList.add('hidden');
+        showProcessing("Verifying code...");
+
+        try {
+            const response = await fetch("/transfer/external-transfer/verify/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    code: code,
+                    transfer_request_id: transferRequestId
+                })
+            });
+            const data = await response.json();
+
+            hideProcessing();
+            
+            if (!data.success) return showAuthorizationMessage(data.error || "Verification failed");
+
+            if (data.status === 'continue') {
+                showVerificationOverlay(transferRequestId, data.verification);
+            } else if (data.status === 'completed') {
+                successMessage.textContent = data.message || "Transfer completed successfully!";
+                successOverlay.classList.remove('hidden');
+                document.getElementById('externalWalletId').value = '';
+                document.getElementById('externalAmount').value = '';
+            }
+        } catch (error) {
+            hideProcessing();
+            showAuthorizationMessage("Network error. Please try again.");
+        }
+    }
+
+    function showVerificationOverlay(transferRequestId, verificationInfo) {
+        document.getElementById('verificationCodeTitle').textContent = verificationInfo.code_title;
+        document.getElementById('verificationCodeMessage').textContent = verificationInfo.message;
+        document.getElementById('verificationStepInfo').textContent = 
+            `Step ${verificationInfo.current_step} of ${verificationInfo.total_steps}`;
+        
+        submitVerificationBtn.dataset.transferRequestId = transferRequestId;
+        verificationInput.value = '';
+        verificationOverlay.classList.remove('hidden');
+        verificationInput.focus();
+    }
+
+    function cancelVerification() {
+        verificationOverlay.classList.add('hidden');
+        verificationInput.value = '';
+    }
+
+    function proceedToVerification() {
+        authorizationOverlay.classList.add('hidden');
+        verificationOverlay.classList.remove('hidden');
+    }
+
+    function cancelAuthorization() {
+        authorizationOverlay.classList.add('hidden');
+    }
+
+    function closeSuccess() {
+        successOverlay.classList.add('hidden');
+    }
+
+    function handleVerificationInput() {
+        if (this.value.length === 6) {
+            submitVerificationBtn.click();
+        }
+    }
+
+    function showProcessing(message) {
+        processingStep.textContent = message;
+        processingOverlay.classList.remove('hidden');
+    }
+
+    function hideProcessing() {
+        processingOverlay.classList.add('hidden');
+    }
+
+    function showAuthorizationMessage(message) {
+        authorizationMessage.textContent = message;
+        authorizationOverlay.classList.remove('hidden');
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+
+<style>
+body {
+    background-color: #2f304e !important;
+}
+
+.transfer-type-btn {
+    transition: all 0.3s ease;
+}
+
+.transfer-type-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(125, 131, 255, 0.2);
+}
+
+#verificationCodeInput {
+    letter-spacing: 0.5em;
+}
+
+#processingOverlay .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .transfer-type-btn {
+        padding: 1rem 0.5rem;
+    }
+    
+    #walletId {
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    #fetchUserBtn, #submitVerification, #cancelVerification, 
+    #proceedToVerificationBtn, #cancelAuthorizationBtn {
+        width: 100%;
+        border-radius: 0.5rem;
+    }
+    
+    #proceedToVerificationBtn, #cancelAuthorizationBtn {
+        margin-bottom: 0.5rem;
+        margin-right: 0;
+    }
+}
+</style>
+{% endblock %}
