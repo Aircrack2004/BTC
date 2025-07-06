@@ -3,624 +3,439 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suncorp Bank | Dashboard</title>
+    <title>Chase Bank Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        chase: {
+                            blue: '#117aca',
+                            navy: '#0e5f9a',
+                            dark: '#0d1c25',
+                            darker: '#0a151c',
+                            teal: '#00a3ad',
+                            green: '#2d9d78',
+                            alert: '#e53d3d',
+                            light: '#e6f2fa',
+                            gold: '#ffd700'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Open Sans', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'chase-card': '0 4px 20px rgba(0, 0, 0, 0.15)',
+                        'chase-nav': '0 2px 10px rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary: #004F9F;  /* Classic Australian banking blue */
-            --primary-light: #E6F0FA;
-            --secondary: #E4002B;  /* Australian accent red */
-            --success: #00A651;   /* Green for positive amounts */
-            --text: #2C3E50;
-            --text-light: #7F8C8D;
-            --bg: #F5F7FA;
-            --card-bg: #FFFFFF;
-            --border: #E0E0E0;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --transition: all 0.2s ease;
+        .chase-card {
+            background: linear-gradient(145deg, #0d1c25 0%, #0a151c 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
         }
-
-        [data-theme="dark"] {
-            --primary: #1E88E5;
-            --primary-light: #0D3050;
-            --secondary: #FF5A5F;
-            --text: #ECF0F1;
-            --text-light: #BDC3C7;
-            --bg: #121A24;
-            --card-bg: #1E2A3A;
-            --border: #2C3E50;
+        .chase-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        .chase-gradient {
+            background: linear-gradient(135deg, #117aca 0%, #0e5f9a 100%);
         }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            transition: var(--transition);
+        .chase-nav-item {
+            position: relative;
+            transition: all 0.2s ease;
         }
-
-        #app {
-            max-width: 480px;
-            margin: 0 auto;
-            padding-bottom: 80px;
+        .chase-nav-item.active:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #117aca;
+            border-radius: 3px 3px 0 0;
         }
-
-        /* Header */
-        .app-header {
-            padding: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--primary);
-            color: white;
-        }
-
-        .bank-logo {
-            font-weight: 700;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo-icon {
-            color: white;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 16px;
-        }
-
-        .header-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-        }
-
-        /* Accounts Section - Now at the top */
-        .accounts-section {
-            padding: 16px;
-            background: var(--bg);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .view-all {
-            color: var(--primary);
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-        }
-
-        .account-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: var(--shadow-md);
+        .welcome-container {
+            background: linear-gradient(135deg, #117aca 0%, #0e5f9a 100%);
+            border-radius: 12px;
             position: relative;
             overflow: hidden;
         }
-
-        .account-card::before {
+        .welcome-container::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--primary);
-        }
-
-        .account-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .account-name {
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .account-number {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-top: 2px;
-        }
-
-        .account-balance {
-            font-size: 24px;
-            font-weight: 700;
-            margin: 8px 0;
-        }
-
-        .account-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .small-btn {
-            padding: 6px 12px;
-            background: var(--bg);
-            border: none;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--primary);
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: flex;
-            padding: 16px;
-            gap: 12px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            background: var(--card-bg);
-            margin: 0 16px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .quick-actions::-webkit-scrollbar {
-            display: none;
-        }
-
-        .action-btn {
-            min-width: 80px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 8px;
-            background: var(--bg);
-            border-radius: 12px;
-            border: none;
-            color: var(--text);
-        }
-
-        .action-icon {
-            width: 40px;
-            height: 40px;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 50%;
-            background: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 18px;
         }
-
-        .action-label {
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        /* Quick Payees */
-        .quick-payees {
-            display: flex;
-            padding: 16px;
-            gap: 16px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            margin: 16px;
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .quick-payees::-webkit-scrollbar {
-            display: none;
-        }
-
-        .quick-payee {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 64px;
-        }
-
-        .payee-avatar {
-            width: 48px;
-            height: 48px;
+        .welcome-container::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: 10%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 50%;
-            background: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 4px;
         }
-
-        .payee-name {
-            font-size: 12px;
-            text-align: center;
+        .footer-link {
+            position: relative;
+            transition: all 0.2s ease;
         }
-
-        /* Transactions */
-        .transactions-section {
-            padding: 16px;
-            margin-top: 8px;
+        .footer-link:hover {
+            transform: translateX(5px);
         }
-
-        .transaction {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
+        .footer-link::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            opacity: 0;
+            transition: all 0.2s ease;
         }
-
-        .transaction-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .footer-link:hover::after {
+            opacity: 1;
+            right: -20px;
         }
-
-        .transaction-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-        }
-
-        .transaction-details h4 {
-            font-size: 15px;
-            font-weight: 500;
-        }
-
-        .transaction-details p {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-top: 2px;
-        }
-
-        .transaction-amount {
-            font-weight: 600;
-            text-align: right;
-        }
-
-        .transaction-amount.positive {
-            color: var(--success);
-        }
-
-        /* Australian Specific Elements */
-        .pay-id-badge {
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-            margin-top: 4px;
-            display: inline-block;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--card-bg);
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-            max-width: 480px;
-            margin: 0 auto;
-            border-top: 1px solid var(--border);
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 10px;
-            gap: 4px;
-        }
-
-        .nav-icon {
-            font-size: 20px;
-        }
-
-        .nav-item.active {
-            color: var(--primary);
-        }
-
-        .nav-item.active .nav-icon {
-            color: var(--primary);
+        @media (min-width: 1024px) {
+            .welcome-container {
+                padding: 2.5rem;
+            }
         }
     </style>
 </head>
-<body>
-    <div id="app">
-        <!-- Header -->
-        <header class="app-header">
-            <div class="bank-logo">
-                <i class="fas fa-dollar-sign logo-icon"></i>
-                <span>Suncorp Bank</span>
-            </div>
-            <div class="header-actions">
-                <button class="header-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-                <button class="header-btn" id="themeToggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
-        </header>
-
-        <!-- My Accounts Section - Now at the top -->
-        <section class="accounts-section">
-            <div class="section-header">
-                <h2 class="section-title">My Accounts</h2>
-                <a href="#" class="view-all">View all</a>
-            </div>
-
-            <div class="account-card">
-                <div class="account-header">
-                    <div>
-                        <div class="account-name">Everyday Account</div>
-                        <div class="account-number">•••• 7832</div>
-                        <span class="pay-id-badge">PayID: 0400 123 456</span>
+<body class="font-sans bg-chase-dark text-gray-300 min-h-screen flex flex-col">
+    <!-- Top Navigation -->
+    <nav class="bg-chase-darker border-b border-gray-800 shadow-chase-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <div class="hidden md:flex space-x-6">
+                        <a href="#" class="chase-nav-item active text-white px-1 pt-1 pb-1 text-sm font-medium">Accounts</a>
+                        <a href="#" class="chase-nav-item text-gray-400 hover:text-white px-1 pt-1 pb-1 text-sm font-medium">Pay & Transfer</a>
+                        <a href="#" class="chase-nav-item text-gray-400 hover:text-white px-1 pt-1 pb-1 text-sm font-medium">Credit Cards</a>
+                        <a href="#" class="chase-nav-item text-gray-400 hover:text-white px-1 pt-1 pb-1 text-sm font-medium">Investments</a>
+                        <a href="#" class="chase-nav-item text-gray-400 hover:text-white px-1 pt-1 pb-1 text-sm font-medium">Loans</a>
                     </div>
-                    <i class="fas fa-eye" style="color: var(--text-light);"></i>
                 </div>
-                <div class="account-balance">$3,842,500.37</div>
-                <div class="account-actions">
-                    <button class="small-btn">Details</button>
-                    <button class="small-btn">Transfer</button>
-                </div>
-            </div>
-
-            <div class="account-card">
-                <div class="account-header">
-                    <div>
-                        <div class="account-name">Savings Account</div>
-                        <div class="account-number">•••• 4519</div>
+                <div class="flex items-center space-x-4">
+                    <button class="hidden md:block text-gray-400 hover:text-white">
+                        <i class="fas fa-search text-lg"></i>
+                    </button>
+                    <button class="hidden md:block text-gray-400 hover:text-white relative">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-chase-alert"></span>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <div class="h-8 w-8 rounded-full bg-chase-blue flex items-center justify-center text-white font-medium">LA</div>
+                        <span class="hidden md:inline text-sm text-white">Lucas Antony</span>
+                        <i class="fas fa-chevron-down text-xs text-gray-400 hidden md:inline"></i>
                     </div>
-                    <i class="fas fa-eye-slash" style="color: var(--text-light);"></i>
                 </div>
-                <div class="account-balance">$45,219.87</div>
-                <div class="account-actions">
-                    <button class="small-btn">Details</button>
-                    <button class="small-btn">Transfer</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Quick Actions -->
-        <section class="quick-actions">
-            <button class="action-btn">
-                <div class="action-icon">
-                    <i class="fas fa-paper-plane"></i>
-                </div>
-                <span class="action-label">Pay</span>
-            </button>
-            <button class="action-btn">
-                <div class="action-icon">
-                    <a href="./transfer.html"></a><i class="fas fa-exchange-alt"></i>
-                </div>
-                <span class="action-label">Transfer</span>
-            </button>
-            <button class="action-btn">
-                <div class="action-icon">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                </div>
-                <span class="action-label">BPAY</span>
-            </button>
-            <button class="action-btn">
-                <div class="action-icon">
-                    <i class="fas fa-qrcode"></i>
-                </div>
-                <span class="action-label">PayID</span>
-            </button>
-            <button class="action-btn">
-                <div class="action-icon">
-                    <i class="fas fa-money-bill-wave"></i>
-                </div>
-                <span class="action-label">Deposit</span>
-            </button>
-        </section>
-
-        <!-- Quick Payees -->
-        <section class="quick-payees">
-            <div class="quick-payee">
-                <div class="payee-avatar">
-                    <i class="fas fa-home"></i>
-                </div>
-                <span class="payee-name">Rent</span>
-            </div>
-            <div class="quick-payee">
-                <div class="payee-avatar">WW</div>
-                <span class="payee-name">Woolies</span>
-            </div>
-            <div class="quick-payee">
-                <div class="payee-avatar">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <span class="payee-name">Energy</span>
-            </div>
-            <div class="quick-payee">
-                <div class="payee-avatar">SJ</div>
-                <span class="payee-name">Sarah J.</span>
-            </div>
-            <div class="quick-payee">
-                <div class="payee-avatar">
-                    <i class="fas fa-phone"></i>
-                </div>
-                <span class="payee-name">Telstra</span>
-            </div>
-        </section>
-
-        <!-- Transactions -->
-<section class="transactions-section">
-    <div class="section-header">
-        <h2 class="section-title">Recent Bank Deposits</h2>
-        <a href="#" class="view-all">View all</a>
-    </div>
-
-    <div class="transaction">
-        <div class="transaction-info">
-            <div class="transaction-icon" style="background: #EEF7FF; color: #004F9F;">
-                <i class="fas fa-exchange-alt"></i>
-            </div>
-            <div class="transaction-details">
-                <h4>Bank Transfer</h4>
-                <p>Today • From: Company XYZ (Acc...7890)</p>
             </div>
         </div>
-        <div class="transaction-amount positive">+$5,800.00</div>
-    </div>
+    </nav>
 
-    <div class="transaction">
-        <div class="transaction-info">
-            <div class="transaction-icon" style="background: #EEF7FF; color: #004F9F;">
-                <i class="fas fa-exchange-alt"></i>
-            </div>
-            <div class="transaction-details">
-                <h4>Bank Transfer</h4>
-                <p>Feb 5, 2025 • From: John Smith (Acc...4567)</p>
-            </div>
-        </div>
-        <div class="transaction-amount positive">+$1,200.00</div>
-    </div>
-
-    <div class="transaction">
-        <div class="transaction-info">
-            <div class="transaction-icon" style="background: #EEF7FF; color: #004F9F;">
-                <i class="fas fa-exchange-alt"></i>
-            </div>
-            <div class="transaction-details">
-                <h4>Refund Deposit</h4>
-                <p>Feb 1, 2025 • From: Online Store (Acc...2345)</p>
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Welcome Banner -->
+        <div class="welcome-container text-white mb-8 p-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center relative z-10">
+                <div class="mb-4 md:mb-0">
+                    <h1 class="text-2xl md:text-3xl font-bold">Welcome Back, Lucas</h1>
+                    <p class="mt-2 text-blue-100">Here's your financial summary as of today</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="bg-black bg-opacity-20 px-3 py-1.5 rounded-full text-sm flex items-center">
+                        <i class="fas fa-shield-alt text-blue-300 mr-2"></i>
+                        <span>Last login: Today 7:20 AM</span>
+                    </div>
+                    <button class="bg-white bg-opacity-10 hover:bg-opacity-20 p-2 rounded-full transition-all">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="transaction-amount positive">+$98.75</div>
-    </div>
 
-    <div class="transaction">
-        <div class="transaction-info">
-            <div class="transaction-icon" style="background: #EEF7FF; color: #004F9F;">
-                <i class="fas fa-exchange-alt"></i>
+        <!-- Account Summary -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Checking Account -->
+            <div class="chase-card rounded-xl p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-lg font-semibold text-white">Chase Total Checking</h3>
+                        <p class="text-gray-400 text-sm mt-1">•••• 4512</p>
+                    </div>
+                    <span class="bg-chase-blue bg-opacity-20 text-chase-blue text-xs px-3 py-1 rounded-full flex items-center">
+                        <i class="fas fa-star mr-1 text-xs"></i> Primary
+                    </span>
+                </div>
+                <p class="text-3xl font-bold mt-6 text-white">$1,915,300.00</p>
+                <div class="mt-6 flex space-x-4">
+                    <button class="bg-chase-blue bg-opacity-10 hover:bg-opacity-20 text-chase-blue px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center">
+                        <i class="fas fa-exchange-alt mr-2"></i> Transfer
+                    </button>
+                    <button class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center">
+                        <i class="fas fa-file-invoice-dollar mr-2"></i> Pay Bills
+                    </button>
+                </div>
             </div>
-            <div class="transaction-details">
-                <h4>Bank Transfer</h4>
-                <p>Jan 30, 2025 • From: Jane Doe (Acc...6789)</p>
+
+
+
+
+        </div>
+
+        <!-- Recent Activity and Quick Actions -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Quick Actions -->
+            <div class="chase-card rounded-xl p-6">
+                <h2 class="text-xl font-semibold text-white mb-6">Quick Actions</h2>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <button class="flex flex-col items-center justify-center p-4 rounded-xl bg-gray-800 hover:bg-gray-700 transition-colors">
+                        <div class="bg-blue-900 bg-opacity-30 p-4 rounded-xl mb-3">
+                            <i class="fas fa-exchange-alt text-chase-blue text-xl"></i>
+                        </div>
+                        <span class="text-sm text-center text-white font-medium">Transfer Money</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center p-4 rounded-xl bg-gray-800 hover:bg-gray-700 transition-colors">
+                        <div class="bg-green-900 bg-opacity-30 p-4 rounded-xl mb-3">
+                            <i class="fas fa-money-bill-wave text-chase-green text-xl"></i>
+                        </div>
+                        <span class="text-sm text-center text-white font-medium">Pay Bills</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center p-4 rounded-xl bg-gray-800 hover:bg-gray-700 transition-colors">
+                        <div class="bg-teal-900 bg-opacity-30 p-4 rounded-xl mb-3">
+                            <i class="fas fa-mobile-alt text-chase-teal text-xl"></i>
+                        </div>
+                        <span class="text-sm text-center text-white font-medium">Mobile Deposit</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center p-4 rounded-xl bg-gray-800 hover:bg-gray-700 transition-colors">
+                        <div class="bg-purple-900 bg-opacity-30 p-4 rounded-xl mb-3">
+                            <i class="fas fa-credit-card text-purple-400 text-xl"></i>
+                        </div>
+                        <span class="text-sm text-center text-white font-medium">Card Services</span>
+                    </button>
+                </div>
+
+                <!-- Account Alerts -->
+                <div>
+                    <h3 class="text-sm font-semibold text-white mb-3 flex items-center">
+                        <i class="fas fa-bell text-chase-blue mr-2"></i> Account Alerts
+                    </h3>
+                    <div class="bg-blue-900 bg-opacity-20 border border-blue-800 rounded-lg p-4 hover:bg-opacity-30 transition-colors">
+                        <p class="text-xs text-blue-200 flex items-center">
+                            <i class="fas fa-file-invoice mr-2"></i> Your statement is ready to view. Due date: Apr 15
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+                        <div class="lg:col-span-2 chase-card rounded-xl p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-white">Recent Activity</h2>
+                    <button class="text-chase-blue text-sm font-medium hover:text-blue-400 transition-colors flex items-center">
+                        See All <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <!-- Transaction 1 -->
+                    <div class="flex justify-between items-center p-3 rounded-lg hover:bg-gray-900 transition-colors">
+                        <div class="flex items-center">
+                            <div class="bg-blue-900 bg-opacity-30 p-3 rounded-lg mr-4">
+                                <i class="fas fa-shopping-bag text-chase-blue"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-white">Amazon.com</p>
+                                <p class="text-xs text-gray-400 mt-1">Today • Debit Card • Online Purchase</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-chase-alert">-$89.45</p>
+                            <p class="text-xs text-gray-400 mt-1">Pending</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Transaction 2 -->
+                    <div class="flex justify-between items-center p-3 rounded-lg hover:bg-gray-900 transition-colors">
+                        <div class="flex items-center">
+                            <div class="bg-green-900 bg-opacity-30 p-3 rounded-lg mr-4">
+                                <i class="fas fa-arrow-down text-chase-green"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-white">Direct Deposit</p>
+                                <p class="text-xs text-gray-400 mt-1">Yesterday • Salary • Tech Solutions Inc.</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-chase-green">+$3,456.78</p>
+                            <p class="text-xs text-gray-400 mt-1">Completed</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Transaction 3 -->
+                    <div class="flex justify-between items-center p-3 rounded-lg hover:bg-gray-900 transition-colors">
+                        <div class="flex items-center">
+                            <div class="bg-teal-900 bg-opacity-30 p-3 rounded-lg mr-4">
+                                <i class="fas fa-exchange-alt text-chase-teal"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-white">Transfer to Savings</p>
+                                <p class="text-xs text-gray-400 mt-1">Mar 15 • Online Banking</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-chase-alert">-$500.00</p>
+                            <p class="text-xs text-gray-400 mt-1">Completed</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="transaction-amount positive">+$500.00</div>
-    </div>
 
-    <div class="transaction">
-        <div class="transaction-info">
-            <div class="transaction-icon" style="background: #EEF7FF; color: #004F9F;">
-                <i class="fas fa-exchange-alt"></i>
+        <!-- Offers Section -->
+        <div class="chase-card rounded-xl p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-white">Special Offers For You</h2>
+                <button class="text-chase-blue text-sm font-medium hover:text-blue-400 transition-colors flex items-center">
+                    See All <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                </button>
             </div>
-            <div class="transaction-details">
-                <h4>Interest Deposit</h4>
-                <p>Jan 28, 2025 • From: Bank Interest</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="border border-gray-800 rounded-xl p-5 hover:border-chase-blue transition-colors hover:bg-gray-800 group">
+                    <div class="bg-blue-900 bg-opacity-20 p-4 rounded-xl mb-4 inline-block group-hover:bg-opacity-30 transition-colors">
+                        <i class="fas fa-credit-card text-chase-blue text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-white group-hover:text-chase-blue transition-colors">Earn 5% Cash Back</h3>
+                    <p class="text-sm text-gray-400 mt-2">On gas station purchases this quarter when you activate this offer</p>
+                    <button class="mt-4 text-chase-blue text-sm font-medium hover:text-blue-400 transition-colors flex items-center">
+                        Activate Now <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    </button>
+                </div>
+                <div class="border border-gray-800 rounded-xl p-5 hover:border-chase-teal transition-colors hover:bg-gray-800 group">
+                    <div class="bg-teal-900 bg-opacity-20 p-4 rounded-xl mb-4 inline-block group-hover:bg-opacity-30 transition-colors">
+                        <i class="fas fa-home text-chase-teal text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-white group-hover:text-chase-teal transition-colors">Mortgage Rate Drop</h3>
+                    <p class="text-sm text-gray-400 mt-2">Refinance now and save up to $1,500 annually on your payments</p>
+                    <button class="mt-4 text-chase-teal text-sm font-medium hover:text-teal-400 transition-colors flex items-center">
+                        Learn More <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    </button>
+                </div>
+                <div class="border border-gray-800 rounded-xl p-5 hover:border-chase-green transition-colors hover:bg-gray-800 group">
+                    <div class="bg-green-900 bg-opacity-20 p-4 rounded-xl mb-4 inline-block group-hover:bg-opacity-30 transition-colors">
+                        <i class="fas fa-piggy-bank text-chase-green text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-white group-hover:text-chase-green transition-colors">High-Yield Savings</h3>
+                    <p class="text-sm text-gray-400 mt-2">Open a new account today and earn 3.50% APY for the first 6 months</p>
+                    <button class="mt-4 text-chase-green text-sm font-medium hover:text-green-400 transition-colors flex items-center">
+                        Apply Now <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="transaction-amount positive">+$15.20</div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-chase-darker border-t border-gray-800 py-12 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">Banking</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Checking Accounts</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Savings Accounts</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">CDs & IRAs</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Online Banking</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">Credit Cards</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Travel Credit Cards</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Cash Back Cards</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Business Cards</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Compare All Cards</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">Support</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Security Center</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">FAQs</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Branch & ATM Locator</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">About Chase</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Careers</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Media Center</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Company Info</a></li>
+                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Diversity & Inclusion</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-6 mb-4 md:mb-0">
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-xs text-gray-500 mb-2">© 2023 JPMorgan Chase & Co. All rights reserved.</p>
+                    <div class="flex flex-wrap justify-center md:justify-end space-x-4">
+                        <a href="#" class="text-xs text-gray-500 hover:text-gray-300">Privacy</a>
+                        <a href="#" class="text-xs text-gray-500 hover:text-gray-300">Terms of Use</a>
+                        <a href="#" class="text-xs text-gray-500 hover:text-gray-300">Accessibility</a>
+                        <a href="#" class="text-xs text-gray-500 hover:text-gray-300">Ad Choices</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-chase-darker border-t border-gray-800 py-2 px-4">
+        <div class="flex justify-around">
+            <a href="#" class="flex flex-col items-center text-chase-blue">
+                <i class="fas fa-home text-lg"></i>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            <a href="./transfer.html" class="flex flex-col items-center text-gray-400">
+                <i class="fas fa-exchange-alt text-lg"></i>
+                <span class="text-xs mt-1">Transfer</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-400">
+                <i class="fas fa-credit-card text-lg"></i>
+                <span class="text-xs mt-1">Cards</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-400">
+                <i class="fas fa-user text-lg"></i>
+                <span class="text-xs mt-1">Profile</span>
+            </a>
+        </div>
     </div>
-</section>
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <a href="#" class="nav-item active">
-                <i class="fas fa-home nav-icon"></i>
-                <span>Home</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-credit-card nav-icon"></i>
-                <span>Cards</span>
-            </a>
-            <a href="./transfer.html" class="nav-item">
-                <i class="fas fa-chart-line nav-icon"></i>
-                <span>Insights</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-bell nav-icon"></i>
-                <span>Alerts</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-ellipsis-h nav-icon"></i>
-                <span>More</span>
-            </a>
-        </nav>
-    </div>
-
-    <script>
-        // Theme Management
-        const themeToggle = document.getElementById('themeToggle');
-        const html = document.documentElement;
-
-        // Load saved theme or default to light
-        const savedTheme = localStorage.getItem('bankTheme') || 'light';
-        if (savedTheme === 'dark') {
-            html.setAttribute('data-theme', 'dark');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        }
-
-        // Toggle theme
-        themeToggle.addEventListener('click', () => {
-            if (html.getAttribute('data-theme') === 'dark') {
-                html.removeAttribute('data-theme');
-                localStorage.setItem('bankTheme', 'light');
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                localStorage.setItem('bankTheme', 'dark');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            }
-        });
-
-        // Balance visibility toggle
-        const balanceElements = document.querySelectorAll('.account-balance');
-        const eyeIcons = document.querySelectorAll('.fa-eye, .fa-eye-slash');
-        const actualBalances = ['$3,842,500.37', '$45,219.87'];
-
-        eyeIcons.forEach((icon, index) => {
-            icon.addEventListener('click', () => {
-                if (balanceElements[index].textContent === actualBalances[index]) {
-                    balanceElements[index].textContent = '•••••••';
-                    icon.classList.replace('fa-eye', 'fa-eye-slash');
-                } else {
-                    balanceElements[index].textContent = actualBalances[index];
-                    icon.classList.replace('fa-eye-slash', 'fa-eye');
-                }
-            });
-        });
-    </script>
 </body>
 </html>

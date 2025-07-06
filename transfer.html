@@ -3,36 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suncorp - Transfer Funds</title>
+    <title>Chase - Transfer Funds</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #012169; /* Australian blue */
-            --primary-light: #e6eef9;
-            --primary-dark: #001146;
-            --secondary: #E4002B; /* Australian red */
+            --primary: #117aca; /* Chase blue */
+            --primary-light: #e6f2fa;
+            --primary-dark: #0e5f9a;
+            --secondary: #00a3ad; /* Chase teal */
             --text: #2D3748;
             --text-light: #718096;
             --bg: #F7FAFC;
             --card-bg: #FFFFFF;
             --border: #E2E8F0;
             --error: #E53E3E;
-            --success: #38A169;
+            --success: #2d9d78;
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
             --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
             --transition: all 0.2s ease;
         }
 
         [data-theme="dark"] {
-            --primary: #1E88E5;
+            --primary: #117aca;
             --primary-light: #0d2b4d;
-            --secondary: #f8516e;
+            --secondary: #00a3ad;
             --text: #F7FAFC;
             --text-light: #CBD5E0;
-            --bg: #1A202C;
-            --card-bg: #2D3748;
+            --bg: #0d1c25;
+            --card-bg: #0a151c;
             --border: #4A5568;
         }
 
@@ -40,7 +40,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
@@ -101,7 +101,7 @@
             margin-bottom: 30px;
             box-shadow: var(--shadow-md);
             transition: var(--transition);
-            border-top: 4px solid var(--secondary);
+            border-top: 4px solid var(--primary);
         }
 
         .form-title {
@@ -191,7 +191,7 @@
         .transfer-btn:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(1, 33, 105, 0.2);
+            box-shadow: 0 4px 8px rgba(17, 122, 202, 0.2);
         }
 
         .transfer-btn:active {
@@ -205,7 +205,7 @@
             padding: 20px;
             margin-bottom: 30px;
             box-shadow: var(--shadow-md);
-            border-top: 4px solid var(--secondary);
+            border-top: 4px solid var(--primary);
         }
 
         .recipients-title {
@@ -289,7 +289,7 @@
             box-shadow: var(--shadow-md);
             transform: translateY(20px);
             transition: all 0.3s ease;
-            border-top: 4px solid var(--secondary);
+            border-top: 4px solid var(--primary);
         }
 
         .overlay.active .error-card {
@@ -367,11 +367,6 @@
             color: var(--primary);
             background: var(--primary-light);
         }
-
-        /* Australian styling elements */
-        .australia-icon {
-            color: var(--secondary);
-        }
         
         .profile-pic {
             width: 36px;
@@ -386,22 +381,29 @@
         }
 
         .support-btn {
-    padding: 10px 16px;
-    background-color: #2a52be;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    font-size: 14px;
-    transition: background-color 0.3s;
-}
+            padding: 10px 16px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
 
-.support-btn:hover {
-    background-color: #1a3a8f;
-}
+        .support-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .error-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
 
         /* Responsive Adjustments */
         @media (min-width: 768px) {
@@ -448,6 +450,16 @@
             select, input {
                 padding: 12px 14px;
             }
+            
+            .error-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .support-btn, .close-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -459,14 +471,14 @@
                 <i class="fas fa-arrow-left"></i>
             </button>
             <div class="bank-logo">
-                <i class="fas fa-paw australia-icon"></i>
-                <span>Suncorp Bank</span>
+                <i class="fas fa-university"></i>
+                <span>Chase</span>
             </div>
             <div class="header-actions">
                 <button class="theme-toggle" id="themeToggle">
                     <i class="fas fa-moon"></i>
                 </button>
-                <div class="profile-pic">TD</div>
+                <div class="profile-pic">JD</div>
             </div>
         </header>
 
@@ -479,44 +491,42 @@
                 <div class="account-selector">
                     <select id="from-account">
                         <option value="">Select Account</option>
-                        <option value="everyday">Everyday Account</option>
-                        <option value="savings">Savings Account</option>
-                        <option value="offset">Offset Account</option>
+                        <option value="checking">Chase Total Checking ••••4512</option>
+                        <option value="savings">Chase Savings ••••9012</option>
+                        <option value="premier">Chase Premier Plus Checking ••••7823</option>
                     </select>
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="to-bank">To Bank</label>
+                <label for="to-bank">To Account</label>
                 <div class="account-selector">
                     <select id="to-bank">
-                        <option value="">Select Bank</option>
+                        <option value="">Select Account</option>
                         
-                        <!-- Australian Banks -->
-                        <optgroup label="Australian Banks">
-                          <option value="cba">CommBank ••••7832</option>
-                          <option value="westpac">Westpac ••••4519</option>
-                          <option value="nab">NAB ••••9065</option>
-                          <option value="anz">ANZ ••••2247</option>
-                          <option value="macquarie">Macquarie ••••3380</option>
+                        <!-- Chase Accounts -->
+                        <optgroup label="Chase Accounts">
+                          <option value="checking2">Chase Checking ••••7832</option>
+                          <option value="savings2">Chase Savings ••••4519</option>
+                          <option value="credit">Chase Sapphire ••••9065</option>
                         </optgroup>
                         
-                        <!-- International Banks -->
-                        <optgroup label="International Banks">
-                          <option value="hsbc">HSBC ••••7721</option>
-                          <option value="citibank">Citibank ••••0098</option>
-                          <option value="ing">ING ••••5566</option>
+                        <!-- External Banks -->
+                        <optgroup label="External Banks">
+                          <option value="boa">Bank of America ••••7721</option>
+                          <option value="wells">Wells Fargo ••••0098</option>
+                          <option value="citi">Citibank ••••5566</option>
                         </optgroup>
                         
                         <!-- Other -->
-                        <option value="other">Other Financial Institution</option>
-                        <option value="payid">PayID/Phone Number</option>
+                        <option value="other">Other Bank Account</option>
+                        <option value="zelle">Zelle® Recipient</option>
                       </select>
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="amount">Amount (AUD)</label>
+                <label for="amount">Amount (USD)</label>
                 <div class="amount-group">
                     <span class="amount-prefix">$</span>
                     <input type="number" id="amount" class="amount-input" placeholder="0.00" min="0" step="0.01">
@@ -537,7 +547,7 @@
         <!-- Recent Recipients -->
         <section class="recipients-section">
             <h3 class="recipients-title">
-                Frequent Payees
+                Frequent Recipients
                 <span style="font-size: 0.8rem; font-weight: normal;"><a href="#" style="color: var(--primary); text-decoration: none;">View All</a></span>
             </h3>
             <div class="recipients-grid">
@@ -554,18 +564,22 @@
                     <span class="recipient-name">Rent</span>
                 </div>
                 <div class="recipient">
-                    <div class="recipient-avatar">ANZ</div>
-                    <span class="recipient-name">ANZ Bank</span>
+                    <div class="recipient-avatar">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <span class="recipient-name">Amex</span>
                 </div>
                 <div class="recipient">
                     <div class="recipient-avatar">
                         <i class="fas fa-bolt"></i>
                     </div>
-                    <span class="recipient-name">Energy</span>
+                    <span class="recipient-name">Utilities</span>
                 </div>
                 <div class="recipient">
-                    <div class="recipient-avatar">TPG</div>
-                    <span class="recipient-name">Internet</span>
+                    <div class="recipient-avatar">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <span class="recipient-name">Car Loan</span>
                 </div>
                 <div class="recipient">
                     <div class="recipient-avatar">
@@ -577,31 +591,32 @@
         </section>
 
         <!-- Error Overlay -->
-<div class="overlay" id="errorOverlay">
-    <div class="error-card">
-        <div class="error-icon">
-            <i class="fas fa-exclamation-triangle"></i>
+        <div class="overlay" id="errorOverlay">
+            <div class="error-card">
+                <div class="error-icon">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <h3 class="error-title">Transfer Restricted</h3>
+                <p class="error-message">
+                    We're unable to process your transfer due to location restrictions on your account. 
+                    For security reasons, certain transactions may be restricted based on your current location.
+                </p>
+                <div class="error-buttons">
+                    <a href="#" class="support-btn">
+                        <i class="fas fa-headset" style="margin-right: 8px;"></i>
+                        Contact Support
+                    </a>
+                    <button class="close-btn" id="closeBtn">
+                        <i class="fas fa-times" style="margin-right: 8px;"></i>
+                        Close
+                    </button>
+                </div>
+            </div>
         </div>
-        <h3 class="error-title">Account Restricted</h3>
-        <p class="error-message">
-            Your account is currently restricted from performing this action. 
-            Please contact our support team for assistance.
-        </p>
-        <div class="error-buttons">
-            <a href="./contact-support.html" class="support-btn">
-                <i class="fas fa-headset" style="margin-right: 8px;"></i>
-                Contact Support
-            </a>
-            <button class="close-btn" id="closeBtn">
-                <i class="fas fa-times" style="margin-right: 8px;"></i>
-                Close
-            </button>
-        </div>
-    </div>
-</div>
+
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
-            <a href="dashboard.html" class="nav-item">
+            <a href="#" class="nav-item">
                 <i class="fas fa-home"></i>
                 <span>Home</span>
             </a>
@@ -611,11 +626,11 @@
             </a>
             <a href="#" class="nav-item active">
                 <i class="fas fa-exchange-alt"></i>
-                <span>Pay/Transfer</span>
+                <span>Transfer</span>
             </a>
             <a href="#" class="nav-item">
-                <i class="fas fa-chart-line"></i>
-                <span>Invest</span>
+                <i class="fas fa-credit-card"></i>
+                <span>Cards</span>
             </a>
             <a href="#" class="nav-item">
                 <i class="fas fa-ellipsis-h"></i>
@@ -651,7 +666,11 @@
 
         transferBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            errorOverlay.classList.add('active');
+            
+            // Show error overlay after a short delay to simulate processing
+            setTimeout(() => {
+                errorOverlay.classList.add('active');
+            }, 500);
         });
 
         closeBtn.addEventListener('click', () => {
@@ -663,16 +682,16 @@
             recipient.addEventListener('click', function() {
                 const name = this.querySelector('.recipient-name').textContent;
                 document.getElementById('to-bank').value = "other";
-                // In a real app, would auto-fill recipient details
+                document.getElementById('description').value = `Payment to ${name}`;
             });
         });
 
         // Form Validation
         document.getElementById('from-account').addEventListener('change', function() {
             if (this.value === 'savings') {
-                document.getElementById('amount').max = "100000.00";
+                document.getElementById('amount').max = "250000.00";
             } else {
-                document.getElementById('amount').max = "20000.00";
+                document.getElementById('amount').max = "25000.00";
             }
         });
     </script>
