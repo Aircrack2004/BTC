@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Custodianship Agreement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                padding: 0;
+                margin: 0;
+                background: white;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                break-after: avoid;
+            }
+        }
+        .watermark {
+            position: absolute;
+            opacity: 0.08;
+            font-size: 5rem;
+            width: 100%;
+            text-align: center;
+            z-index: -1;
+            transform: rotate(-30deg);
+            top: 30%;
+            left: 0;
+            color: #888;
+            font-weight: bold;
+            pointer-events: none;
+            user-select: none;
+        }
+        .signature-container {
+            margin-top: 20px;
+            height: 80px;
+            display: flex;
+            align-items: flex-end;
+        }
+        .header-logo {
+            height: 80px;
+            margin-bottom: 10px;
+        }
+        .header-border {
+            border-bottom: 2px solid #1a365d;
+        }
+        .section-title {
+            position: relative;
+            padding-left: 16px;
+        }
+        .section-title:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #1a365d;
+            border-radius: 2px;
+        }
+        .signature-box {
+            border-top: 1px solid #000;
+            width: 250px;
+            padding-top: 5px;
+        }
+    </style>
+</head>
+<body class="bg-white p-4 relative">
+    <div class="max-w-4xl mx-auto">
+        <div class="page bg-white p-8 relative">
+            <!-- Watermark -->
+            <div class="watermark">ORIGINAL COPY</div>
+
+            <!-- Header with Logo -->
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <img src="./firmLogo.png" alt="Firm Logo" class="header-logo" style="border: none;">
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-700">Document ID: PC-2024-002</p>
+                    <p class="text-sm text-gray-700">Effective Date: February 9, 2024</p>
+                </div>
+            </div>
+
+            <!-- Main Header -->
+            <div class="header-border pb-4 mb-8 text-center">
+                <h1 class="text-3xl font-bold uppercase text-blue-900 tracking-tight">Property Custodianship Agreement</h1>
+                <h2 class="text-lg text-gray-700 font-medium mt-1">Under Accountant Management</h2>
+            </div>
+
+            <!-- Prepared By Section -->
+            <div class="grid grid-cols-2 gap-8 mb-10">
+                <div class="p-4 border-l-4 border-blue-600">
+                    <h3 class="font-bold text-gray-800 text-lg mb-2">Prepared by:</h3>
+                    <p class="text-lg">Wilson Bobby, Attorney at Law</p>
+                    <p class="text-sm mt-1">Law Firm: <span class="font-medium">Vinson & Elkins LLP, Houston, Texas</span></p>
+                    <p class="text-sm">Email: <span class="font-medium">wilsonbobby89101@gmail.com</span></p>
+                    <p class="text-sm">Bar License No.: <span class="font-medium">TX-2404126</span></p>
+                </div>
+                <div class="p-4 border-l-4 border-blue-600">
+                    <h3 class="font-bold text-gray-800 text-lg mb-2">Account Manager:</h3>
+                    <p class="text-lg">Linda Amanda</p>
+                    <p class="text-sm mt-1">Title: <span class="font-medium">Account Manager</span></p>
+                    <p class="text-sm">Email: <span class="font-medium">lindaamanda8013@gmail.com</span></p>
+                    <div class="mt-3">
+                        <p class="font-medium text-blue-800">Date of Agreement: February 9, 2024</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purpose Section -->
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-3 section-title">1. PURPOSE</h3>
+                <p class="mt-2 leading-relaxed">This document serves as a formal record confirming that the below-listed properties are under the custodianship and management of the designated Account Manager, Linda Amanda, in accordance with agreed terms and applicable legal requirements.</p>
+            </div>
+
+            <!-- Properties Section -->
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-3 section-title">2. PROPERTIES UNDER MANAGEMENT</h3>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="bg-blue-50">
+                                <th class="px-4 py-3 text-left font-medium text-gray-700">Asset Type</th>
+                                <th class="px-4 py-3 text-left font-medium text-gray-700">Description</th>
+                                <th class="px-4 py-3 text-left font-medium text-gray-700">Location</th>
+                                <th class="px-4 py-3 text-left font-medium text-gray-700">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-3">Vehicles (2)</td>
+                                <td class="px-4 py-3">Two Mercedes-Benz automobiles (specific models in Exhibit A)</td>
+                                <td class="px-4 py-3">California</td>
+                                <td class="px-4 py-3">$140,000</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Gold Bullion</td>
+                                <td class="px-4 py-3">$50,000 worth of gold in two (2) secured safety deposit boxes</td>
+                                <td class="px-4 py-3">California</td>
+                                <td class="px-4 py-3">$50,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="mt-3 text-sm text-gray-600">Note: Detailed descriptions, VIN numbers for vehicles, and gold certification documents are attached as Exhibit A.</p>
+            </div>
+
+            <!-- Responsibilities Section -->
+            <div class="mb-10">
+                <h3 class="text-lg font-bold text-gray-800 mb-3 section-title">3. RESPONSIBILITIES OF THE ACCOUNT MANAGER</h3>
+                <p class="mt-2">The Account Manager shall:</p>
+                <ul class="list-disc pl-5 mt-2 space-y-2">
+                    <li>Maintain accurate records of all assets under management</li>
+                    <li>Ensure proper storage, security, and insurance (if applicable)</li>
+                    <li>Provide quarterly reports on asset status to Wilson Bobby, Attorney at Law</li>
+                    <li>Notify the Attorney immediately of any changes in custody, location, or condition of assets</li>
+                    <li>Maintain both Mercedes-Benz vehicles in operational condition with current registration</li>
+                    <li>Ensure gold bullion remains securely stored in the designated California location</li>
+                </ul>
+            </div>
+
+            <!-- Signatures Section -->
+            <div class="grid grid-cols-2 gap-8 mt-16">
+                <div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-3 section-title">ACKNOWLEDGMENT & ACCEPTANCE</h3>
+                    <p class="mt-4 leading-relaxed">I, Linda Amanda, hereby acknowledge receipt of this agreement and accept custodianship of the listed properties under the terms outlined above.</p>
+                    <div class="mt-8">
+                        <img src="./linda.jpeg" alt="Linda's Signature" style="height: 60px; max-width: 250px; border: none;">
+                        <div class="signature-box">
+                            <p class="text-sm">Account Manager Signature</p>
+                        </div>
+                        <p class="mt-4 text-sm">Printed Name: <span class="font-medium">Linda Amanda</span></p>
+                        <p class="text-sm">Date: <span class="font-medium">February 9, 2024</span></p>
+                    </div>
+                    <div class="mt-6">
+                        <img src="./stamp.jpeg" alt="Official Stamp" style="height: 80px; max-width: 150px; border: none; display: block; margin-left: auto; margin-right: auto;">
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-3 section-title">ATTORNEY CONFIRMATION</h3>
+                    <div class="mt-8">
+                        <img src="./wilson.png" alt="Wilson's Signature" style="height: 60px; max-width: 250px; border: none;">
+                        <div class="signature-box">
+                            <p class="text-sm">Attorney Signature</p>
+                        </div>
+                        <p class="mt-4 text-sm">Printed Name: <span class="font-medium">Wilson Bobby</span></p>
+                        <p class="text-sm">Date: <span class="font-medium">February 9, 2024</span></p>
+                    </div>
+                    <div class="mt-6">
+                        <img src="./stamp.png" alt="Official Stamp" style="height: 80px; max-width: 150px; border: none; display: block; margin-left: auto; margin-right: auto;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attachments -->
+            <div class="mt-16 p-4 bg-blue-50 rounded">
+                <h3 class="text-sm font-bold text-blue-800">ATTACHMENTS:</h3>
+                <p class="text-sm mt-1">- Exhibit A: Detailed Vehicle Information (VINs, models, registration) and Gold Certification Documents</p>
+                <p class="text-sm">- Exhibit B: Storage Location Details and Security Protocols</p>
+            </div>
+
+            <!-- Footer Note -->
+            <div class="mt-12 pt-6 border-t border-gray-200 text-xs text-gray-600">
+                <div class="flex justify-between items-center">
+                    <p>This document is legally binding. Prepared by Vinson & Elkins LLP, Houston, Texas.</p>
+                    <img src="./firmLogo.png" alt="Firm Logo" style="height: 30px; border: none;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Print Button -->
+        <div class="mt-6 no-print flex justify-center">
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded transition duration-300">
+                Print Document
+            </button>
+        </div>
+    </div>
+</body>
+</html>
