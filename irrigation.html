@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contract Award – Irrigation Canals & Water Supply Scheme (Doha, Qatar)</title>
+  <style>
+    :root {
+      --brand: #0b6faa; /* Qatar blue accent */
+      --brand-dark: #084b75;
+      --text: #1e293b;
+      --muted: #475569;
+      --border: #e2e8f0;
+      --bg: #ffffff;
+      --success: #0d9270;
+    }
+
+    @page { 
+      size: A4; 
+      margin: 18mm; 
+    }
+
+    html, body { 
+      height: 100%; 
+    }
+    
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, sans-serif;
+      background: #f6f7fb;
+      margin: 0;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .doc {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(2,8,23,.06);
+      position: relative;
+    }
+
+    .letterhead {
+      display: grid;
+      grid-template-columns: 80px 1fr 120px;
+      gap: 16px;
+      align-items: center;
+      padding: 24px 28px;
+      border-bottom: 4px solid var(--brand);
+      position: relative;
+      background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+    }
+
+    .header-logo {
+      width: 80px;
+      height: auto;
+    }
+
+    .title {
+      text-align: center;
+    }
+
+    .title h1 { 
+      margin: 0; 
+      font-size: 22px; 
+      letter-spacing:.2px; 
+      color: var(--brand-dark);
+    }
+    
+    .title p { 
+      margin: 6px 0 0; 
+      color: var(--muted); 
+      font-size: 12px; 
+    }
+
+    .seal {
+      width: 80px;
+      height: 80px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .meta {
+      padding: 20px 28px 0 28px;
+      display: grid; 
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .meta-row { 
+      display:flex; 
+      gap:18px; 
+      flex-wrap:wrap; 
+    }
+    
+    .badge { 
+      background:#eef6fb; 
+      color:var(--brand); 
+      padding:4px 12px; 
+      border-radius:999px; 
+      border:1px solid #dbeafe; 
+      font-size:12px; 
+      font-weight: 600;
+    }
+
+    .section { 
+      padding: 18px 28px; 
+    }
+
+    .section h2 {
+      font-size: 15px; 
+      margin: 0 0 12px; 
+      color: var(--brand);
+      text-transform: uppercase; 
+      letter-spacing: .12em; 
+      font-weight: 800;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(2,8,23,.03);
+    }
+
+    .grid-2 { 
+      display:grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap:18px; 
+    }
+
+    .list { 
+      margin: 8px 0 0 0; 
+      padding-left: 18px;
+    }
+    
+    .list li { 
+      margin: 8px 0; 
+    }
+
+    .table { 
+      width:100%; 
+      border-collapse: collapse; 
+      font-size: 14px; 
+      margin: 8px 0;
+    }
+    
+    .table th, .table td { 
+      border:1px solid var(--border); 
+      padding:12px; 
+      text-align:left; 
+      vertical-align: top;
+    }
+    
+    .table th { 
+      background:#f8fafc; 
+      font-weight:700; 
+    }
+
+    .signatures {
+      display:grid; 
+      grid-template-columns:1fr 1fr; 
+      gap: 28px; 
+      margin-top: 24px;
+    }
+
+    .sig-box { 
+      height: auto; 
+      border:1px dashed #cbd5e1; 
+      border-radius: 12px; 
+      padding: 16px; 
+      display:flex; 
+      flex-direction:column; 
+      justify-content:space-between; 
+      align-items: center; 
+      min-height: 220px;
+    }
+
+    .sig-line { 
+      border-top:1px solid #94a3b8; 
+      margin-top: 12px; 
+      width: 100%; 
+      padding-top: 8px;
+    }
+
+    .footer { 
+      padding: 16px 28px 24px; 
+      font-size:12px; 
+      color:#64748b; 
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center; 
+      border-top: 1px solid var(--border);
+      margin-top: 16px;
+    }
+
+    .actions { 
+      display:flex; 
+      gap:12px; 
+      padding: 16px; 
+      background:#fff; 
+      border:1px solid var(--border); 
+      border-radius:12px; 
+      position: sticky; 
+      top: 12px; 
+      z-index: 10; 
+      box-shadow: 0 6px 14px rgba(2,8,23,.06); 
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .btn { 
+      appearance:none; 
+      border:1px solid var(--brand); 
+      background:var(--brand); 
+      color:#fff; 
+      padding:10px 16px; 
+      border-radius:8px; 
+      font-weight:600; 
+      cursor:pointer; 
+      font-size:14px; 
+      transition: all 0.2s ease;
+    }
+    
+    .btn:hover {
+      background: var(--brand-dark);
+    }
+    
+    .btn.secondary { 
+      background:#fff; 
+      color:var(--brand); 
+    }
+    
+    .btn.secondary:hover {
+      background: #f1f9ff;
+    }
+
+    .watermark {
+      position: absolute; 
+      inset: 0; 
+      display:grid; 
+      place-items:center; 
+      pointer-events:none; 
+      opacity:.04; 
+      font-size: 120px; 
+      font-weight:900; 
+      color:#0b6faa; 
+      transform: rotate(-18deg);
+    }
+
+    .watermark.secondary {
+      top: 40%;
+      font-size: 100px;
+      opacity: .05;
+      transform: rotate(-22deg) scale(1.2);
+    }
+    
+    .status-banner {
+      background: var(--success);
+      color: white;
+      padding: 12px 28px;
+      text-align: center;
+      font-weight: 600;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .status-banner::before {
+      content: "✓";
+      font-weight: bold;
+    }
+    
+    .editable {
+      border-bottom: 1px dashed var(--muted);
+      padding: 2px 4px;
+      min-width: 60px;
+      display: inline-block;
+    }
+    
+    .currency-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin: 8px 0;
+    }
+    
+    .currency-amount {
+      font-weight: 700;
+      font-size: 1.1em;
+      color: var(--brand-dark);
+    }
+    
+    .currency-words {
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    @media (max-width: 850px) {
+      .grid-2, .signatures {
+        grid-template-columns: 1fr;
+      }
+      
+      .letterhead {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+      }
+      
+      .actions {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body { 
+        background: #fff; 
+      }
+      
+      .container { 
+        margin: 0; 
+        padding:0; 
+      }
+      
+      .actions { 
+        display:none !important; 
+      }
+      
+      .doc { 
+        border:none; 
+        box-shadow:none; 
+        border-radius:0; 
+      }
+      
+      .btn { 
+        display: none; 
+      }
+      
+      .status-banner {
+        background: #f0f9ff;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="actions">
+      <button class="btn" onclick="window.print()">Download / Print as PDF</button>
+      <button class="btn secondary" id="fillToday">Fill Dates (Yesterday/Tomorrow)</button>
+      <button class="btn secondary" id="resetDates">Reset to Default Dates</button>
+    </div>
+
+    <article class="doc" id="document">
+      <div class="status-banner">
+        OFFICIAL CONTRACT AWARD NOTICE - APPROVED
+      </div>
+      
+      <header class="letterhead">
+        <img src="./minLogo.jpg" alt="Firm Logo" class="header-logo">
+        <div class="title">
+          <h1>Ministry of Municipality & Environment – Doha, Qatar</h1>
+          <p>Department of Water Resources & Environmental Engineering (WRE)</p>
+        </div>
+        <img src="./stamp.jpeg" alt="Official Stamp" class="seal">
+        <div class="watermark">QATAR</div>
+        <div class="watermark secondary">ORIGINAL COPY</div>
+      </header>
+
+      <section class="meta">
+        <div class="meta-row">
+          <div><strong>Contract Reference No.:</strong> <span id="ref" class="editable">DOH/WRE/2025/019</span></div>
+          <span class="badge">Contract Award Notice</span>
+          <span class="badge">Priority Project</span>
+        </div>
+        <div class="meta-row">
+          <div><strong>Date of Award:</strong> <span id="awardDate" class="editable">19 August 2025</span></div>
+          <div><strong>Location:</strong> Doha, State of Qatar</div>
+          <div><strong>Effective Date:</strong> <span id="effectiveDate" class="editable">20 August 2025</span></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Parties</h2>
+        <div class="grid-2">
+          <div class="card">
+            <strong>Employer (Client)</strong><br/>
+            Department of Water Resources & Environmental Engineering (WRE)<br/>
+            Ministry of Municipality & Environment (MME)<br/>
+            P.O. Box: 22350, Doha, State of Qatar<br/>
+            Tel: +974 44 348 070 | Email: wre.contracts@mme.gov.qa
+          </div>
+<div class="card">
+  <strong>Contractor (Awardee)</strong><br/>
+  <span id="contractor" class="editable">Mr. Randy Stanaway</span><br/>
+  <span id="contractorCompany" class="editable">American Engineering & Infrastructure Co.</span><br/>
+  <span id="contractorDetails" class="editable">Registration No: AE-073112</span><br/>
+  Tel: <span class="editable">+1(385) 592-3866</span> | Email: <span class="editable">randystanaway7@gmail.com</span>
+</div>
+
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Project Title</h2>
+        <div class="card">
+          Construction of <strong>Irrigation Canals & Water Supply Scheme</strong> within Doha Municipality (Zone 15, 18, 21), including associated civil, mechanical, and electrical works.
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Scope of Work</h2>
+        <div class="card">
+          <ul class="list">
+            <li>Excavation, earthworks, and construction of concrete/HDPE-lined irrigation canals (total length: 25.2km)</li>
+            <li>Supply and installation of primary and secondary water distribution pipelines (various diameters) and appurtenances</li>
+            <li>Construction of regulating structures (gates, culverts, turnouts) and flow-measurement devices</li>
+            <li>Pumping stations, control panels, and SCADA-ready instrumentation</li>
+            <li>Landscaping and reinstatement of affected areas</li>
+            <li>Testing, commissioning, training of Employer's personnel, and handover</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Commencement & Duration</h2>
+        <div class="card">
+          <table class="table">
+            <tr>
+              <th>Start Date (Urgent Mobilization)</th>
+              <th>Completion Period</th>
+              <th>Defects Liability Period</th>
+            </tr>
+            <tr>
+              <td id="startDate" class="editable">21 August 2025</td>
+              <td><span id="duration" class="editable">12 months</span> (365 calendar days)</td>
+              <td><span id="dlp" class="editable">12 months</span> after Taking-Over Certificate</td>
+            </tr>
+          </table>
+          <p><strong>Note:</strong> Time is of the essence in this contract. Late completion will incur liquidated damages as per GCC Clause 27.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Contract Value & Payment Agreement</h2>
+        <div class="card">
+          <div class="currency-row">
+            <strong>Total Contract Value: </strong>
+      <span id="value" class="currency-amount">USD 5,150,000.00</span>
+          </div>
+      <div class="currency-words" id="amountWords">
+        Five Million One Hundred Fifty Thousand United States Dollars Only
+      </div>
+          
+    <table class="table">
+      <tr>
+        <th>Currency</th>
+        <th>Payment Terms</th>
+      </tr>
+      <tr>
+        <td>United States Dollar (USD)</td>
+        <td>
+          <ol class="list">
+            <li><strong>Advance Payment (Mobilization):</strong> 20% upon execution of this agreement and submission of an Advance Payment Guarantee.</li>
+            <li><strong>Interim Payments:</strong> Monthly progress payments based on work certified by the Engineer.</li>
+            <li><strong>Retention:</strong> 5% retained from each payment; 50% released at Taking-Over, 50% at end of Defects Liability Period.</li>
+            <li><strong>Final Payment:</strong> Upon completion, successful testing/commissioning, and submission of all as-built documentation.</li>
+            <li><strong>Payment Timeline:</strong> Within 30 days of invoice approval via bank transfer to Contractor's designated account.</li>
+          </ol>
+        </td>
+      </tr>
+    </table>
+
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Acceptance & Signatures</h2>
+        <p>By signing below, both parties acknowledge and accept all terms and conditions outlined in this Contract Award Notice and its attached documents.</p>
+        
+        <div class="signatures">
+          <div class="sig-box">
+            <div>
+              <strong>For and on behalf of the Employer </strong><br/>
+              Department of Water Resources & Environmental Engineering (WRE)<br/>
+              Ministry of Municipality & Environment (MME)
+            </div>
+            <img src="./ahmed.png" alt="Wilson's Signature" style="height: 60px; max-width: 250px; border: none; margin-top: 8px;"/>
+            <div class="sig-line"></div>
+        <div>
+          Name: <span contenteditable="true" class="editable">Eng. Ahmed Al-Mansoori</span><br/>
+          Title: <span contenteditable="true" class="editable">Director, WRE</span><br/>
+          Date: <span id="signDateEmployer" class="editable">19 August 2025</span>
+        </div>
+
+            <img src="./stamp.png" alt="Official Stamp" style="height: 80px; max-width: 150px; border: none; margin-top: 8px;"/>
+          </div>
+          <div class="sig-box">
+            <div>
+              <strong>For and on behalf of the Contractor</strong><br/>
+              <span id="contractorSig" class="editable">Mr. Randy Stanaway</span><br/>
+              <span id="contractorCompanySig" class="editable">American Engineering & Infrastructure Co.</span>
+            </div>
+            <img src="./linda.jpeg" alt="Linda's Signature" style="height: 60px; max-width: 250px; border: none; margin-top: 8px;"/>
+            <div class="sig-line"></div>
+            <div>
+              Name: <span contenteditable="true" class="editable">Mr. Randy Stanaway</span><br/>
+              Title: <span contenteditable="true" class="editable">Project Director</span><br/>
+              Date: <span id="signDateContractor" class="editable">19 August 2025</span>
+            </div>
+            <img src="./stamp.jpeg" alt="Official Stamp" style="height: 80px; max-width: 150px; border: none; margin-top: 8px;"/>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div>Prepared by: WRE Contracts & Procurement Division | Document Version: 2.1</div>
+        <div><img src="./minLogo.jpg" alt="Firm Logo" style="height: 30px; border: none;"></div>
+      </footer>
+    </article>
+  </div>
+
+  <script>
+    // Store original dates for reset functionality
+    const originalDates = {
+      awardDate: document.getElementById('awardDate').textContent,
+      effectiveDate: document.getElementById('effectiveDate').textContent,
+      startDate: document.getElementById('startDate').textContent,
+      signDateEmployer: document.getElementById('signDateEmployer').textContent,
+      signDateContractor: document.getElementById('signDateContractor').textContent
+    };
+
+    function formatLongDate(d){
+      return d.toLocaleDateString(undefined, { day:'2-digit', month:'long', year:'numeric' });
+    }
+
+    // Fill dates with yesterday/tomorrow values
+    document.getElementById('fillToday').addEventListener('click', () => {
+      const now = new Date();
+      const y = new Date(now); y.setDate(now.getDate() - 1);
+      const t = new Date(now); t.setDate(now.getDate() + 1);
+      
+      document.getElementById('awardDate').textContent = formatLongDate(y);
+      document.getElementById('effectiveDate').textContent = formatLongDate(now);
+      document.getElementById('startDate').textContent = formatLongDate(t);
+      document.getElementById('signDateEmployer').textContent = formatLongDate(y);
+      document.getElementById('signDateContractor').textContent = formatLongDate(y);
+    });
+
+    // Reset dates to original values
+    document.getElementById('resetDates').addEventListener('click', () => {
+      document.getElementById('awardDate').textContent = originalDates.awardDate;
+      document.getElementById('effectiveDate').textContent = originalDates.effectiveDate;
+      document.getElementById('startDate').textContent = originalDates.startDate;
+      document.getElementById('signDateEmployer').textContent = originalDates.signDateEmployer;
+      document.getElementById('signDateContractor').textContent = originalDates.signDateContractor;
+    });
+
+    // Make all elements with 'editable' class contenteditable
+    document.querySelectorAll('.editable').forEach(element => {
+      element.setAttribute('contenteditable', 'true');
+    });
+  </script>
+</body>
+</html>
