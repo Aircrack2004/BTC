@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qatar Visa - Randy Stanaway</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .visa-container {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            overflow: hidden;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .qatar-flag {
+            background: linear-gradient(to bottom, #8d1b3d 0%, #8d1b3d 33%, white 33%, white 66%, #8d1b3d 66%, #8d1b3d 100%);
+            position: relative;
+        }
+        
+        .arabic-text {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            direction: rtl;
+        }
+        
+        .security-pattern {
+            background-image: 
+                radial-gradient(circle at 100% 100%, transparent 20px, #8d1b3d 20px, #8d1b3d 25px, transparent 25px),
+                radial-gradient(circle at 0% 100%, transparent 20px, #8d1b3d 20px, #8d1b3d 25px, transparent 25px),
+                radial-gradient(circle at 100% 0%, transparent 20px, #8d1b3d 20px, #8d1b3d 25px, transparent 25px),
+                radial-gradient(circle at 0% 0%, transparent 20px, #8d1b3d 20px, #8d1b3d 25px, transparent 25px),
+                repeating-linear-gradient(45deg, transparent 0px, transparent 10px, rgba(141, 27, 61, 0.05) 10px, rgba(141, 27, 61, 0.05) 11px);
+        }
+        
+        .photo-frame {
+            border: 2px solid #8d1b3d;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .watermark {
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 10px,
+                rgba(141, 27, 61, 0.03) 10px,
+                rgba(141, 27, 61, 0.03) 20px
+            );
+        }
+        
+        .holo-effect {
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%);
+        }
+        
+        .qr-code {
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .number-badge {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .official-stamp {
+            background: radial-gradient(circle, transparent 30%, rgba(141, 27, 61, 0.1) 90%);
+            border: 2px dashed #8d1b3d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8d1b3d;
+        }
+        
+        /* Print-specific styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                display: block;
+            }
+            
+            .visa-container {
+                box-shadow: none;
+                border-radius: 0;
+                max-width: 100%;
+                page-break-after: avoid;
+                page-break-inside: avoid;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+            
+            .print-footer {
+                display: block;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                text-align: center;
+                font-size: 10px;
+                color: #666;
+                padding: 10px;
+                border-top: 1px solid #ddd;
+            }
+            
+            .security-pattern {
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            
+            .qatar-flag, .holo-effect, .watermark {
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            
+            .photo-frame {
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="visa-container">
+        <!-- Print Button -->
+        <div class="no-print absolute top-4 right-4 z-50">
+            <button onclick="printVisa()" class="bg-[#8d1b3d] hover:bg-[#6b1530] text-white font-bold py-2 px-4 rounded-lg flex items-center shadow-lg transition-all duration-300">
+                <i class="fas fa-print mr-2"></i> Print Visa
+            </button>
+        </div>
+        
+        <!-- Visa Header with Qatari Flag -->
+        <div class="qatar-flag py-4 px-8 flex justify-between items-center">
+            <div class="text-white">
+                <h1 class="text-2xl font-bold">STATE OF QATAR</h1>
+                <p class="text-sm">Visa Authorization</p>
+            </div>
+            <div class="text-white text-right">
+                <p class="arabic-text text-xl">دولة قطر</p>
+                <p class="text-sm">تصريح دخول</p>
+            </div>
+        </div>
+        
+        <!-- Main Visa Content -->
+        <div class="bg-white security-pattern relative">
+            <!-- Watermark -->
+            <div class="watermark absolute inset-0 z-0"></div>
+            
+            <!-- Holo Strip -->
+            <div class="holo-effect h-2 w-full"></div>
+            
+            <div class="relative z-10 px-8 py-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Photo and Personal Details -->
+                    <div class="col-span-1">
+                        <div class="photo-frame w-40 h-48 mx-auto mb-4">
+                            <!-- Visa Photo Placeholder -->
+                            <div class="w-full h-full bg-gray-200 flex flex-col items-center justify-center text-gray-500">
+                                <i class="fas fa-user text-4xl mb-2"></i>
+                                <span class="text-xs text-center">Visa Photo<br>35mm x 45mm</span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mb-6">
+                            <div class="official-stamp w-24 h-24 mx-auto mb-2 flex items-center justify-center">
+                                <div class="text-center">
+                                    <p class="text-xs font-bold">OFFICIAL</p>
+                                    <p class="text-[10px]">SEAL</p>
+                                    <div class="w-8 h-0.5 bg-[#8d1b3d] mx-auto my-1"></div>
+                                    <p class="text-[8px]">QATAR</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-[#8d1b3d] flex items-center justify-center mr-3">
+                                    <i class="fas fa-user text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Full Name</p>
+                                    <p class="font-bold">RANDY STANAWAY</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-[#8d1b3d] flex items-center justify-center mr-3">
+                                    <i class="fas fa-passport text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Passport No.</p>
+                                    <p class="font-bold">P78945612</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-[#8d1b3d] flex items-center justify-center mr-3">
+                                    <i class="fas fa-flag text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Nationality</p>
+                                    <p class="font-bold">AMERICAN</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Visa Details -->
+                    <div class="col-span-2">
+                        <div class="mb-6">
+                            <h2 class="text-2xl font-bold text-[#8d1b3d] mb-2">ENTRY VISA</h2>
+                            <p class="text-sm text-gray-600">This document authorizes the holder to enter the State of Qatar for the specified purpose and duration.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <p class="text-xs text-gray-500">Visa Type</p>
+                                <p class="font-bold">Business Visa</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Visa Number</p>
+                                <p class="font-bold number-badge">QTR-BZ-2023-08765</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Entry Type</p>
+                                <p class="font-bold">Multiple Entry</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Duration of Stay</p>
+                                <p class="font-bold">90 Days</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <p class="text-xs text-gray-500">Issue Date</p>
+                                <p class="font-bold">15 AUG 2023</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Expiry Date</p>
+                                <p class="font-bold">14 NOV 2023</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Place of Issue</p>
+                                <p class="font-bold">Doha, Qatar</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Purpose of Visit</p>
+                                <p class="font-bold">Business Meeting</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <p class="text-xs text-gray-500">Sponsor/Host in Qatar</p>
+                            <p class="font-bold">Ministry of Municipality & Environment</p>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="mr-4">
+                                <div class="qr-code" id="qrcode">
+                                    <!-- QR Code will be generated here -->
+                                </div>
+                                <p class="text-xs text-center text-gray-500 mt-1">Scan to verify</p>
+                            </div>
+                            <div class="flex-1 border-l border-gray-200 pl-4">
+                                <p class="text-xs text-gray-500">Additional Information</p>
+                                <ul class="text-xs text-gray-600 list-disc pl-5 mt-1 space-y-1">
+                                    <li>Visa must be used within 30 days of issue</li>
+                                    <li>Extension possible with approval</li>
+                                    <li>Must have health insurance coverage</li>
+                                    <li>COVID regulations may apply</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Additional Information -->
+                <div class="border-t border-gray-200 pt-6 mt-6">
+                    <h3 class="text-lg font-semibold text-[#8d1b3d] mb-3">Conditions & Regulations</h3>
+                    <ul class="text-xs text-gray-600 list-disc pl-5 space-y-1">
+                        <li>This visa must be presented upon arrival in Qatar along with a valid passport.</li>
+                        <li>The holder must comply with all laws and regulations of the State of Qatar.</li>
+                        <li>This visa is not valid for employment purposes without additional authorization.</li>
+                        <li>The duration of stay must not exceed the period specified herein.</li>
+                        <li>This visa may be revoked at the discretion of Qatari immigration authorities.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="bg-gray-100 px-8 py-4 flex flex-col md:flex-row justify-between items-center">
+                <div class="text-xs text-gray-600 mb-2 md:mb-0">
+                    <p>For verification, visit: <span class="font-medium">portal.mme.gov.qa/visa-verify</span></p>
+                </div>
+                <div class="text-xs text-gray-600">
+                    <p>Issuing Authority: Ministry of Interior - State of Qatar</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        // Simple animation for the visa card
+        document.addEventListener('DOMContentLoaded', function() {
+            const visa = document.querySelector('.visa-container');
+            visa.style.transform = 'scale(0.9)';
+            visa.style.opacity = '0';
+            
+            setTimeout(() => {
+                visa.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+                visa.style.transform = 'scale(1)';
+                visa.style.opacity = '1';
+            }, 100);
+            
+            // Set current date for print footer
+            const now = new Date();
+            document.getElementById('print-date').textContent = now.toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+            
+            // Generate QR Code
+            generateQRCode();
+        });
+
+        // Generate QR Code function
+        function generateQRCode() {
+            // Official Qatar visa verification website
+            const qrText = "https://portal.mme.gov.qa/visa-verify?vid=QTR-BZ-2023-08765";
+            
+            // Options for the QR code
+            const options = {
+                text: qrText,
+                width: 100,
+                height: 100,
+                colorDark: "#8d1b3d",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            };
+            
+            // Create QR Code
+            new QRCode(document.getElementById("qrcode"), options);
+        }
+
+        // Print function
+        function printVisa() {
+            // Before printing actions
+            const originalTitle = document.title;
+            document.title = "Qatar Visa - Randy Stanaway - " + new Date().toLocaleDateString();
+            
+            // Run print
+            window.print();
+            
+            // After printing actions
+            document.title = originalTitle;
+        }
+
+        // Add keyboard shortcut (Ctrl + P or Cmd + P)
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                e.preventDefault();
+                printVisa();
+            }
+        });
+    </script>
+</body>
+</html>
