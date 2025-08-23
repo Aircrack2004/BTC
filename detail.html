@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Card Information - National ID System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#475569',
+                        dark: '#1e293b',
+                        light: '#f8fafc',
+                        govblue: '#1e3a8a',
+                        govred: '#b91c1c',
+                        idblue: '#1d4ed8',
+                        idred: '#dc2626',
+                        idgold: '#f59e0b',
+                        idgreen: '#059669'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom, #f1f5f9, #e2e8f0);
+            min-height: 100vh;
+        }
+        .id-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .id-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .verified-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .security-pattern {
+            background-color: #f1f5f9;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231e40af' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .id-photo {
+            border: 4px solid #e5e7eb;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .id-photo:hover {
+            transform: scale(1.03);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .official-stamp {
+            font-family: 'Libre Baskerville', serif;
+        }
+        .watermark {
+            position: absolute;
+            opacity: 0.03;
+            font-size: 8rem;
+            font-weight: bold;
+            color: #1e40af;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .holographic {
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            border-radius: 16px;
+            opacity: 0.2;
+        }
+        .id-number {
+            letter-spacing: 2px;
+            font-feature-settings: "tnum";
+            background: linear-gradient(90deg, #1d4ed8, #1e40af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        .signature-area {
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 5px,
+                #f3f4f6 5px,
+                #f3f4f6 10px
+            );
+        }
+        .microprint {
+            font-size: 5px;
+            color: #64748b;
+            line-height: 1.2;
+        }
+        .action-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .info-card {
+            transition: all 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Print styles */
+        @media print {
+            body, html {
+                background: white !important;
+                width: 100% !important;
+                height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .id-card, .info-card {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid;
+            }
+            .container {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .action-btn, .security-notice {
+                display: none !important;
+            }
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 640px) {
+            .mobile-stack {
+                display: flex;
+                flex-direction: column;
+            }
+            .mobile-stack > * {
+                margin-bottom: 1rem;
+            }
+            .mobile-stack > *:last-child {
+                margin-bottom: 0;
+            }
+            .mobile-padding {
+                padding: 1rem;
+            }
+            .mobile-text-center {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-3 md:p-6 lg:p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-6 md:mb-8">
+            <div class="flex items-center justify-center mb-2">
+                <div class="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-idblue to-govblue rounded-full flex items-center justify-center mr-3 shadow-md">
+                    <i class="fas fa-id-card text-white text-xl md:text-2xl"></i>
+                </div>
+                <h1 class="text-2xl md:text-4xl font-bold text-dark bg-clip-text text-transparent bg-gradient-to-r from-idblue to-govblue">National ID Verification System</h1>
+            </div>
+            <p class="text-secondary text-sm md:text-base">Official Government Identification Record</p>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="block flex-col md:flex-row items-center justify-between mb-6 bg-white p-4 md:p-5 rounded-xl shadow-md no-print">
+            <div class="flex items-center justify-between mb-2 md:mb-0">
+                <div class="verified-badge text-white px-4 py-1.5 rounded-full text-sm md:text-base font-medium flex items-center">
+                    <i class="fas fa-shield-check mr-2"></i> Verified Identity
+                </div>
+                <div class="ml-3 md:ml-4 text-sm md:text-base text-secondary">Status: <span class="text-green-600 font-medium">Active</span></div>
+            </div>
+            <div class="text-sm md:text-base text-secondary flex items-center">
+                <i class="fas fa-history mr-2 text-primary"></i>
+                Last Updated: <span class="font-medium ml-1">Oct 15, 2022 14:23 EST</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 md:gap-6">
+            <!-- Main ID Card -->
+            <div class="id-card p-5 md:p-6 xl:col-span-2 security-pattern">
+                <div class="watermark">GOVERNMENT ID</div>
+                <div class="holographic"></div>
+                
+                <div class="block justify-between items-start mb-5 md:mb-6 relative z-10">
+                    <div>
+                <h2 class="text-[clamp(1rem,4vw,1.5rem)] font-bold text-govblue official-stamp">
+                    UNITED STATES OF AMERICA
+                </h2>
+                <p class="text-xs md:text-sm text-secondary">Passport Card</p>                   
+ </div>
+                    <div class="bg-gradient-to-r from-idblue to-govblue text-white px-4 py-1.5 rounded-lg text-sm font-bold shadow-sm">
+                        <span class="id-number">789-456-123-0</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 relative z-10">
+                    <div class="md:col-span-2">
+                        <div class="mb-5 md:mb-6">
+                            <h3 class="text-2xl md:text-3xl font-bold text-dark official-stamp">George Wilson</h3>
+                            <p class="text-xs md:text-sm text-secondary">Full Name</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 md:gap-4 mb-5 md:mb-6">
+                            <div>
+                                <p class="text-xs md:text-sm text-secondary">Date of Birth</p>
+                                <p class="text-sm md:text-base font-medium">July 13, 1974</p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs md:text-sm text-secondary">Age</p>
+                                <p class="text-sm md:text-base font-medium">51 years</p>
+                            </div>
+                            <div>
+                                <p class="text-xs md:text-sm text-secondary">Gender</p>
+                                <p class="text-sm md:text-base font-medium">Male</p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs md:text-sm text-secondary">Blood Type</p>
+                                <p class="text-sm md:text-base font-medium">O+</p>
+                            </div>
+                        </div>
+
+                <div class="mb-5 md:mb-6">
+                    <p class="text-xs md:text-sm text-secondary">Residential Address</p>
+                    <p class="text-sm md:text-base font-medium">125 Mount Vernon St</p>
+                    <p class="text-sm md:text-base font-medium">Boston, MA 02108</p>
+                </div>
+
+                        <div class="grid grid-cols-2 gap-3 md:gap-4">
+                            <div>
+                                <p class="text-xs md:text-sm text-secondary">State / Region</p>
+                                <p class="text-sm md:text-base font-medium">Boston Massachusetts</p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs md:text-sm text-secondary">Province</p>
+                                <p class="text-sm md:text-base font-medium">North</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between md:block">
+                        <div class="id-photo w-32 h-32 md:w-40 md:h-40 rounded-xl bg-gray-200 mb-4 md:mb-5 overflow-hidden">
+                            <img src="idimage-bgremoved.png" alt="ID Photo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="w-full h-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-white" style="display: none;">
+                                <i class="fas fa-user text-4xl md:text-5xl"></i>
+                            </div>
+                        </div>
+                        <div class="text-center mb-3">
+                            <p class="text-xs md:text-sm text-secondary">ID Issue Date</p>
+                            <p class="text-sm md:text-base font-medium">Oct 10, 2021</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs md:text-sm text-secondary">Expiration Date</p>
+                            <p class="text-sm md:text-base font-medium">Oct 12, 2031</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-gray-200 relative z-10">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div class="mb-3 md:mb-0">
+                            <p class="text-xs md:text-sm text-secondary">Issuing Authority</p>
+                <p class="text-sm md:text-base font-medium">U.S. Department of State</p>                        </div>
+                        <div>
+                            <p class="text-xs md:text-sm text-secondary">Name of Holder</p>
+                            <div class="signature-area h-8 w-40 md:w-48 rounded-sm flex items-center justify-center mt-1">
+                                <div class="text-xs italic font-semibold">George Wilson</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Microprint security feature -->
+                <div class="mt-4 pt-2 border-t border-gray-100 microprint">
+                    ID-789456123-0 • VERIFIED•2023•NATIONAL•IDENTIFICATION•SYSTEM•OFFICIAL•DOCUMENT•SECURITY•FEATURES•INCLUDED•AUTHENTIC•GOVERNMENT•ISSUED
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="space-y-5 md:space-y-6">
+                <!-- Physical Characteristics -->
+                <div class="info-card id-card p-5 md:p-6 security-pattern relative overflow-hidden">
+                    <div class="watermark">GOVERNMENT ID</div>
+                    <div class="holographic"></div>
+                    
+                    <h3 class="text-lg md:text-xl font-bold text-dark mb-4 flex items-center relative z-10">
+                        <i class="fas fa-ruler-combined mr-2 text-primary"></i>
+                        Physical Characteristics
+                    </h3>
+
+                    <div class="grid grid-cols-2 gap-3 md:gap-4 relative z-10">
+                        <div>
+                            <p class="text-xs md:text-sm text-secondary">Height</p>
+                            <p class="text-sm md:text-base font-medium">5'11" (180 cm)</p>
+                        </div>
+                        <div>
+                            <p class="text-xs md:text-sm text-secondary">Weight</p>
+                            <p class="text-sm md:text-base font-medium">175 lbs (79 kg)</p>
+                        </div>
+                        <div>
+                            <p class="text-xs md:text-sm text-secondary">Eyes</p>
+                            <p class="text-sm md:text-base font-medium">Brown</p>
+                        </div>
+                        <div>
+                            <p class="text-xs md:text-sm text-secondary">Hair</p>
+                            <p class="text-sm md:text-base font-medium">Black</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Details -->
+                <div class="info-card id-card p-5 md:p-6 security-pattern relative overflow-hidden">
+                    <div class="watermark">GOVERNMENT ID</div>
+                    <div class="holographic"></div>
+                    
+                    <h3 class="text-lg md:text-xl font-bold text-dark mb-4 flex items-center relative z-10">
+                        <i class="fas fa-info-circle mr-2 text-primary"></i>
+                        Additional Details
+                    </h3>
+                    <div class="space-y-3 md:space-y-4 relative z-10">
+                        <div>
+                            <p class="text-xs md:text-sm text-secondary">Citizenship</p>
+                            <p class="text-sm md:text-base font-medium">United States</p>
+                        </div>
+                        <div>
+                            <p class="text-xs md:text-sm text-secondary">Occupation</p>
+                            <p class="text-sm md:text-base font-medium">Software Engineer</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Tracking Information -->
+                <div class="info-card id-card p-5 md:p-6 security-pattern relative overflow-hidden">
+                    <div class="watermark">GOVERNMENT ID</div>
+                    <div class="holographic"></div>
+                    
+                    <h3 class="text-lg md:text-xl font-bold text-dark mb-4 flex items-center relative z-10">
+                        <i class="fas fa-search-location mr-2 text-primary"></i>
+                        Tracking Information
+                    </h3>
+                    <div class="space-y-3 md:space-y-4 relative z-10">
+
+                        <div>
+                            <p class="text-xs md:text-sm text-secondary">First Issued</p>
+                            <p class="text-sm md:text-base font-medium">Oct 10 2021</p>
+                        </div>
+                        <div>
+                            <p class="text-xs md:text-sm text-secondary">Expires On</p>
+                            <p class="text-sm md:text-base font-medium">Oct 12 2031</p>
+                        </div>
+                        <div>
+                            <p class="text-xs md:text-sm text-secondary">Verification Level</p>
+                            <p class="text-sm md:text-base font-medium">Level 4 - Enhanced</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3 md:gap-4 mt-6 md:mt-8 justify-center no-print">
+            <button id="printBtn" class="action-btn px-6 py-3 bg-gradient-to-r from-idblue to-govblue text-white rounded-xl font-medium hover:from-blue-700 hover:to-blue-800 transition flex items-center justify-center shadow-md text-base">
+                <i class="fas fa-print mr-2"></i> Print ID Summary
+            </button>
+            <button id="downloadBtn" class="action-btn px-6 py-3 bg-gradient-to-r from-idgreen to-green-700 text-white rounded-xl font-medium hover:from-green-600 hover:to-green-700 transition flex items-center justify-center text-base">
+                <i class="fas fa-download mr-2"></i> Download Record
+            </button>
+            <button class="action-btn px-6 py-3 bg-gradient-to-r from-idred to-red-700 text-white rounded-xl font-medium hover:from-red-600 hover:to-red-700 transition flex items-center justify-center text-base">
+                <i class="fas fa-flag mr-2"></i> Report Issue
+            </button>
+        </div>
+
+        <!-- Security Notice -->
+        <div class="mt-6 md:mt-8 text-center text-xs md:text-sm text-secondary security-notice no-print">
+            <p class="flex items-center justify-center"><i class="fas fa-lock mr-2 text-primary"></i> This information is secured and encrypted for authorized use only</p>
+            <p class="mt-1">Unauthorized access or use is prohibited by law - Penal Code § 102.345</p>
+        </div>
+    </div>
+
+    <script>
+        // Print functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const printBtn = document.getElementById('printBtn');
+            printBtn.addEventListener('click', function() {
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Preparing...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    window.print();
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                }, 500);
+            });
+
+            // Download functionality
+            const downloadBtn = document.getElementById('downloadBtn');
+            downloadBtn.addEventListener('click', function() {
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Downloading...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    // Create a virtual link to trigger download
+                    const a = document.createElement('a');
+                    a.href = 'data:text/plain;charset=utf-8,National ID Verification Record%0A%0AThis is a simulated download.%0AIn a real application, this would download the actual ID record.';
+                    a.download = 'id_record.txt';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                }, 1500);
+            });
+
+            // Add holographic effect on hover for ID card
+            const idCards = document.querySelectorAll('.id-card');
+            
+            idCards.forEach(card => {
+                const holographic = card.querySelector('.holographic');
+                
+                card.addEventListener('mousemove', function(e) {
+                    const x = e.offsetX / this.offsetWidth * 100;
+                    const y = e.offsetY / this.offsetHeight * 100;
+                    
+                    if (holographic) {
+                        holographic.style.background = `linear-gradient(${x * 3.6}deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3), rgba(255,255,255,0.1))`;
+                    }
+                });
+            });
+            
+            // Responsive adjustments for mobile
+            function adjustForMobile() {
+                if (window.innerWidth < 768) {
+                    document.querySelectorAll('.info-card').forEach(card => {
+                        card.classList.add('mobile-padding');
+                    });
+                    document.querySelectorAll('h1, h2, h3').forEach(heading => {
+                        heading.classList.add('mobile-text-center');
+                    });
+                }
+            }
+            
+            // Run on load and resize
+            adjustForMobile();
+            window.addEventListener('resize', adjustForMobile);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Tracking System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        primaryDark: '#1e40af',
+                        secondary: '#475569',
+                        dark: '#1e293b',
+                        light: '#f8fafc',
+                        subtle: '#f1f5f9',
+                        card: '#ffffff',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#ef4444'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1e40af;
+            --secondary: #475569;
+            --dark: #1e293b;
+            --light: '#f8fafc';
+            --card: #ffffff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+        
+        body { 
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            min-height: 100vh;
+        }
+        
+        .card-shadow { 
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+        
+        input:focus, select:focus { 
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+            border-color: #3b82f6;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .input-icon {
+            color: #94a3b8;
+            transition: color 0.2s ease;
+        }
+        
+        input:focus + .input-icon-wrapper .input-icon,
+        select:focus + .input-icon-wrapper .input-icon {
+            color: #2563eb;
+        }
+        
+        .processing-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .processing-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .progress-bar {
+            width: 0%;
+            transition: width 2s ease-in-out;
+        }
+        
+        .progress-bar.active {
+            width: 100%;
+        }
+        
+        /* Custom date input styling */
+        input[type="date"] {
+            position: relative;
+        }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            cursor: pointer;
+        }
+        
+        .date-input-wrapper:after {
+            content: '\f073';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        /* Form section animations */
+        .form-section {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .form-section:hover {
+            border-left-color: var(--primary);
+            transform: translateX(4px);
+        }
+        
+        /* Button animations */
+        .btn-primary {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+        
+        .btn-primary:hover:before {
+            left: 100%;
+        }
+        
+        /* Focus states for accessibility */
+        button:focus, input:focus, select:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+        
+        /* Mobile-specific improvements */
+        @media (max-width: 768px) {
+            .mobile-optimized-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding-top: 14px;
+                padding-bottom: 14px;
+            }
+            
+            .mobile-section {
+                padding: 16px;
+            }
+            
+            .mobile-button {
+                padding-top: 16px;
+                padding-bottom: 16px;
+                width: 100%;
+            }
+            
+            .mobile-stack > * + * {
+                margin-top: 20px;
+            }
+            
+            /* Improve touch targets */
+            input, select, button {
+                min-height: 44px;
+            }
+            
+            /* Adjust spacing for mobile */
+            .mobile-spacing {
+                margin-top: 12px;
+            }
+            
+            /* Better handling of date inputs on mobile */
+            input[type="date"] {
+                min-height: 48px;
+            }
+        }
+        
+        /* Custom checkbox styling */
+        .custom-checkbox {
+            position: relative;
+            padding-left: 28px;
+            cursor: pointer;
+            display: inline-block;
+            color: var(--secondary);
+            font-size: 0.875rem;
+        }
+        
+        .custom-checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: white;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .custom-checkbox:hover input ~ .checkmark {
+            border-color: var(--primary);
+        }
+        
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+        
+        .custom-checkbox .checkmark:after {
+            left: 7px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        
+        /* Loading animation */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Success animation */
+        @keyframes checkmark {
+            0% { stroke-dashoffset: 50px; opacity: 0; }
+            50% { opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+        
+        .success-checkmark {
+            stroke-dasharray: 50px;
+            stroke-dashoffset: 50px;
+            animation: checkmark 0.6s ease-in-out forwards;
+            animation-delay: 0.2s;
+        }
+        
+        /* NEW STYLES FOR ENHANCED PROCESSING OVERLAY */
+        .processing-step {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            position: absolute;
+            width: 100%;
+        }
+        
+        .processing-step.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .progress-container {
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            background-color: #e5e7eb;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #2563eb);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .step-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #d1d5db;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .step-dot.active {
+            background-color: #3b82f6;
+            transform: scale(1.3);
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: calc(200px + 100%) 0; }
+        }
+        
+        .shimmer-effect {
+            background: linear-gradient(90deg, #f0f4f8 0%, #e5e7eb 50%, #f0f4f8 100%);
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-0.5 py-6 md:p-8">
+    <div class="w-full max-w-2xl bg-card rounded-xl md:rounded-2xl card-shadow overflow-hidden">
+        <!-- Header with illustration -->
+        <div class="bg-gradient-to-r from-primary to-primaryDark text-white p-5 md:p-8 relative overflow-hidden">
+            <div class="absolute -top-4 -right-4 opacity-10">
+                <i class="fas fa-id-card-alt text-[8rem] md:text-[14rem]"></i>
+            </div>
+            <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-300 to-blue-600 opacity-50"></div>
+            <div class="relative z-10 flex items-center justify-between">
+                <div>
+                    <h1 class="text-xl md:text-3xl font-bold tracking-tight">ID Tracking System</h1>
+                    <p class="mt-1 md:mt-2 opacity-90 text-xs md:text-base">Verify and track your identification documents</p>
+                </div>
+                <div class="hidden md:block animate-float">
+                    <i class="fas fa-search text-4xl opacity-80"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Form Body -->
+        <div class="p-1 md:p-7">
+            <div class="mb-5 md:mb-6 text-center">
+                <h2 class="text-lg md:text-xl font-semibold text-dark tracking-tight">Enter Your Details</h2>
+                <p class="text-secondary mt-1 text-sm">Fill in the form below to track your ID</p>
+            </div>
+            
+            <form id="trackingForm" class="space-y-4 md:space-y-5">
+                <!-- Personal Information -->
+                <div class="form-section bg-white p-4 md:p-5 rounded-lg md:rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-sm md:text-base font-semibold text-dark mb-3 md:mb-4 flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                            <i class="fas fa-user-circle text-primary text-sm"></i>
+                        </div>
+                        Personal Information
+                    </h3>
+                    
+                    <div class="mobile-stack md:grid md:grid-cols-2 md:gap-4">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-secondary">Full Name <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <div class="input-icon-wrapper absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <i class="fas fa-user input-icon text-sm md:text-base"></i>
+                                </div>
+                                <input type="text" required class="w-full pl-10 pr-4 py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition mobile-optimized-input" placeholder="Enter your full name">
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 mobile-spacing">
+                            <label class="block text-sm font-medium text-secondary">Date of Birth <span class="text-red-500">*</span></label>
+                            <div class="relative date-input-wrapper">
+                                <div class="input-icon-wrapper absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <i class="fas fa-calendar-day input-icon text-sm md:text-base"></i>
+                                </div>
+                                <input type="date" required class="w-full pl-3 pr-10 py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition mobile-optimized-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ID Information -->
+                <div class="form-section bg-white p-4 md:p-5 rounded-lg md:rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-sm md:text-base font-semibold text-dark mb-3 md:mb-4 flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                            <i class="fas fa-id-card text-primary text-sm"></i>
+                        </div>
+                        ID Information
+                    </h3>
+                    
+                    <div class="mobile-stack md:grid md:grid-cols-2 md:gap-4">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-secondary">ID Number <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <div class="input-icon-wrapper absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <i class="fas fa-fingerprint input-icon text-sm md:text-base"></i>
+                                </div>
+                                <input type="text" required class="w-full pl-10 pr-4 py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition mobile-optimized-input" placeholder="123-456-789">
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 mobile-spacing">
+                            <label class="block text-sm font-medium text-secondary">ID Type <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <div class="input-icon-wrapper absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <i class="fas fa-passport input-icon text-sm md:text-base"></i>
+                                </div>
+                                <select required class="w-full pl-10 pr-10 py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition appearance-none bg-white mobile-optimized-input">
+                                    <option value="" disabled selected>Select ID Type</option>
+                                    <option>National ID</option>
+                                    <option>Passport</option>
+                                    <option>Driver's License</option>
+                                    <option>Other Government ID</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-stack md:grid md:grid-cols-2 md:gap-4 mt-3 md:mt-4">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-secondary">Issue Date <span class="text-red-500">*</span></label>
+                            <div class="relative date-input-wrapper">
+                                <div class="input-icon-wrapper absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <i class="fas fa-calendar-check input-icon text-sm md:text-base"></i>
+                                </div>
+                                <input type="date" required class="w-full pl-3 pr-10 py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition mobile-optimized-input">
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 mobile-spacing">
+                            <label class="block text-sm font-medium text-secondary">Expiry Date <span class="text-red-500">*</span></label>
+                            <div class="relative date-input-wrapper">
+                                <div class="input-icon-wrapper absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <i class="fas fa-calendar-times input-icon text-sm md:text-base"></i>
+                                </div>
+                                <input type="date" required class="w-full pl-3 pr-10 py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition mobile-optimized-input">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 md:mt-4 space-y-2">
+                        <label class="block text-sm font-medium text-secondary">Issuing Authority <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <div class="input-icon-wrapper absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <i class="fas fa-building input-icon text-sm md:text-base"></i>
+                            </div>
+                            <input type="text" required class="w-full pl-10 pr-4 py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition mobile-optimized-input" placeholder="Department of State">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="form-section bg-white p-4 md:p-5 rounded-lg md:rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-sm md:text-base font-semibold text-dark mb-3 md:mb-4 flex items-center">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                            <i class="fas fa-address-book text-primary text-sm"></i>
+                        </div>
+                        Contact Information
+                    </h3>
+                    
+                    <div class="space-y-3 md:space-y-4">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-secondary">Email Address <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <div class="input-icon-wrapper absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <i class="fas fa-envelope input-icon text-sm md:text-base"></i>
+                                </div>
+                                <input type="email" required class="w-full pl-10 pr-4 py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition mobile-optimized-input" placeholder="Enter a valid email address">
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-secondary">Phone Number <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <div class="input-icon-wrapper absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <i class="fas fa-phone input-icon text-sm md:text-base"></i>
+                                </div>
+                                <input type="tel" required class="w-full pl-10 pr-4 py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition mobile-optimized-input" placeholder="+1 (555) 123-4567">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Consent Checkbox -->
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a> and <a href="#" class="text-primary hover:underline">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <!-- Buttons -->
+                <div class="flex flex-col gap-3 pt-2">
+                    <button type="submit" class="btn-primary px-6 py-3.5 bg-primary text-white rounded-xl font-medium hover:bg-primaryDark transition flex items-center justify-center shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 mobile-button">
+                        <i class="fas fa-search mr-2"></i> Track ID
+                    </button>
+
+                </div>
+            </form>
+            
+            <!-- Help Text -->
+            <div class="mt-5 md:mt-6 text-center text-sm text-secondary">
+                <p>Need help? Contact our support team at <a href="mailto:support@idtracker.com" class="text-primary hover:underline font-medium">support@idtracker.com</a></p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="bg-gray-50 p-4 md:p-5 text-center text-xs text-gray-500 border-t border-gray-100">
+            <p>© 2025 ID Tracking System. All rights reserved. | <a href="#" class="text-primary hover:underline">Privacy Policy</a> | <a href="#" class="text-primary hover:underline">Terms of Service</a></p>
+        </div>
+    </div>
+
+    <!-- Enhanced Processing Overlay -->
+    <div class="processing-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl md:rounded-2xl p-5 md:p-7 max-w-md w-5/6 md:w-2/3 mx-auto card-shadow">
+            <div class="text-center">
+                <div class="w-14 h-14 md:w-16 md:h-16 mx-auto mb-4 md:mb-5 rounded-full bg-blue-50 flex items-center justify-center pulse-animation">
+                    <i class="fas fa-spinner fa-spin text-xl md:text-2xl text-primary"></i>
+                </div>
+                <h3 class="text-lg md:text-xl font-semibold text-dark mb-2 md:mb-3">Processing Your Request</h3>
+                
+                <div class="relative h-8 mb-4">
+                    <div class="processing-step active" id="step1">
+                        <p class="text-secondary text-sm md:text-base">Validating checks...</p>
+                    </div>
+                    <div class="processing-step" id="step2">
+                        <p class="text-secondary text-sm md:text-base">Retrieving information...</p>
+                    </div>
+                    <div class="processing-step" id="step3">
+                        <p class="text-secondary text-sm md:text-base">Validating information...</p>
+                    </div>
+                    <div class="processing-step" id="step4">
+                        <p class="text-secondary text-sm md:text-base">Finalizing verification...</p>
+                    </div>
+                </div>
+                
+                <div class="progress-container mb-3">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                
+                <div class="step-indicator mb-5">
+                    <div class="step-dot active" id="dot1"></div>
+                    <div class="step-dot" id="dot2"></div>
+                    <div class="step-dot" id="dot3"></div>
+                    <div class="step-dot" id="dot4"></div>
+                </div>
+                
+                <p class="text-xs text-gray-500">You will be redirected to the details page shortly</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('trackingForm');
+            const processingOverlay = document.querySelector('.processing-overlay');
+            const progressFill = document.getElementById('progressFill');
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show processing overlay
+                processingOverlay.classList.add('active');
+                
+                // Start the enhanced processing animation
+                startProcessingAnimation();
+                
+                // Simulate processing and redirect
+                setTimeout(() => {
+                    window.location.href = 'detail.html';
+                }, 6000); // Increased to 6 seconds to show all steps
+            });
+            
+            // Enhanced processing animation function
+            function startProcessingAnimation() {
+                const steps = document.querySelectorAll('.processing-step');
+                const dots = document.querySelectorAll('.step-dot');
+                
+                // Reset all steps and dots
+                steps.forEach(step => step.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                // Activate first step and dot
+                steps[0].classList.add('active');
+                dots[0].classList.add('active');
+                
+                // Animate progress bar
+                progressFill.style.width = '0%';
+                setTimeout(() => {
+                    progressFill.style.width = '25%';
+                }, 100);
+                
+                // Sequence through the steps
+                const stepDuration = 1200; // Time each step is visible
+                
+                // Step 2
+                setTimeout(() => {
+                    steps[0].classList.remove('active');
+                    steps[1].classList.add('active');
+                    dots[0].classList.remove('active');
+                    dots[1].classList.add('active');
+                    progressFill.style.width = '50%';
+                }, stepDuration);
+                
+                // Step 3
+                setTimeout(() => {
+                    steps[1].classList.remove('active');
+                    steps[2].classList.add('active');
+                    dots[1].classList.remove('active');
+                    dots[2].classList.add('active');
+                    progressFill.style.width = '75%';
+                }, stepDuration * 2);
+                
+                // Step 4
+                setTimeout(() => {
+                    steps[2].classList.remove('active');
+                    steps[3].classList.add('active');
+                    dots[2].classList.remove('active');
+                    dots[3].classList.add('active');
+                    progressFill.style.width = '100%';
+                }, stepDuration * 3);
+            }
+            
+            // Form reset
+            form.addEventListener('reset', function() {
+                // Remove any validation styles if needed
+                const inputs = form.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    input.classList.remove('border-red-500');
+                });
+            });
+            
+            // Input validation styling
+            const inputs = form.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('invalid', function() {
+                    this.classList.add('border-red-500');
+                });
+                
+                input.addEventListener('input', function() {
+                    if (this.checkValidity()) {
+                        this.classList.remove('border-red-500');
+                    }
+                });
+            });
+            
+            // Better date input handling for mobile
+            const dateInputs = form.querySelectorAll('input[type="date"]');
+            dateInputs.forEach(input => {
+                // Add a class when the input has a value
+                input.addEventListener('change', function() {
+                    if (this.value) {
+                        this.classList.add('has-value');
+                    } else {
+                        this.classList.remove('has-value');
+                    }
+                });
+                
+                // Set font size to prevent zoom on iOS
+                input.addEventListener('focus', function() {
+                    this.style.fontSize = '16px';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.style.fontSize = '';
+                });
+            });
+            
+            // Add subtle animations to form sections
+            const formSections = document.querySelectorAll('.form-section');
+            formSections.forEach(section => {
+                section.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                });
+                
+                section.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
