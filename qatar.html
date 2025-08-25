@@ -3,23 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Qatar Airways Booking Confirmation</title>
+    <title>Qatar Airways Itinerary: Doha to Wartrace</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'qatar-blue': '#5C0E47',
+                        'qatar-maroon': '#8D1939',
+                        'qatar-gold': '#B38E43',
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @media print {
+            .no-print {
+                display: none;
+            }
+            body {
+                padding: 0;
+                margin: 0;
+                background: white;
+            }
+            .print-shadow {
+                box-shadow: none;
+            }
+            .break-inside-avoid {
+                break-inside: avoid;
+            }
+            @page {
+                margin: 0.5in;
+            }
+        }
+        .flight-path {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        .flight-path::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #5C0E47 0%, #8D1939 50%, #B38E43 100%);
+            z-index: 1;
+        }
+        .flight-time {
+            background: white;
+            padding: 0.5rem;
+            z-index: 2;
+            position: relative;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 font-sans">
-    <div class="max-w-4xl mx-auto p-4">
+    <div class="max-w-4xl mx-auto p-4 bg-white print:bg-white print:p-0">
         <!-- Header -->
-        <header class="bg-white shadow-sm rounded-lg mb-6 overflow-hidden">
-            <div class="bg-blue-800 p-4 text-white">
+        <header class="bg-white print-shadow rounded-lg mb-6 overflow-hidden border border-gray-200 print:border-0">
+            <div class="bg-qatar-blue p-4 text-white">
                 <div class="flex flex-row justify-between items-start sm:items-center gap-2 flex-wrap">
-                    <div>
-                        <h1 class="text-xl sm:text-2xl font-bold">Qatar Airways</h1>
-                        <p class="text-blue-200 text-sm sm:text-base">Booking Confirmation</p>
+                    <div class="flex items-center">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjYjM4ZTQzIiBkPSJNNjAgMTBsMTAgMTVoLTIwbDEwLTE1em0tNDAgNjBsMTAgMTVoLTIwbDEwLTE1em04MCAwbDEwIDE1aC0yMGwxMC0xNXpNNjAgNzBsMTAgMTVoLTIwbDEwLTE1eiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik00MCA0MGwyMCAxMCAyMC0xMC0yMC0xMC0yMCAxMHoiLz48L3N2Zz4=" alt="Qatar Airways Logo" class="h-10 mr-3">
+                        <div>
+                            <h1 class="text-xl sm:text-2xl font-bold">Qatar Airways</h1>
+                            <p class="text-gray-300 text-sm sm:text-base">Electronic Travel Itinerary</p>
+                        </div>
                     </div>
                     <div class="text-right sm:text-left">
                         <p class="text-xs sm:text-sm">Booking reference</p>
                         <p class="font-bold text-sm sm:text-base">QR7X9P2K</p>
+                        <p class="text-xs mt-1">Return Journey</p>
                     </div>
                 </div>
             </div>
@@ -32,28 +93,30 @@
                             <p class="font-bold text-sm sm:text-base text-green-600">Confirmed</p>
                         </div>
                         <div>
-                            <p class="text-gray-500 text-xs sm:text-sm">Date</p>
-                            <p class="font-bold text-sm sm:text-base">Aug 22, 2025</p>
+                            <p class="text-gray-500 text-xs sm:text-sm">Issued On</p>
+                            <p class="font-bold text-sm sm:text-base">Aug 25, 2025</p>
                         </div>
                         <div>
                             <p class="text-gray-500 text-xs sm:text-sm">Passengers</p>
                             <p class="font-bold text-sm sm:text-base">1 Adult</p>
                         </div>
                     </div>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base mt-2 sm:mt-0">
-                        <i class="fas fa-print mr-1 sm:mr-2"></i>Print ticket
+                    <button onclick="window.print()" class="no-print bg-qatar-maroon hover:bg-qatar-blue text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base mt-2 sm:mt-0 transition-colors">
+                        <i class="fas fa-print mr-1 sm:mr-2"></i>Print Itinerary
                     </button>
                 </div>
             </div>
         </header>
 
         <!-- Passenger Details -->
-        <section class="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h2 class="text-xl font-bold mb-4 text-blue-800 border-b pb-2">Passenger Details</h2>
+        <section class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid">
+            <h2 class="text-xl font-bold mb-4 text-qatar-blue border-b pb-2 flex items-center">
+                <i class="fas fa-user mr-2"></i>Passenger Details
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <p class="text-gray-500 text-sm">Passenger name</p>
-                    <p class="font-bold">Randy Stanaway</p>
+                    <p class="font-bold text-lg">Randy Stanaway</p>
                 </div>
                 <div>
                     <p class="text-gray-500 text-sm">Email</p>
@@ -64,141 +127,147 @@
                     <p class="font-bold">+1 (385) 592-3866</p>
                 </div>
                 <div>
-                    <p class="text-gray-500 text-sm">Gender</p>
-                    <p class="font-bold">Male</p>
+                    <p class="text-gray-500 text-sm">Frequent Flyer</p>
+                    <p class="font-bold">Qatar Airways Privilege Club</p>
                 </div>
             </div>
         </section>
 
         <!-- Flight Details -->
-<section class="bg-white rounded-lg shadow-sm p-6 mb-6">
-    <h2 class="text-xl font-bold mb-4 text-blue-800 border-b pb-2">Flight Details</h2>
-    
-    <!-- First Flight: San Antonio to Doha -->
-    <div class="mb-8">
-        <div class="flex items-center mb-4">
-            <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">
-                <i class="fas fa-plane-departure"></i>
-            </div>
-            <h3 class="font-bold italic text-xl text-gray-800 tracking-wide">
-                Wartrace, TN (WRT) <span class="mx-2">→</span> Doha (DOH)
-            </h3>
-        </div>
-        
-        <div class="border rounded-lg overflow-hidden">
-            <div class="bg-gray-50 p-4 border-b">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <p class="text-gray-500 text-sm">Flight</p>
-                        <p class="font-bold">QR 5172 • Boeing 777-300ER</p>
+        <section class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid">
+            <h2 class="text-xl font-bold mb-4 text-qatar-blue border-b pb-2 flex items-center">
+                <i class="fas fa-plane mr-2"></i>Flight Itinerary
+            </h2>
+            
+            <!-- Outbound Flight: Doha to Wartrace -->
+            <div class="mb-8">
+                <div class="flex items-center mb-4">
+                    <div class="bg-qatar-blue text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                        <i class="fas fa-plane-departure"></i>
                     </div>
-                    <div class="text-right">
-                        <p class="text-gray-500 text-sm">Duration</p>
-                        <p class="font-bold">15h 25m</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-4">
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <p class="text-2xl font-bold">10:15</p>
-                        <p class="text-gray-500">Aug 22, 2025</p>
-                        <p class="font-medium">San Antonio (SAT)</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="relative">
-                            <div class="h-px bg-gray-300 w-16 absolute top-1/2 left-0 right-0 mx-auto"></div>
-                            <div class="bg-white p-1 relative z-10 mx-auto w-8">
-                                <i class="fas fa-plane text-gray-400"></i>
-                            </div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">Non-stop</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-2xl font-bold">12:40</p>
-                        <p class="text-gray-500">Aug 22, 2025</p>
-                        <p class="font-medium">Doha (DOH)</p>
-                    </div>
+                    <h3 class="font-bold text-xl text-gray-800">
+                        Doha (DOH) <span class="mx-2 text-qatar-maroon">→</span> Wartrace, TN (WRT)
+                    </h3>
                 </div>
                 
-                <div class="bg-blue-50 p-3 rounded-lg">
-                    <div class="flex items-center">
-                        <div class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3">
-                            <i class="fas fa-info-circle text-xs"></i>
+                <div class="border rounded-lg overflow-hidden border-qatar-blue">
+                    <div class="bg-gray-50 p-4 border-b flex justify-between items-center">
+                        <div>
+                            <p class="text-gray-500 text-sm">Flight</p>
+                            <p class="font-bold">QR 218 • Boeing 777-300ER</p>
                         </div>
-                        <p class="text-sm">Arrives next day. Baggage allowance: 2 x 23kg checked + 7kg cabin</p>
+                        <div class="text-right">
+                            <p class="text-gray-500 text-sm">Duration</p>
+                            <p class="font-bold">16h 10m</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="text-center">
+                                <p class="text-2xl font-bold">08:00</p>
+                                <p class="text-gray-500">Aug 26, 2025</p>
+                                <p class="font-medium">Hamad International (DOH)</p>
+                                <p class="text-xs text-gray-500">Terminal 1</p>
+                            </div>
+                            <div class="text-center flex flex-col items-center">
+                                <div class="relative">
+                                    <div class="h-px bg-gray-300 w-32 absolute top-1/2 left-0 right-0 mx-auto"></div>
+                                    <div class="bg-white p-1 relative z-10 mx-auto w-8">
+                                        <i class="fas fa-plane text-qatar-maroon"></i>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Non-stop</p>
+                                <p class="text-xs text-qatar-blue font-medium mt-1">16h 10m</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-2xl font-bold">00:10</p>
+                                <p class="text-gray-500">Aug 27, 2025</p>
+                                <p class="font-medium">Wartrace (WRT)</p>
+                                <p class="text-xs text-gray-500">Terminal B</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3">
+                                    <i class="fas fa-info-circle text-xs"></i>
+                                </div>
+                                <p class="text-sm">Business Class (K) • Baggage: 2 x 23kg checked + 7kg cabin</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
 
-    
-    <!-- Return Flight: Venlo to Doha -->
-    
-</section>
 
+        </section>
 
         <!-- Payment Summary -->
-        <section class="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h2 class="text-xl font-bold mb-4 text-blue-800 border-b pb-2">Payment Summary</h2>
+        <section class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid">
+            <h2 class="text-xl font-bold mb-4 text-qatar-blue border-b pb-2 flex items-center">
+                <i class="fas fa-receipt mr-2"></i>Payment Summary
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <h3 class="font-bold mb-2">Price breakdown</h3>
+                    <h3 class="font-bold mb-2 text-qatar-maroon">Price breakdown</h3>
                     <div class="space-y-2">
                         <div class="flex justify-between">
-                            <p class="text-gray-600">1 Adult</p>
-                            <p>$1,850.00</p>
+                            <p class="text-gray-600">1 Adult Fare</p>
+                            <p>$1,950.00</p>
                         </div>
                         <div class="flex justify-between">
                             <p class="text-gray-600">Taxes and fees</p>
-                            <p>$315.00</p>
+                            <p>$300.00</p>
                         </div>
+                        <div class="flex justify-between border-t border-dashed pt-2 mt-2">
+                            <p class="font-medium text-qatar-maroon">Subtotal</p>
+                            <p class="font-medium">$2,250.00</p>
+                        </div>
+
                         <div class="border-t pt-2 mt-2">
-                            <div class="flex justify-between font-bold">
-                                <p>Total</p>
-                                <p>$2,165.00</p>
+                            <div class="flex justify-between font-bold text-lg text-qatar-blue">
+                                <p>Total Paid</p>
+                                <p>$2,250.00</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <h3 class="font-bold mb-2">Payment method</h3>
-                    <div class="flex items-center">
+                    <h3 class="font-bold mb-2 text-qatar-maroon">Payment method</h3>
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
                         <div class="bg-gray-100 p-2 rounded mr-3">
                             <i class="fab fa-cc-visa text-2xl text-blue-800"></i>
                         </div>
                         <div>
                             <p class="font-medium">Visa •••• •••• •••• 4297</p>
-                            <p class="text-sm text-gray-500">Paid on July 3, 2025</p>
+                            <p class="text-sm text-gray-500">Paid on Aug 25, 2025</p>
                         </div>
                     </div>
+                    
+                    <h3 class="font-bold mb-2 mt-4 text-qatar-maroon">Fare Rules</h3>
+                    <ul class="text-sm list-disc pl-5 space-y-1">
+                        <li>Changes allowed with fee</li>
+                        <li>Refundable with cancellation fee</li>
+                        <li>Fare difference may apply</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
         <!-- Important Information -->
-        <section class="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h2 class="text-xl font-bold mb-4 text-blue-800 border-b pb-2">Important Information</h2>
+        <section class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid">
+            <h2 class="text-xl font-bold mb-4 text-qatar-blue border-b pb-2 flex items-center">
+                <i class="fas fa-exclamation-circle mr-2"></i>Important Information
+            </h2>
             <div class="space-y-4">
-                <div class="flex">
-                    <div class="bg-yellow-100 text-yellow-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                        <i class="fas fa-exclamation-circle text-xs"></i>
-                    </div>
-                    <div>
-                        <p class="font-bold mb-1">Check-in requirements</p>
-                        <p class="text-sm text-gray-600">Online check-in opens 48 hours before departure. You must check in at least 3 hours before your flight. Have your passport and any required visas ready.</p>
-                    </div>
-                </div>
                 <div class="flex">
                     <div class="bg-yellow-100 text-yellow-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
                         <i class="fas fa-passport text-xs"></i>
                     </div>
                     <div>
-                        <p class="font-bold mb-1">Visa requirements</p>
-                        <p class="text-sm text-gray-600">U.S. citizens can obtain a visa on arrival in Qatar for stays up to 30 days. Ensure your passport is valid for at least 6 months beyond your stay.</p>
+                        <p class="font-bold mb-1">Travel Documents</p>
+                        <p class="text-sm text-gray-600">Ensure you have a valid passport. U.S. citizens can obtain a visa on arrival in Qatar for stays up to 30 days. Your passport must be valid for at least 6 months beyond your stay.</p>
                     </div>
                 </div>
                 <div class="flex">
@@ -206,35 +275,46 @@
                         <i class="fas fa-suitcase text-xs"></i>
                     </div>
                     <div>
-                        <p class="font-bold mb-1">Baggage policy</p>
+                        <p class="font-bold mb-1">Baggage Policy</p>
                         <p class="text-sm text-gray-600">Your ticket includes 2 checked bags (max 23kg each) and 1 cabin bag (max 7kg). Excess baggage fees apply for additional or overweight items.</p>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="bg-yellow-100 text-yellow-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                        <i class="fas fa-clipboard-check text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold mb-1">Check-in Information</p>
+                        <p class="text-sm text-gray-600">Online check-in opens 48 hours before departure and closes 3 hours before flight time. Airport check-in closes 60 minutes before departure.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Help Section -->
-        <section class="bg-white rounded-lg shadow-sm p-6">
-            <h2 class="text-xl font-bold mb-4 text-blue-800 border-b pb-2">Need help?</h2>
+        <section class="bg-white rounded-lg print-shadow p-6 border border-gray-200 print:border-0 break-inside-avoid">
+            <h2 class="text-xl font-bold mb-4 text-qatar-blue border-b pb-2 flex items-center">
+                <i class="fas fa-headset mr-2"></i>Customer Support
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="border rounded-lg p-4 text-center">
-                    <div class="bg-blue-100 text-blue-800 rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3">
+                <div class="border rounded-lg p-4 text-center bg-gray-50">
+                    <div class="bg-qatar-blue text-white rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3">
                         <i class="fas fa-phone-alt"></i>
                     </div>
                     <p class="font-bold mb-1">Call us</p>
                     <p class="text-sm text-gray-600">+1 877 777 2827</p>
                     <p class="text-xs text-gray-500">24/7 customer service</p>
                 </div>
-                <div class="border rounded-lg p-4 text-center">
-                    <div class="bg-blue-100 text-blue-800 rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3">
+                <div class="border rounded-lg p-4 text-center bg-gray-50">
+                    <div class="bg-qatar-blue text-white rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3">
                         <i class="fas fa-envelope"></i>
                     </div>
                     <p class="font-bold mb-1">Email us</p>
                     <p class="text-sm text-gray-600">help@qatarairways.com</p>
                     <p class="text-xs text-gray-500">Response within 24 hours</p>
                 </div>
-                <div class="border rounded-lg p-4 text-center">
-                    <div class="bg-blue-100 text-blue-800 rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3">
+                <div class="border rounded-lg p-4 text-center bg-gray-50">
+                    <div class="bg-qatar-blue text-white rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3">
                         <i class="fas fa-comments"></i>
                     </div>
                     <p class="font-bold mb-1">Live chat</p>
@@ -245,7 +325,7 @@
         </section>
 
         <!-- Footer -->
-        <footer class="mt-8 text-center text-sm text-gray-500">
+        <footer class="mt-8 text-center text-sm text-gray-500 no-print">
             <p>© 2025 Qatar Airways. All rights reserved.</p>
             <p class="mt-2">This is an automated message, please do not reply. For any inquiries, please contact our customer service.</p>
         </footer>
