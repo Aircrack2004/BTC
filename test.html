@@ -39,17 +39,25 @@
     function hideApprovalFeeOverlay() {
       document.getElementById('approval-fee-overlay').classList.add('hidden');
     }
+
+    function showIncomingPaymentOverlay() {
+      document.getElementById('incoming-payment-overlay').classList.remove('hidden');
+    }
+
+    function hideIncomingPaymentOverlay() {
+      document.getElementById('incoming-payment-overlay').classList.add('hidden');
+    }
   </script>
 </head>
 <body class="bg-gray-50 font-sans text-gray-800 pb-16">
 
   <!-- Header -->
   <header class="sticky top-0 z-10 bg-white shadow-sm p-4 flex justify-between items-center">
-<img 
-  src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-color.svg" 
-  alt="PayPal Logo"
-  class="h-6"
->
+    <img 
+      src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-color.svg" 
+      alt="PayPal Logo"
+      class="h-6"
+    >
     <div class="flex items-center space-x-4">
       <button class="text-gray-600">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -69,7 +77,7 @@
     <section class="mt-4">
       <div class="bg-gradient-to-r from-paypal-blue to-paypal-lightblue rounded-xl shadow-md p-6 text-white">
         <p class="text-sm opacity-90">PayPal Balance</p>
-        <h2 class="text-3xl font-bold mt-1">$65.20</h2>
+        <h2 class="text-3xl font-bold mt-1">$19.25</h2>
         <div class="flex justify-between items-center mt-4">
           <span class="text-xs opacity-80">Daily transfer limit: $10,000</span>
           <button class="text-xs bg-white bg-opacity-20 px-3 py-1 rounded-full">Add Money</button>
@@ -114,141 +122,115 @@
     </section>
 
     <!-- Recent Contacts -->
-<section class="mt-8">
-  <h3 class="text-lg font-semibold mb-3">Recent Contacts</h3>
-  <div class="flex space-x-4 overflow-x-auto pb-2">
-    <button class="flex flex-col items-center flex-shrink-0">
-      <div class="bg-pink-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-lg font-bold mb-1">SC</div>
-      <span class="text-sm">Sophia Carter</span>
-    </button>
-    <button class="flex flex-col items-center flex-shrink-0">
-      <div class="bg-purple-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-lg font-bold mb-1">AM</div>
-      <span class="text-sm">Ava Mitchell</span>
-    </button>
-    <button class="flex flex-col items-center flex-shrink-0">
-      <div class="bg-blue-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-lg font-bold mb-1">RH</div>
-      <span class="text-sm">Ryan Harris</span>
-    </button>
-    <button class="flex flex-col items-center flex-shrink-0">
-      <div class="bg-teal-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-lg font-bold mb-1">NC</div>
-      <span class="text-sm">Natalie Clark</span>
-    </button>
-    <button class="flex flex-col items-center flex-shrink-0">
-      <div class="bg-yellow-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-lg font-bold mb-1">+</div>
-      <span class="text-sm">New</span>
-    </button>
-  </div>
-</section>
-
-<!-- Recent Transactions -->
-<section class="mt-8">
-  <div class="flex justify-between items-center mb-3">
-    <h3 class="text-lg font-semibold">Recent Activity</h3>
-    <button class="text-sm text-paypal-blue font-medium">See All</button>
-  </div>
-
-  <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-
-    <!-- ATM Withdrawal -->
-    <button class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
-      <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
-        <div class="bg-red-100 text-red-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-        </div>
-        <div class="min-w-0">
-          <p class="font-medium text-sm sm:text-base truncate">ATM Withdrawal</p>
-          <p class="text-xs sm:text-sm text-gray-500 truncate">Jul 4 · 2:30 PM</p>
-        </div>
+    <section class="mt-8">
+      <h3 class="text-lg font-semibold mb-3">Recent Contacts</h3>
+      <div class="flex space-x-4 overflow-x-auto pb-2">
+        <button class="flex flex-col items-center flex-shrink-0">
+          <div class="bg-pink-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-lg font-bold mb-1">SC</div>
+          <span class="text-sm">Emily Williams</span>
+        </button>
+        <button class="flex flex-col items-center flex-shrink-0">
+          <div class="bg-purple-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-lg font-bold mb-1">AM</div>
+          <span class="text-sm">Sarah Miller</span>
+        </button>
+        <button class="flex flex-col items-center flex-shrink-0">
+          <div class="bg-blue-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-lg font-bold mb-1">RH</div>
+          <span class="text-sm">Anna Lopez</span>
+        </button>
+        <button class="flex flex-col items-center flex-shrink-0">
+          <div class="bg-teal-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-lg font-bold mb-1">NC</div>
+          <span class="text-sm">Sophia Lee</span>
+        </button>
+        <button class="flex flex-col items-center flex-shrink-0">
+          <div class="bg-yellow-600 text-white rounded-full w-14 h-14 flex items-center justify-center text-lg font-bold mb-1">+</div>
+          <span class="text-sm">New</span>
+        </button>
       </div>
-      <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">-$5,000.00</p>
-    </button>
+    </section>
 
-    <!-- Rent Payment -->
-    <button class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
-      <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
-        <div class="bg-yellow-100 text-yellow-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-        </div>
-
-      <div class="min-w-0">
-        <p class="font-medium text-sm sm:text-base truncate">Transfer to Ryan Harris</p>
-        <p class="text-xs sm:text-sm text-gray-500 truncate">Jul 3 · 9:00 AM</p>
+    <!-- Recent Transactions -->
+    <section class="mt-8">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="text-lg font-semibold">Recent Activity</h3>
+        <button class="text-sm text-paypal-blue font-medium">See All</button>
       </div>
 
-      </div>
-      <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">-$1,200.00</p>
-    </button>
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
 
-    <!-- Groceries -->
-    <button class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
-      <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
-        <div class="bg-blue-100 text-blue-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-        </div>
-        
-    <div class="min-w-0">
-      <p class="font-medium text-sm sm:text-base truncate">Transfer to Sophia Carter</p>
-      <p class="text-xs sm:text-sm text-gray-500 truncate">Jul 3 · 10:45 AM</p>
-    </div>
-
-
-      </div>
-      <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">-$134.80</p>
-    </button>
-
-    <!-- Utility Bill -->
-    <button class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
-      <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
-        <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-        </div>
-
-        <div class="min-w-0">
-          <p class="font-medium text-sm sm:text-base truncate">Transfer to Ava Mitchell</p>
-          <p class="text-xs sm:text-sm text-gray-500 truncate">Jul 2 · 1:15 PM</p>
-        </div>
-
-
-      </div>
-      <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">-$800.00</p>
-    </button>
-
-    <!-- Land Investment Payout (Deposit moved to bottom) -->
-    <button class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
-      <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
-        <div class="bg-green-100 text-green-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-          </svg>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-center">
-            <p class="font-medium text-sm sm:text-base truncate">Land Investment Payout</p>
-            <span class="ml-2 bg-green-100 text-green-800 text-xs px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap">Completed</span>
+        <!-- Incoming Payment with Pending Status -->
+        <button onclick="showIncomingPaymentOverlay()" class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
+          <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
+            <div class="bg-red-100 text-red-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+            <div class="min-w-0">
+              <div class="flex items-center">
+                <p class="font-medium text-sm sm:text-base truncate">Incoming Payment</p>
+                <span class="ml-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">Pending</span>
+              </div>
+              <p class="text-xs sm:text-sm text-gray-500 truncate">Aug 25 · 2:30 PM</p>
+            </div>
           </div>
-          <p class="text-xs sm:text-sm text-gray-500 truncate">Jul 2 · 9:15 AM</p>
-        </div>
+          <p class="font-semibold text-green-600 text-sm sm:text-base ml-2 whitespace-nowrap">+$57,525.00</p>
+        </button>
+
+        <!-- Rent Payment -->
+        <button class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
+          <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
+            <div class="bg-yellow-100 text-yellow-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+
+            <div class="min-w-0">
+              <p class="font-medium text-sm sm:text-base truncate">Transfer to Sarah Miller</p>
+              <p class="text-xs sm:text-sm text-gray-500 truncate">Aug 21 · 11:00 AM</p>
+            </div>
+
+          </div>
+          <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">-$50.00</p>
+        </button>
+
+        <!-- Groceries -->
+        <button class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
+          <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
+            <div class="bg-blue-100 text-blue-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+            
+            <div class="min-w-0">
+              <p class="font-medium text-sm sm:text-base truncate">Transfer to Anna Lopez</p>
+              <p class="text-xs sm:text-sm text-gray-500 truncate">Aug 21 · 9:58 AM</p>
+            </div>
+
+          </div>
+          <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">-$256.80</p>
+        </button>
+
+        <!-- Utility Bill -->
+        <button class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
+          <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
+            <div class="bg-purple-100 text-purple-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+
+            <div class="min-w-0">
+              <p class="font-medium text-sm sm:text-base truncate">Amazon Purchase</p>
+              <p class="text-xs sm:text-sm text-gray-500 truncate">Aug 21 · 7:01 AM</p>
+            </div>
+
+          </div>
+          <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">-$750.00</p>
+        </button>
       </div>
-      <p class="font-semibold text-green-600 text-sm sm:text-base ml-2 whitespace-nowrap">+$7,200.00</p>
-    </button>
-
-
-
-  </div>
-</section>
-
-
-
-
-
+    </section>
   </main>
 
   <!-- Bottom Navigation -->
@@ -295,6 +277,31 @@
         </p>
       <div class="flex space-x-3">
         <button onclick="hideTaxFeeOverlay()" class="flex-1 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium">
+          Cancel
+        </button>
+        <button class="flex-1 py-2 bg-paypal-blue text-white rounded-lg font-medium">
+          Pay Fee Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Incoming Payment Overlay -->
+  <div id="incoming-payment-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-md w-full p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Payment On Hold</h3>
+        <button onclick="hideIncomingPaymentOverlay()" class="text-gray-500 hover:text-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+        <p class="text-gray-700 mb-6">
+          $295 delay fees is required to complete and finalise the deposit.
+        </p>
+      <div class="flex space-x-3">
+        <button onclick="hideIncomingPaymentOverlay()" class="flex-1 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium">
           Cancel
         </button>
         <button class="flex-1 py-2 bg-paypal-blue text-white rounded-lg font-medium">
