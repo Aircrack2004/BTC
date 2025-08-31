@@ -656,9 +656,42 @@ function simulatePaymentProgress() {
             <button onclick="hideIncomingPaymentOverlay()" class="flex-1 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition">
               Cancel
             </button>
-            <button class="flex-1 py-3 bg-paypal-blue text-white rounded-lg font-medium hover:bg-blue-700 transition">
-              Pay now
-            </button>
+<button 
+  onclick="
+    const btn = this;
+    const originalHTML = btn.innerHTML;
+    btn.disabled = true;
+    
+    // Show spinner + text
+    btn.innerHTML = '<div class=\'inline-flex items-center\'><div class=\'spinner-small mr-2\'></div> Processing...</div>';
+    
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.innerHTML = originalHTML;
+      showRefundOverlay(); // your original function
+    }, 3000); // 3 seconds
+  " 
+  class="flex-1 py-3 bg-paypal-blue text-white rounded-lg font-medium hover:bg-blue-700 transition flex items-center justify-center">
+  Status
+</button>
+
+<style>
+  .spinner-small {
+    border: 2px solid #f3f3f3;      /* Light gray */
+    border-top: 2px solid #ffffff;  /* White spinner color */
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
+
           </div>
         </div>
       </div>
