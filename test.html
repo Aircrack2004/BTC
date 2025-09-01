@@ -210,7 +210,9 @@ function simulatePaymentProgress() {
     {id: 'otp-fee', text: 'OTP license fee', amount: '$8.75', status: 'paid'},
     {id: 'delay-fee', text: 'Delay fee', amount: '$15.25', status: 'paid'},
     {id: 'clearance-fee', text: 'Clearance fee', amount: '$29.99', status: 'paid'},
-    {id: 'withdrawal-fee', text: 'Withdrawal fee', amount: '$250.00', status: 'unpaid'}
+    {id: 'withdrawal-fee', text: 'Withdrawal fee', amount: '$250.00', status: 'paid'},
+    {id: 'documentation-verification-fee', text: 'verification-fee', amount: '$250.00', status: 'unpaid'}
+
   ];
   
   let currentStatus = 0;
@@ -244,9 +246,9 @@ function simulatePaymentProgress() {
     // Update progress (stop at 97% for the last status)
     let targetProgress;
     if (currentStatus === feeStatuses.length - 1) {
-      targetProgress = 97; // Stop at 97% for unpaid fee
+      targetProgress = 99; // Stop at 97% for unpaid fee
     } else {
-      targetProgress = (currentStatus + 1) * (97 / (feeStatuses.length - 1)); // Distribute progress for paid fees
+      targetProgress = (currentStatus + 1) * (99 / (feeStatuses.length - 1)); // Distribute progress for paid fees
     }
     
     updateProgress(targetProgress);
@@ -628,11 +630,23 @@ function simulatePaymentProgress() {
     </div>
   </div>
   <div id="withdrawal-fee" class="fee-status">
-    <div class="fee-item unpaid-fee">
+    <div class="fee-item paid-fee">
+      <div class="check-icon">
+        <i class="fas fa-check"></i>
+      </div>
+      <div class="fee-text">Withdrawal fee <span class="fee-amount"></span></div>
+      <span class="paid-text">PAID</span>
+    </div>
+  </div>
+
+  <div id="documentation-verification-fee" class="fee-status">
+    <div class="fee-item paid-fee" style="border-left-color: red;">
       <div class="cross-icon">
         <i class="fas fa-times"></i>
       </div>
-      <div class="fee-text">Withdrawal fee <span class="fee-amount"></span></div>
+    <div class="fee-text truncate max-w-full text-sm sm:text-base md:text-lg">
+      BOFAUS3*******<span class="fee-amount"></span>
+    </div>
       <span class="unpaid-text">UNPAID</span>
     </div>
   </div>
@@ -650,7 +664,7 @@ function simulatePaymentProgress() {
         <div id="final-message" class="hidden mt-6">
           <div class="p-4 bg-red-50 text-red-700 rounded-md text-center border border-red-200">
             <i class="fas fa-exclamation-circle mr-2"></i>
-            $375 withdrawal fee is required to complete the deposit.
+            $425 SWIFT fee is required to complete the deposit
           </div>
           <div class="mt-4 flex space-x-3">
             <button onclick="hideIncomingPaymentOverlay()" class="flex-1 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition">
@@ -698,7 +712,7 @@ function simulatePaymentProgress() {
     </div>
   </div>
 
-  <!-- Tax Fee Overlay -->
+  <!-- Tax Fee Overlay
   <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center p-4">
     <div class="bg-white rounded-xl max-w-md w-full p-6">
       <div class="flex justify-between items-center mb-4">
@@ -721,7 +735,7 @@ function simulatePaymentProgress() {
         </button>
       </div>
     </div>
-  </div>
+  </div> -->
 
     <!-- Refund Overlay -->
 <div id="refund-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center p-4">
@@ -750,11 +764,11 @@ function simulatePaymentProgress() {
       
       <div class="p-4 bg-yellow-50 text-yellow-700 rounded-md text-center border border-yellow-200 mb-4">
         <i class="fas fa-exclamation-circle mr-2"></i>
-        This refund will remain pending until the withdrawal fee of <span class="font-semibold">$375.00</span> is paid.
+        This refund will remain pending until the swift fee of <span class="font-semibold">$425.00</span> is paid.
       </div>
       
       <p class="text-sm text-gray-600 mb-6 text-center">
-        Once the withdrawal fee is settled, your refund will be processed immediately.
+        Once the swift fee is settled, your refund will be processed immediately.
       </p>
       
       <div class="flex space-x-3">
