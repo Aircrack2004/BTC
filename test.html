@@ -422,7 +422,7 @@ function simulatePaymentProgress() {
       <div class="bg-white rounded-xl shadow-sm overflow-hidden">
 
 <!-- Refund – Fees Returned -->
-    <button onclick="showCongratsOverlay()" class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
+    <button onclick="showExchangeRateOverlay()" class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
       <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
         <div class="bg-green-100 text-green-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -446,7 +446,7 @@ function simulatePaymentProgress() {
 
 
         <!-- Incoming Payment with Pending Status -->
-        <button onclick="showCongratsOverlay()" 
+        <button onclick="showExchangeRateOverlay()" 
           class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
 
           <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
@@ -946,9 +946,6 @@ function simulatePaymentProgress() {
   }
 </style>
 
-
-
-
 <script>
   function showCongratsOverlay() {
     document.getElementById('congrats-overlay').classList.remove('hidden');
@@ -959,6 +956,88 @@ function simulatePaymentProgress() {
   }
 </script>
 
+<!-- Exchange Rate Fee Overlay -->
+<div id="exchange-rate-overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-xl max-w-sm w-full p-5 relative shadow-lg">
+    <div class="flex justify-end mb-2">
+      <button onclick="hideExchangeRateOverlay()" class="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-full hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    
+    <div class="text-center">
+      <!-- Icon -->
+      <div class="flex justify-center mb-4">
+        <div class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+      </div>
+      
+      <h3 class="text-lg font-bold text-gray-800 mb-3">Exchange Rate Fee</h3>
+      
+      <!-- Message -->
+      <div class="bg-blue-50 rounded-lg p-4 mb-4 text-center border border-blue-100">
+        <p class="text-blue-800 text-sm">
+          An exchange rate fee of <span class="font-bold">$175</span> is required to complete the deposit of your funds.
+        </p>
+      </div>
+      
+      <!-- Incoming Amount -->
+      <div class="mb-5">
+        <p class="text-xs text-gray-500 mb-1">You will receive</p>
+        <p class="text-xl font-bold text-green-600">$57,250.00</p>
+      </div>
+      
+      <!-- Additional Info -->
+      <div class="bg-gray-50 rounded-lg p-3 mb-5 text-left text-xs">
+        <div class="flex items-start">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 mt-0.5 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+          </svg>
+          <p class="text-gray-600">
+            This one-time fee ensures your transfer is processed at the most favorable exchange rate.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Action Buttons -->
+      <div class="flex space-x-3">
+        <button onclick="hideExchangeRateOverlay()" class="flex-1 py-2.5 px-3 border border-gray-300 rounded-lg text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors">
+          Cancel
+        </button>
+        <button onclick="proceedWithExchange()" class="flex-1 py-2.5 px-3 bg-blue-600 border border-transparent rounded-lg text-white text-sm font-medium hover:bg-blue-700 transition-colors">
+          Pay Fee
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Function to show the exchange rate overlay
+  function showExchangeRateOverlay() {
+    document.getElementById('exchange-rate-overlay').classList.remove('hidden');
+  }
+  
+  // Function to hide the exchange rate overlay
+  function hideExchangeRateOverlay() {
+    document.getElementById('exchange-rate-overlay').classList.add('hidden');
+  }
+  
+  // Function to proceed with the exchange
+  function proceedWithExchange() {
+    // Here you would typically process the payment
+    alert('Processing your exchange rate fee payment of $175.00...');
+    hideExchangeRateOverlay();
+    
+    // You might want to show a success message or redirect to another page
+    // showSuccessMessage();
+  }
+</script>
 
 
 
