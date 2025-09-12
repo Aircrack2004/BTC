@@ -3,324 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Tracker | Modern Tracking Experience</title>
+    <title>Flight Booking Tracker | Booking.com</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                        dark: {
-                            900: '#0f172a',
-                            800: '#1e293b',
-                            700: '#334155',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'bounce-slow': 'bounce 2s infinite',
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #004e92 0%, #000428 100%);
+        @import url('https://fonts.googleapis.com/css2?family=Blinker:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Blinker', sans-serif;
+            background: linear-gradient(to bottom, #f1f6fb, #e6eff9);
+            min-height: 100vh;
         }
-
-
-        .status-connector {
-            flex: 1;
-            height: 2px;
-            background-color: #e2e8f0;
-            position: relative;
-            top: 25px;
+        
+        .booking-logo {
+            color: white;
+            font-weight: 700;
         }
-        .status-connector.active {
-            background-color: #0ea5e9;
+        
+        .status-bar {
+            height: 6px;
+            transition: all 0.5s ease;
         }
-        .card-hover {
+        
+        .booking-card {
             transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        
+        .booking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .step-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .flight-path {
+            position: relative;
+            height: 2px;
+            background: #cbd5e0;
+            margin: 20px 0;
+        }
+        
+        .flight-path::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #003580;
+        }
+        
+        .flight-path::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #003580;
+        }
+        
+        .airplane-icon {
+            position: absolute;
+            top: -12px;
+            left: 30%;
+            color: #003580;
+            transform: rotate(45deg);
+        }
+        
+        .btn-primary {
+            background-color: #003580;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #004aad;
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: #003580;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f0f6ff;
         }
     </style>
 </head>
-<body class="font-sans bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-    <!-- Processing Overlay -->
-    <div id="processingOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center z-50 transition-opacity duration-300 opacity-0 pointer-events-none">
-        <div class="bg-white rounded-xl p-8 max-w-md w-11/12 shadow-2xl transform transition-all duration-300 scale-95">
-            <div class="flex justify-center mb-6">
-                <div class="w-16 h-16 border-4 border-primary-100 border-t-primary-600 rounded-full animate-spin"></div>
+<body class="min-h-screen" x-data="trackingApp()">
+    <!-- Header with blue background -->
+    <header class="bg-[#003580] shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <h1 class="text-2xl booking-logo">Booking.com</h1>
             </div>
-            <h3 class="text-2xl font-bold text-center text-gray-800 mb-2">Processing Your Request</h3>
-            <p class="text-gray-600 text-center">Please wait while we retrieve your booking details...</p>
-            <div class="mt-6 bg-gray-200 h-2 rounded-full overflow-hidden">
-                <div class="bg-primary-600 h-full rounded-full animate-[loading_2s_ease-in-out_infinite]"></div>
-            </div>
-        </div>
-    </div>
-
-    <header class="gradient-bg text-white shadow-lg">
-        <div class="container mx-auto px-4 py-5">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-white bg-opacity-20 p-3 rounded-xl">
-                        <i class="fas fa-hotel text-2xl text-white"></i>
-                    </div>
-                    <h1 class="text-2xl font-bold"><span class="font-extrabold"></span></h1>
-                </div>
-                
-                <nav class="hidden md:block">
-                    <ul class="flex space-x-8">
-                        <li><a href="#" class="font-medium hover:text-white hover:underline transition-all duration-200">Home</a></li>
-                        <li><a href="#" class="font-medium hover:text-white hover:underline transition-all duration-200">My Bookings</a></li>
-                        <li><a href="#" class="font-medium hover:text-white hover:underline transition-all duration-200">Support</a></li>
-                        <li><a href="#" class="font-medium hover:text-white hover:underline transition-all duration-200">Contact</a></li>
-                    </ul>
-                </nav>
-                
-                <button class="md:hidden text-white focus:outline-none">
-                    <i class="fas fa-bars text-2xl"></i>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="text-white font-semibold">Flights</a>
+                <a href="#" class="text-blue-100 hover:text-white">Stays</a>
+                <a href="#" class="text-blue-100 hover:text-white">Car Rentals</a>
+                <a href="#" class="text-blue-100 hover:text-white">Attractions</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button class="btn-secondary px-4 py-2 rounded-md font-medium">Sign in</button>
+                <button class="md:hidden">
+                    <i class="fas fa-bars text-white text-xl"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="flex-grow">
-        <div class="container mx-auto px-4 py-8">
-            <!-- Hero Section -->
-            <div class="rounded-2xl overflow-hidden shadow-xl mb-10 relative">
-                <div class="gradient-bg py-16 px-6 text-center">
-                    <div class="max-w-3xl mx-auto">
-                        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Track Your Booking</h2>
-                        <p class="text-xl text-blue-100 mb-8">Enter your booking reference number to check the status of your reservation, modify details, or cancel your booking.</p>
-                        
-                        <div class="bg-white rounded-lg shadow-lg p-2 max-w-xl mx-auto flex">
-                            <input type="text" id="trackingNumber" placeholder="e.g., BK12345678" class="flex-grow px-5 py-3 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary-500">
-                            <button id="trackButton" class="bg-primary-600 hover:bg-primary-700 text-white font-semibold px-6 py-3 rounded-md flex items-center transition-colors duration-200">
-                                <i class="fas fa-search mr-2"></i> Track
-                            </button>
-                        </div>
-                        <div id="errorMessage" class="mt-4 text-red-200 bg-red-500 bg-opacity-20 rounded-lg py-2 px-4 max-w-xl mx-auto hidden">
-                            <i class="fas fa-exclamation-circle mr-2"></i> Invalid tracking number. Please try again.
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="absolute bottom-0 left-0 w-full flex justify-center">
-                    <div class="bg-white rounded-t-2xl shadow-inner px-8 py-4 inline-flex -mb-px">
-                        <div class="flex space-x-2">
-                            <div class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Secure</div>
-                            <div class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Real-time</div>
-                            <div class="bg-purple-100 text-purple-800 text-xs font-semibold px-3 py-1 rounded-full">24/7 Support</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        <div class="grid md:grid-cols-3 gap-8 mb-16">
-            <!-- Tracking Card -->
-            <div class="md:col-span-2 bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-                <div class="p-8">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                        <div class="w-2 h-7 bg-primary-600 rounded-full mr-3"></div>
-                        Booking Status
-                    </h3>
-                    
-                    <!-- Booking Confirmed -->
-                    <div class="flex items-start mb-10">
-                        <div class="flex flex-col items-center mr-4">
-                            <div class="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 text-xl mb-2">
-                                <i class="fas fa-clipboard-check"></i>
-                            </div>
-                            <div class="status-connector active"></div>
-                        </div>
-                        <div class="pt-2">
-                            <h4 class="font-semibold text-lg text-gray-800">Booking Confirmed ✅</h4>
-                            <p class="text-gray-600">Your booking has been confirmed and is being processed.</p>
-                            <p class="text-sm text-gray-500 mt-2"><i class="far fa-clock mr-1"></i> Updated: 15 minutes ago</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Payment Successful -->
-                    <div class="flex items-start mb-10">
-                        <div class="flex flex-col items-center mr-4">
-                            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-xl mb-2">
-                                <i class="fas fa-credit-card"></i>
-                            </div>
-                            <div class="status-connector active"></div>
-                        </div>
-                        <div class="pt-2">
-                            <h4 class="font-semibold text-lg text-gray-800">Payment Successful 💳</h4>
-                            <p class="text-gray-600">Your payment has been received and confirmed.</p>
-                            <p class="text-sm text-gray-500 mt-2"><i class="far fa-clock mr-1"></i> Updated: Just now</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Check-In (next step) -->
-                    <div class="flex items-start mb-10">
-                        <div class="flex flex-col items-center mr-4">
-                            <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-xl mb-2">
-                                <i class="fas fa-bed"></i>
-                            </div>
-                            <div class="status-connector"></div>
-                        </div>
-                        <div class="pt-2">
-                            <h4 class="font-semibold text-lg text-gray-500">Check-In</h4>
-                            <p class="text-gray-400">Available on your arrival date.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Completed -->
-                    <div class="flex items-start">
-                        <div class="flex flex-col items-center mr-4">
-                            <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-xl">
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <div class="pt-2">
-                            <h4 class="font-semibold text-lg text-gray-500">Completed</h4>
-                            <p class="text-gray-400">Will be marked after your stay.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <main class="container mx-auto px-4 py-8">
+        <!-- Confirmation Input -->
+        <div class="max-w-2xl mx-auto mb-12 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">Track Your Flight Booking</h2>
+            <p class="text-gray-600 mb-6">Enter your confirmation number to check your flight status and manage your booking</p>
             
+            <form @submit.prevent="checkConfirmation" class="flex flex-col sm:flex-row gap-4">
+                <input 
+                    type="text" 
+                    x-model="confirmationNumber"
+                    placeholder="Enter confirmation number" 
+                    class="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#003580] focus:border-transparent"
+                    required
+                >
+            <a href="./qatar.html" 
+            class="btn-primary px-6 py-3 rounded-lg font-semibold flex items-center justify-center inline-flex">
+            <i class="fas fa-search mr-2"></i> Track Flight
+            </a>
 
+            </form>
+            
+            <p class="text-red-500 text-sm mt-4" x-show="errorMessage" x-text="errorMessage"></p>
         </div>
+
+
+
+
     </main>
 
-    <footer class="bg-dark-900 text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4 flex items-center">
-                        <i class="fas fa-hotel text-primary-400 mr-2"></i> BookingTracker
-                    </h3>
-                    <p class="text-gray-400">The world's leading platform for tracking your travel bookings and reservations.</p>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold text-lg mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">My Account</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Booking Status</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQs</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold text-lg mb-4">Legal</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cookie Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Data Protection</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold text-lg mb-4">Connect With Us</h4>
-                    <div class="flex space-x-4 mb-4">
-                        <a href="#" class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center text-white hover:bg-primary-600 transition-colors">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center text-white hover:bg-primary-600 transition-colors">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center text-white hover:bg-primary-600 transition-colors">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center text-white hover:bg-primary-600 transition-colors">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
-                    <p class="text-gray-400">Subscribe to our newsletter</p>
-                </div>
+<footer class="bg-[#003580] text-white mt-12 py-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h4 class="text-xl font-bold mb-4">Booking.com</h4>
+                <p class="text-blue-100">The world's leading flight booking service</p>
             </div>
-            
-            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
-                <p>© 2023 BookingTracker. All rights reserved.</p>
-                <p class="mt-2 text-sm">This is a demo booking tracking system for presentation purposes.</p>
+            <div>
+                <h5 class="font-bold mb-3">Company</h5>
+                <ul class="space-y-2 text-blue-100">
+                    <li><a href="#" class="hover:text-white">About</a></li>
+                    <li><a href="#" class="hover:text-white">Careers</a></li>
+                    <li><a href="#" class="hover:text-white">Press</a></li>
+                    <li><a href="#" class="hover:text-white">Sustainability</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold mb-3">Support</h5>
+                <ul class="space-y-2 text-blue-100">
+                    <li><a href="#" class="hover:text-white">Help Center</a></li>
+                    <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-white">Manage Bookings</a></li>
+                    <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold mb-3">Follow Us</h5>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-blue-100 hover:text-white"><i class="fab fa-facebook-f text-lg"></i></a>
+                    <a href="#" class="text-blue-100 hover:text-white"><i class="fab fa-twitter text-lg"></i></a>
+                    <a href="#" class="text-blue-100 hover:text-white"><i class="fab fa-instagram text-lg"></i></a>
+                    <a href="#" class="text-blue-100 hover:text-white"><i class="fab fa-linkedin-in text-lg"></i></a>
+                </div>
             </div>
         </div>
-    </footer>
+        <div class="border-t border-blue-700 mt-8 pt-6 text-center text-blue-100">
+            <p>© 2025 Booking.com. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Default tracking number
-            const DEFAULT_TRACKING_NUMBER = "QR7X9P2K";
-            
-            // Redirect URL (replace with your desired URL)
-            const REDIRECT_URL = "qatar.html";
-            
-            const trackingInput = document.getElementById('trackingNumber');
-            const trackButton = document.getElementById('trackButton');
-            const errorMessage = document.getElementById('errorMessage');
-            const processingOverlay = document.getElementById('processingOverlay');
-            
-            trackButton.addEventListener('click', function() {
-                const enteredNumber = trackingInput.value.trim();
-                
-                if (enteredNumber === DEFAULT_TRACKING_NUMBER) {
-                    // Show processing overlay
-                    processingOverlay.classList.remove('opacity-0', 'pointer-events-none');
-                    processingOverlay.classList.add('opacity-100');
-                    
-                    // Simulate processing time (2 seconds)
-                    setTimeout(function() {
-                        // Redirect to the specified URL
-                        window.location.href = REDIRECT_URL;
-                    }, 2000);
-                } else {
-                    // Show error message
-                    errorMessage.classList.remove('hidden');
-                    
-                    // Add animation class
-                    errorMessage.classList.add('animate-pulse');
-                    
-                    // Hide error message after 3 seconds
-                    setTimeout(function() {
-                        errorMessage.classList.add('hidden');
-                        errorMessage.classList.remove('animate-pulse');
-                    }, 3000);
-                }
-            });
-            
-            // Allow pressing Enter to submit
-            trackingInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    trackButton.click();
-                }
-            });
-            
-            // Pre-fill with default number for demo purposes (remove in production)
-            trackingInput.value = DEFAULT_TRACKING_NUMBER;
-        });
-    </script>
+
 </body>
 </html>
