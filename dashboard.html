@@ -114,9 +114,16 @@
             }
         }
         
-        /* Custom styles for the overlay */
-        #errorOverlay {
+        /* Custom styles for the overlays */
+        .overlay {
             transition: opacity 0.3s ease;
+        }
+        .transaction-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .transaction-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
@@ -126,7 +133,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center">
-                    <div class="hidden md:flex space-x-6">
+                    <div class="flex-shrink-0">
+                    </div>
+                    <div class="hidden md:flex space-x-6 ml-10">
                         <a href="#" class="chase-nav-item active text-white px-1 pt-1 pb-1 text-sm font-medium">Accounts</a>
                         <a href="#" class="chase-nav-item text-gray-400 hover:text-white px-1 pt-1 pb-1 text-sm font-medium">Pay & Transfer</a>
                         <a href="#" class="chase-nav-item text-gray-400 hover:text-white px-1 pt-1 pb-1 text-sm font-medium">Credit Cards</a>
@@ -144,7 +153,7 @@
                     </button>
                     <div class="flex items-center space-x-2">
                         <div class="h-8 w-8 rounded-full bg-chase-blue flex items-center justify-center text-white font-medium">BW</div>
-                        <span class="hidden md:inline text-sm text-white">Bryan Wilson</span>
+                        <span class="hidden md:inline text-sm text-white">Emily Williams</span>
                         <i class="fas fa-chevron-down text-xs text-gray-400 hidden md:inline"></i>
                     </div>
                 </div>
@@ -158,7 +167,7 @@
         <div class="welcome-container text-white mb-8 p-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center relative z-10">
                 <div class="mb-4 md:mb-0">
-                    <h1 class="text-2xl md:text-3xl font-bold">Welcome Back, Bryan</h1>
+                    <h1 class="text-2xl md:text-3xl font-bold">Welcome Back, Emily</h1>
                     <p class="mt-2 text-blue-100">Here's your financial summary as of today</p>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -179,14 +188,14 @@
             <div class="chase-card rounded-xl p-6">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="text-lg font-semibold text-white">Chase Total Checking</h3>
-                        <p class="text-gray-400 text-sm mt-1">•••• 4512</p>
+                        <h3 class="text-lg font-semibold text-white"></h3>Total Checking</h3>
+                        <p class="text-gray-400 text-sm mt-1">••••••••</p>
                     </div>
                     <span class="bg-chase-blue bg-opacity-20 text-chase-blue text-xs px-3 py-1 rounded-full flex items-center">
                         <i class="fas fa-star mr-1 text-xs"></i> Primary
                     </span>
                 </div>
-                <p class="text-3xl font-bold mt-6 text-white">$1,915,300.00</p>
+                <p class="text-3xl font-bold mt-6 text-white">$56.20</p>
                 <div class="mt-6 flex space-x-4">
                     <button class="bg-chase-blue bg-opacity-10 hover:bg-opacity-20 text-chase-blue px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center">
                         <i class="fas fa-exchange-alt mr-2"></i> Transfer
@@ -196,6 +205,8 @@
                     </button>
                 </div>
             </div>
+            
+
         </div>
 
         <!-- Recent Activity and Quick Actions -->
@@ -237,7 +248,7 @@
                     </h3>
                     <div class="bg-blue-900 bg-opacity-20 border border-blue-800 rounded-lg p-4 hover:bg-opacity-30 transition-colors">
                         <p class="text-xs text-blue-200 flex items-center">
-                            <i class="fas fa-file-invoice mr-2"></i> Your statement is ready to view. Due date: Apr 15
+                            <i class="fas fa-file-invoice mr-2"></i> Your statement is ready to view.
                         </p>
                     </div>
                 </div>
@@ -251,54 +262,71 @@
                     </button>
                 </div>
                 <div class="space-y-4">
-                    <!-- Transaction 1 - Car Rental (clickable) -->
-                    <div id="carRentalTransaction" class="flex justify-between items-center p-3 rounded-lg hover:bg-gray-900 transition-colors cursor-pointer">
-                        <div class="flex items-center">
-                            <div class="bg-blue-900 bg-opacity-30 p-3 rounded-lg mr-4">
-                                <i class="fas fa-car text-chase-blue"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-white">Car Rental</p>
-                                <p class="text-xs text-gray-400 mt-1">Aug 25 • Car Rental Payment • Haloul Street, Doha</p>
-                            </div>
+                    <!-- Transaction 1 -->
+                <div class="flex justify-between items-center p-3 rounded-lg hover:bg-gray-900 transition-colors">
+                    <div class="flex items-center">
+                        <div class="bg-green-900 bg-opacity-30 p-3 rounded-lg mr-4">
+                            <i class="fas fa-money-bill-wave text-chase-green"></i>
                         </div>
-                        <div class="text-right">
-                            <p class="text-sm font-medium text-chase-alert">$850.00</p>
-                            <p class="text-xs text-gray-400 mt-1">Declined</p>
+                        <div>
+                            <p class="text-sm font-medium text-white">ATM Deposit</p>
+                            <p class="text-xs text-gray-400 mt-1">Sep 10 • Branch ATM #4521</p>
                         </div>
                     </div>
+                    <div class="text-right">
+                        <p class="text-sm font-medium text-chase-green">+$3,456.78</p>
+                        <p class="text-xs text-gray-400 mt-1">Completed</p>
+                    </div>
+                </div>
                     
-                    <!-- Transaction 2 -->
-                    <div class="flex justify-between items-center p-3 rounded-lg hover:bg-gray-900 transition-colors">
-                        <div class="flex items-center">
-                            <div class="bg-green-900 bg-opacity-30 p-3 rounded-lg mr-4">
-                                <i class="fas fa-arrow-down text-chase-green"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-white">Direct Deposit</p>
-                                <p class="text-xs text-gray-400 mt-1">Aug 19 • Tech Solutions Inc.</p>
-                            </div>
+                <!-- Transaction 2 -->
+                <div class="flex justify-between items-center p-3 rounded-lg hover:bg-gray-900 transition-colors">
+                    <div class="flex items-center">
+                        <div class="bg-teal-900 bg-opacity-30 p-3 rounded-lg mr-4">
+                            <i class="fab fa-paypal text-chase-teal"></i>
                         </div>
-                        <div class="text-right">
-                            <p class="text-sm font-medium text-chase-green">+$3,456.78</p>
-                            <p class="text-xs text-gray-400 mt-1">Completed</p>
+                        <div>
+                            <p class="text-sm font-medium text-white">PayPal Transfer</p>
+                            <p class="text-xs text-gray-400 mt-1">Sep 8 • Digital Payment Service</p>
                         </div>
                     </div>
+                    <div class="text-right">
+                        <p class="text-sm font-medium text-chase-alert">-$750.00</p>
+                        <p class="text-xs text-gray-400 mt-1">Completed</p>
+                    </div>
+                </div>
                     
                     <!-- Transaction 3 -->
                     <div class="flex justify-between items-center p-3 rounded-lg hover:bg-gray-900 transition-colors">
                         <div class="flex items-center">
-                            <div class="bg-teal-900 bg-opacity-30 p-3 rounded-lg mr-4">
-                                <i class="fas fa-exchange-alt text-chase-teal"></i>
+                            <div class="bg-blue-900 bg-opacity-30 p-3 rounded-lg mr-4">
+                                <i class="fas fa-user text-chase-blue"></i>
                             </div>
                             <div>
-                                <p class="text-sm font-medium text-white">Transfer to Savings</p>
-                                <p class="text-xs text-gray-400 mt-1">Aug 18 • Online Banking</p>
+                                <p class="text-sm font-medium text-white">Transfer to Sarah</p>
+                                <p class="text-xs text-gray-400 mt-1">Sep 5 • Bank Transfer</p>
                             </div>
                         </div>
                         <div class="text-right">
-                            <p class="text-sm font-medium text-chase-alert">-$500.00</p>
+                            <p class="text-sm font-medium text-chase-alert">-$450.00</p>
                             <p class="text-xs text-gray-400 mt-1">Completed</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Bank Deposit Transaction (Now Last) -->
+                    <div id="bankDepositTransaction" class="transaction-item flex justify-between items-center p-3 rounded-lg hover:bg-gray-900 transition-colors cursor-pointer">
+                        <div class="flex items-center">
+                            <div class="bg-teal-900 bg-opacity-30 p-3 rounded-lg mr-4">
+                                <i class="fas fa-building text-chase-teal"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-white">Bank Deposit</p>
+                                <p class="text-xs text-gray-400 mt-1">Oct 1 • Pending</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-chase-green">+$569,300.00</p>
+                            <p class="text-xs text-gray-400 mt-1">Pending</p>
                         </div>
                     </div>
                 </div>
@@ -348,74 +376,7 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-chase-darker border-t border-gray-800 py-12 mt-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">Banking</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Checking Accounts</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Savings Accounts</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">CDs & IRAs</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Online Banking</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">Credit Cards</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Travel Credit Cards</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Cash Back Cards</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Business Cards</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Compare All Cards</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">Support</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Contact Us</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Security Center</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">FAQs</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Branch & ATM Locator</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">About Chase</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Careers</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Media Center</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Company Info</a></li>
-                        <li><a href="#" class="footer-link text-sm text-gray-300 hover:text-white">Diversity & Inclusion</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center space-x-6 mb-4 md:mb-0">
-                    <a href="#" class="text-gray-400 hover:text-white">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </div>
-                <div class="text-center md:text-right">
-                    <p class="text-xs text-gray-500 mb-2">© 2023 JPMorgan Chase & Co. All rights reserved.</p>
-                    <div class="flex flex-wrap justify-center md:justify-end space-x-4">
-                        <a href="#" class="text-xs text-gray-500 hover:text-gray-300">Privacy</a>
-                        <a href="#" class="text-xs text-gray-500 hover:text-gray-300">Terms of Use</a>
-                        <a href="#" class="text-xs text-gray-500 hover:text-gray-300">Accessibility</a>
-                        <a href="#" class="text-xs text-gray-500 hover:text-gray-300">Ad Choices</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+
 
     <!-- Mobile Bottom Navigation -->
     <div class="md:hidden fixed bottom-0 left-0 right-0 bg-chase-darker border-t border-gray-800 py-2 px-4">
@@ -424,7 +385,7 @@
                 <i class="fas fa-home text-lg"></i>
                 <span class="text-xs mt-1">Home</span>
             </a>
-            <a href="./transfer.html" class="flex flex-col items-center text-gray-400">
+            <a href="#" class="flex flex-col items-center text-gray-400">
                 <i class="fas fa-exchange-alt text-lg"></i>
                 <span class="text-xs mt-1">Transfer</span>
             </a>
@@ -439,63 +400,63 @@
         </div>
     </div>
 
-    <!-- Error Overlay (Tailwind version) -->
-    <div id="errorOverlay" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm">
-        <div class="bg-chase-darker p-8 rounded-xl max-w-[90%] w-[400px] text-center shadow-lg transform transition-transform duration-300 translate-y-5 border-t-4 border-chase-blue">
-            <div class="text-chase-alert text-5xl mb-5">
-                <i class="fas fa-globe-americas"></i>
+    <!-- Bank Deposit Overlay -->
+    <div id="bankDepositOverlay" class="overlay fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm">
+        <div class="bg-chase-darker p-8 rounded-xl max-w-[90%] w-[400px] text-center shadow-lg transform transition-transform duration-300 translate-y-5 border-t-4 border-chase-teal">
+            <div class="text-chase-teal text-5xl mb-5">
+                <i class="fas fa-building"></i>
             </div>
-            <h3 class="text-xl font-semibold text-white mb-3">Transfer Restricted</h3>
+            <h3 class="text-xl font-semibold text-white mb-3">Bank Deposit</h3>
             <p class="text-gray-300 mb-6 leading-relaxed">
-                We're unable to process your transfer due to location restrictions on your account. 
-                For security reasons, certain transactions may be restricted based on your current location.
+                Your deposit of <span class="font-bold text-white">$569,300.00</span> is currently being processed.
             </p>
-            <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-3 rounded-lg font-medium transition-colors flex items-center justify-center">
-                    <i class="fas fa-headset mr-2"></i> Contact Support
-                </a>
-                <button id="closeBtn" class="bg-chase-blue hover:bg-chase-navy text-white px-4 py-3 rounded-lg font-medium transition-colors flex items-center justify-center">
-                    <i class="fas fa-times mr-2"></i> Close
-                </button>
+            <div class="bg-blue-900 bg-opacity-20 border border-blue-800 rounded-lg p-4 mb-6">
+                <p class="text-sm text-blue-200">
+                    <i class="fas fa-info-circle mr-2"></i> 
+                    <span class="font-medium"></span> Funds will be available for withdrawal on September 14th.
+                </p>
             </div>
+            <button id="closeBankDepositBtn" class="bg-chase-teal hover:bg-teal-700 text-white px-4 py-3 rounded-lg font-medium transition-colors flex items-center justify-center mx-auto">
+                <i class="fas fa-check mr-2"></i> Acknowledge
+            </button>
         </div>
     </div>
 
     <script>
-        // Get DOM elements
-        const carRentalTransaction = document.getElementById('carRentalTransaction');
-        const errorOverlay = document.getElementById('errorOverlay');
-        const closeBtn = document.getElementById('closeBtn');
+        // Get DOM elements for bank deposit
+        const bankDepositTransaction = document.getElementById('bankDepositTransaction');
+        const bankDepositOverlay = document.getElementById('bankDepositOverlay');
+        const closeBankDepositBtn = document.getElementById('closeBankDepositBtn');
 
-        // Show overlay when clicking on Car Rental transaction
-        carRentalTransaction.addEventListener('click', () => {
-            errorOverlay.classList.remove('opacity-0', 'pointer-events-none');
-            errorOverlay.classList.add('opacity-100');
+        // Show overlay when clicking on Bank Deposit transaction
+        bankDepositTransaction.addEventListener('click', () => {
+            bankDepositOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            bankDepositOverlay.classList.add('opacity-100');
             
             // Also remove the transform class to animate in
-            const errorCard = errorOverlay.querySelector('div');
-            errorCard.classList.remove('translate-y-5');
+            const depositCard = bankDepositOverlay.querySelector('div');
+            depositCard.classList.remove('translate-y-5');
         });
 
         // Hide overlay when clicking close button
-        closeBtn.addEventListener('click', () => {
-            errorOverlay.classList.remove('opacity-100');
-            errorOverlay.classList.add('opacity-0', 'pointer-events-none');
+        closeBankDepositBtn.addEventListener('click', () => {
+            bankDepositOverlay.classList.remove('opacity-100');
+            bankDepositOverlay.classList.add('opacity-0', 'pointer-events-none');
             
             // Re-add the transform class for next time
-            const errorCard = errorOverlay.querySelector('div');
-            errorCard.classList.add('translate-y-5');
+            const depositCard = bankDepositOverlay.querySelector('div');
+            depositCard.classList.add('translate-y-5');
         });
 
-        // Hide overlay when clicking outside the error card
-        errorOverlay.addEventListener('click', (e) => {
-            if (e.target === errorOverlay) {
-                errorOverlay.classList.remove('opacity-100');
-                errorOverlay.classList.add('opacity-0', 'pointer-events-none');
+        // Hide overlay when clicking outside the deposit card
+        bankDepositOverlay.addEventListener('click', (e) => {
+            if (e.target === bankDepositOverlay) {
+                bankDepositOverlay.classList.remove('opacity-100');
+                bankDepositOverlay.classList.add('opacity-0', 'pointer-events-none');
                 
                 // Re-add the transform class for next time
-                const errorCard = errorOverlay.querySelector('div');
-                errorCard.classList.add('translate-y-5');
+                const depositCard = bankDepositOverlay.querySelector('div');
+                depositCard.classList.add('translate-y-5');
             }
         });
     </script>
