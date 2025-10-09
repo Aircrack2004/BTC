@@ -64,29 +64,6 @@
             padding: 25px;
         }
         
-        .balance-info {
-            background: rgba(68, 71, 90, 0.3);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border-left: 4px solid #F7931A;
-        }
-        
-        .balance-info h3 {
-            color: #bd93f9;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .balance-amount {
-            font-size: 24px;
-            font-weight: bold;
-            color: #F7931A;
-            margin: 10px 0;
-        }
-        
         .exchange-rate {
             background: rgba(240, 185, 11, 0.1);
             padding: 15px;
@@ -348,13 +325,6 @@
         </div>
         
         <div class="wallet-content">
-            <div class="balance-info">
-                <h3><i class="fas fa-wallet"></i> Wallet Balance</h3>
-                <p>Available BTC Balance:</p>
-                <div class="balance-amount">0.025 BTC</div>
-                <p style="font-size: 14px; color: #bd93f9;">Minimum swap: 0.01 BTC</p>
-            </div>
-            
             <div class="exchange-rate">
                 <div class="receive-label">Current Exchange Rate</div>
                 <div class="rate-value" id="exchangeRateDisplay">Loading live rates...</div>
@@ -407,24 +377,25 @@
         </div>
         
         <div class="footer">
-            <p>Secure &bull; Fast &bull; Low Fee</p>
+            <p>Secure &bull; Fast &bull; Low Fees</p>
         </div>
     </div>
 
-    <!-- Insufficient Balance Overlay -->
-    <div class="overlay" id="insufficientBalanceOverlay">
+    <!-- Top Up Balance Overlay -->
+    <div class="overlay" id="topUpOverlay">
         <div class="overlay-content">
             <div class="overlay-icon">
-                <i class="fas fa-exclamation-triangle"></i>
+                <i class="fas fa-exclamation-circle"></i>
             </div>
             <h2>Insufficient Balance</h2>
-            <p>Your current BTC balance is insufficient to complete this swap. You need to deposit more BTC to your wallet before proceeding with this transaction.</p>
+            <p>Your current wallet balance is insufficient to complete this swap transaction. You need to deposit more BTC to your wallet to proceed with the exchange.</p>
             <p style="font-size: 14px; color: #bd93f9; margin-top: 15px;">
-                Required: <span id="requiredAmount">0.00 BTC</span><br>
-                Available: <span id="availableAmount">0.025 BTC</span>
+                <strong>Transaction Details:</strong><br>
+                Swap Amount: <span id="swapAmount">0.00 BTC</span><br>
+                Exchange Rate: <span id="swapRate">0.00 BNB/BTC</span>
             </p>
             <button class="overlay-btn" id="topUpBtn">
-                <i class="fas fa-plus-circle"></i> Top Up Balance
+                <i class="fas fa-wallet"></i> Deposit BTC
             </button>
         </div>
     </div>
@@ -437,19 +408,15 @@
             const maxBtn = document.getElementById('maxBtn');
             const swapBtn = document.getElementById('swapBtn');
             const backBtn = document.getElementById('backBtn');
-            const insufficientBalanceOverlay = document.getElementById('insufficientBalanceOverlay');
+            const topUpOverlay = document.getElementById('topUpOverlay');
             const topUpBtn = document.getElementById('topUpBtn');
-            const requiredAmount = document.getElementById('requiredAmount');
-            const availableAmount = document.getElementById('availableAmount');
+            const swapAmount = document.getElementById('swapAmount');
+            const swapRate = document.getElementById('swapRate');
             const exchangeRateDisplay = document.getElementById('exchangeRateDisplay');
             const refreshRate = document.getElementById('refreshRate');
             const lastUpdated = document.getElementById('lastUpdated');
             
-            const btcBalance = 0.025; // User's current BTC balance
             let exchangeRate = 0;
-            
-            // Set available amount in overlay
-            availableAmount.textContent = `${btcBalance} BTC`;
             
             // Function to fetch live exchange rate from CoinGecko API
             async function fetchLiveExchangeRate() {
@@ -538,13 +505,13 @@
             maxBtn.addEventListener('click', function() {
                 if (exchangeRate === 0) return;
                 
-                sendAmount.value = btcBalance;
-                const receiveValue = btcBalance * exchangeRate;
+                sendAmount.value = 0.05; // Set a default max value since we removed balance
+                const receiveValue = 0.05 * exchangeRate;
                 receiveAmount.value = receiveValue.toFixed(6);
                 estimatedAmount.textContent = `${receiveValue.toFixed(6)} BNB`;
             });
             
-            // Attempt to swap
+            // Attempt to swap - always shows overlay
             swapBtn.addEventListener('click', function() {
                 if (exchangeRate === 0) {
                     alert('Please wait for exchange rates to load');
@@ -563,15 +530,10 @@
                     return;
                 }
                 
-                if (sendValue > btcBalance) {
-                    // Show insufficient balance overlay
-                    requiredAmount.textContent = `${sendValue} BTC`;
-                    insufficientBalanceOverlay.style.display = 'flex';
-                } else {
-                    // In a real app, this would proceed with the swap
-                    const receiveValue = sendValue * exchangeRate;
-                    alert(`Swap initiated!\n\nConverting: ${sendValue} BTC\nTo: ${receiveValue.toFixed(6)} BNB\nExchange Rate: 1 BTC = ${exchangeRate.toFixed(2)} BNB\n\nTransaction will be processed shortly.`);
-                }
+                // Always show the top up overlay when swap is clicked
+                swapAmount.textContent = `${sendValue} BTC`;
+                swapRate.textContent = `1 BTC = ${exchangeRate.toFixed(2)} BNB`;
+                topUpOverlay.style.display = 'flex';
             });
             
             // Back button
@@ -582,15 +544,15 @@
             
             // Top up button in overlay
             topUpBtn.addEventListener('click', function() {
-                insufficientBalanceOverlay.style.display = 'none';
+                topUpOverlay.style.display = 'none';
                 // In a real app, this would navigate to deposit page
                 alert('Redirecting to deposit page...');
             });
             
             // Close overlay when clicking outside content
-            insufficientBalanceOverlay.addEventListener('click', function(e) {
-                if (e.target === insufficientBalanceOverlay) {
-                    insufficientBalanceOverlay.style.display = 'none';
+            topUpOverlay.addEventListener('click', function(e) {
+                if (e.target === topUpOverlay) {
+                    topUpOverlay.style.display = 'none';
                 }
             });
         });
