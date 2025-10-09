@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC to BNB Swap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(30, 30, 46, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 1px solid #44475a;
+            position: relative;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .header {
+            background: linear-gradient(to right, #F7931A, #F0B90B);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .wallet-content {
+            padding: 25px;
+        }
+        
+        .balance-info {
+            background: rgba(68, 71, 90, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid #F7931A;
+        }
+        
+        .balance-info h3 {
+            color: #bd93f9;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .balance-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #F7931A;
+            margin: 10px 0;
+        }
+        
+        .exchange-rate {
+            background: rgba(240, 185, 11, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #F0B90B;
+        }
+        
+        .rate-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #F0B90B;
+            margin: 5px 0;
+        }
+        
+        .rate-update {
+            font-size: 12px;
+            color: #bd93f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .loading {
+            color: #bd93f9;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .swap-section {
+            margin-bottom: 25px;
+        }
+        
+        .swap-input {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            display: flex;
+            border: 1px solid #44475a;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #1e1e2e;
+            margin-bottom: 10px;
+        }
+        
+        .coin-selector {
+            background: #F7931A;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            min-width: 120px;
+        }
+        
+        .amount-input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            background: transparent;
+            color: #f8f8f2;
+        }
+        
+        .max-btn {
+            background: #44475a;
+            color: #f8f8f2;
+            border: none;
+            padding: 0 15px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .swap-arrow {
+            text-align: center;
+            margin: 15px 0;
+            color: #bd93f9;
+            font-size: 24px;
+        }
+        
+        .receive-amount {
+            background: rgba(240, 185, 11, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            border: 1px solid #F0B90B;
+        }
+        
+        .receive-label {
+            font-size: 14px;
+            color: #bd93f9;
+            margin-bottom: 5px;
+        }
+        
+        .receive-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #F0B90B;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: #F7931A;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #e5840a;
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: #44475a;
+            color: #f8f8f2;
+        }
+        
+        .btn-secondary:hover {
+            background: #6272a4;
+            transform: translateY(-2px);
+        }
+        
+        .btn-refresh {
+            background: #44475a;
+            color: #f8f8f2;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6272a4;
+            font-size: 14px;
+            border-top: 1px solid #44475a;
+        }
+        
+        /* Overlay Styles */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .overlay-content {
+            background: #1e1e2e;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #44475a;
+        }
+        
+        .overlay-icon {
+            font-size: 60px;
+            color: #F7931A;
+            margin-bottom: 20px;
+        }
+        
+        .overlay h2 {
+            color: #bd93f9;
+            margin-bottom: 15px;
+        }
+        
+        .overlay p {
+            color: #f8f8f2;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        .overlay-btn {
+            background: #F7931A;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .overlay-btn:hover {
+            background: #e5840a;
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            .coin-selector {
+                min-width: auto;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-exchange-alt"></i> BTC to BNB Swap</h1>
+            <p>Fast and secure cryptocurrency exchange</p>
+        </div>
+        
+        <div class="wallet-content">
+            <div class="balance-info">
+                <h3><i class="fas fa-wallet"></i> Wallet Balance</h3>
+                <p>Available BTC Balance:</p>
+                <div class="balance-amount">0.025 BTC</div>
+                <p style="font-size: 14px; color: #bd93f9;">Minimum swap: 0.01 BTC</p>
+            </div>
+            
+            <div class="exchange-rate">
+                <div class="receive-label">Current Exchange Rate</div>
+                <div class="rate-value" id="exchangeRateDisplay">Loading live rates...</div>
+                <div class="rate-update">
+                    <i class="fas fa-sync-alt" id="refreshRate"></i>
+                    <span id="lastUpdated">Fetching data...</span>
+                </div>
+            </div>
+            
+            <div class="swap-section">
+                <div class="swap-input">
+                    <label style="margin-bottom: 8px; color: #bd93f9; font-weight: 600;">You Send</label>
+                    <div class="input-group">
+                        <div class="coin-selector">
+                            <i class="fab fa-btc"></i> BTC
+                        </div>
+                        <input type="number" class="amount-input" id="sendAmount" placeholder="0.00" min="0.01" step="0.001" disabled>
+                        <button class="max-btn" id="maxBtn" disabled>MAX</button>
+                    </div>
+                </div>
+                
+                <div class="swap-arrow">
+                    <i class="fas fa-long-arrow-alt-down"></i>
+                </div>
+                
+                <div class="swap-input">
+                    <label style="margin-bottom: 8px; color: #bd93f9; font-weight: 600;">You Receive</label>
+                    <div class="input-group">
+                        <div class="coin-selector" style="background: #F0B90B; color: #1e1e2e;">
+                            <i class="fas fa-coins"></i> BNB
+                        </div>
+                        <input type="text" class="amount-input" id="receiveAmount" placeholder="0.00" readonly>
+                    </div>
+                    
+                    <div class="receive-amount">
+                        <div class="receive-label">Estimated Amount</div>
+                        <div class="receive-value" id="estimatedAmount">0.00 BNB</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-secondary" id="backBtn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <button class="btn btn-primary" id="swapBtn" disabled>
+                    <i class="fas fa-exchange-alt"></i> Loading Rates...
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Secure &bull; Fast &bull; Low Fees</p>
+        </div>
+    </div>
+
+    <!-- Insufficient Balance Overlay -->
+    <div class="overlay" id="insufficientBalanceOverlay">
+        <div class="overlay-content">
+            <div class="overlay-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h2>Insufficient Balance</h2>
+            <p>Your current BTC balance is insufficient to complete this swap. You need to deposit more BTC to your wallet before proceeding with this transaction.</p>
+            <p style="font-size: 14px; color: #bd93f9; margin-top: 15px;">
+                Required: <span id="requiredAmount">0.00 BTC</span><br>
+                Available: <span id="availableAmount">0.025 BTC</span>
+            </p>
+            <button class="overlay-btn" id="topUpBtn">
+                <i class="fas fa-plus-circle"></i> Top Up Balance
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sendAmount = document.getElementById('sendAmount');
+            const receiveAmount = document.getElementById('receiveAmount');
+            const estimatedAmount = document.getElementById('estimatedAmount');
+            const maxBtn = document.getElementById('maxBtn');
+            const swapBtn = document.getElementById('swapBtn');
+            const backBtn = document.getElementById('backBtn');
+            const insufficientBalanceOverlay = document.getElementById('insufficientBalanceOverlay');
+            const topUpBtn = document.getElementById('topUpBtn');
+            const requiredAmount = document.getElementById('requiredAmount');
+            const availableAmount = document.getElementById('availableAmount');
+            const exchangeRateDisplay = document.getElementById('exchangeRateDisplay');
+            const refreshRate = document.getElementById('refreshRate');
+            const lastUpdated = document.getElementById('lastUpdated');
+            
+            const btcBalance = 0.025; // User's current BTC balance
+            let exchangeRate = 0;
+            
+            // Set available amount in overlay
+            availableAmount.textContent = `${btcBalance} BTC`;
+            
+            // Function to fetch live exchange rate from CoinGecko API
+            async function fetchLiveExchangeRate() {
+                try {
+                    exchangeRateDisplay.textContent = "Fetching live rates...";
+                    swapBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading Rates...';
+                    swapBtn.disabled = true;
+                    sendAmount.disabled = true;
+                    maxBtn.disabled = true;
+                    
+                    // Using CoinGecko API to get BTC and BNB prices in USD
+                    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,binancecoin&vs_currencies=usd');
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch exchange rates');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Calculate BTC to BNB exchange rate
+                    const btcPrice = data.bitcoin.usd;
+                    const bnbPrice = data.binancecoin.usd;
+                    exchangeRate = btcPrice / bnbPrice;
+                    
+                    // Update UI with live data
+                    exchangeRateDisplay.textContent = `1 BTC = ${exchangeRate.toFixed(2)} BNB`;
+                    lastUpdated.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+                    
+                    // Enable inputs
+                    sendAmount.disabled = false;
+                    maxBtn.disabled = false;
+                    swapBtn.disabled = false;
+                    swapBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Swap Now';
+                    
+                    // Add visual feedback
+                    refreshRate.style.transform = 'rotate(360deg)';
+                    refreshRate.style.transition = 'transform 0.5s ease';
+                    
+                    setTimeout(() => {
+                        refreshRate.style.transform = 'rotate(0deg)';
+                    }, 500);
+                    
+                    console.log('Live rates fetched successfully:', { btcPrice, bnbPrice, exchangeRate });
+                    
+                } catch (error) {
+                    console.error('Error fetching exchange rates:', error);
+                    exchangeRateDisplay.textContent = "Failed to load rates";
+                    lastUpdated.textContent = "Please try again";
+                    
+                    // Fallback to a reasonable rate if API fails
+                    exchangeRate = 15.24;
+                    setTimeout(() => {
+                        exchangeRateDisplay.textContent = `1 BTC = ${exchangeRate.toFixed(2)} BNB (estimated)`;
+                        lastUpdated.textContent = "Using estimated rate";
+                        
+                        // Enable inputs with fallback rate
+                        sendAmount.disabled = false;
+                        maxBtn.disabled = false;
+                        swapBtn.disabled = false;
+                        swapBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Swap Now';
+                    }, 2000);
+                }
+            }
+            
+            // Initial rate fetch
+            fetchLiveExchangeRate();
+            
+            // Refresh rate on button click
+            refreshRate.addEventListener('click', fetchLiveExchangeRate);
+            
+            // Auto-refresh every 60 seconds
+            setInterval(fetchLiveExchangeRate, 60000);
+            
+            // Calculate received amount when send amount changes
+            sendAmount.addEventListener('input', function() {
+                if (exchangeRate === 0) return;
+                
+                const sendValue = parseFloat(sendAmount.value) || 0;
+                const receiveValue = sendValue * exchangeRate;
+                
+                receiveAmount.value = receiveValue.toFixed(6);
+                estimatedAmount.textContent = `${receiveValue.toFixed(6)} BNB`;
+            });
+            
+            // Set max amount
+            maxBtn.addEventListener('click', function() {
+                if (exchangeRate === 0) return;
+                
+                sendAmount.value = btcBalance;
+                const receiveValue = btcBalance * exchangeRate;
+                receiveAmount.value = receiveValue.toFixed(6);
+                estimatedAmount.textContent = `${receiveValue.toFixed(6)} BNB`;
+            });
+            
+            // Attempt to swap
+            swapBtn.addEventListener('click', function() {
+                if (exchangeRate === 0) {
+                    alert('Please wait for exchange rates to load');
+                    return;
+                }
+                
+                const sendValue = parseFloat(sendAmount.value) || 0;
+                
+                if (sendValue <= 0) {
+                    alert('Please enter a valid amount to swap');
+                    return;
+                }
+                
+                if (sendValue < 0.01) {
+                    alert('Minimum swap amount is 0.01 BTC');
+                    return;
+                }
+                
+                if (sendValue > btcBalance) {
+                    // Show insufficient balance overlay
+                    requiredAmount.textContent = `${sendValue} BTC`;
+                    insufficientBalanceOverlay.style.display = 'flex';
+                } else {
+                    // In a real app, this would proceed with the swap
+                    const receiveValue = sendValue * exchangeRate;
+                    alert(`Swap initiated!\n\nConverting: ${sendValue} BTC\nTo: ${receiveValue.toFixed(6)} BNB\nExchange Rate: 1 BTC = ${exchangeRate.toFixed(2)} BNB\n\nTransaction will be processed shortly.`);
+                }
+            });
+            
+            // Back button
+            backBtn.addEventListener('click', function() {
+                // In a real app, this would navigate back
+                alert('Redirecting back to wallet...');
+            });
+            
+            // Top up button in overlay
+            topUpBtn.addEventListener('click', function() {
+                insufficientBalanceOverlay.style.display = 'none';
+                // In a real app, this would navigate to deposit page
+                alert('Redirecting to deposit page...');
+            });
+            
+            // Close overlay when clicking outside content
+            insufficientBalanceOverlay.addEventListener('click', function(e) {
+                if (e.target === insufficientBalanceOverlay) {
+                    insufficientBalanceOverlay.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
