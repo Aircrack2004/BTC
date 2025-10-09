@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Wallet - BTC to BNB</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(30, 30, 46, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 1px solid #44475a;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .header {
+            background: linear-gradient(to right, #F7931A, #F0B90B);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .wallet-content {
+            padding: 25px;
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .logo-container {
+            display: inline-block;
+            padding: 15px;
+            background: #1e1e2e;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+            border: 1px solid #44475a;
+        }
+        
+        .swap-logo {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #1e1e2e, #2d2d44);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin: 0 auto;
+            border: 1px solid #44475a;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btc-logo, .bnb-logo {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btc-logo {
+            background: #F7931A;
+            color: white;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .bnb-logo {
+            background: #F0B90B;
+            color: #1e1e2e;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .swap-arrow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            color: #bd93f9;
+            z-index: 2;
+        }
+        
+        .swap-rate {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #bd93f9;
+            font-weight: 600;
+        }
+        
+        .wallet-address {
+            margin-bottom: 25px;
+        }
+        
+        .wallet-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #bd93f9;
+            font-size: 16px;
+        }
+        
+        .address-container {
+            display: flex;
+            border: 1px solid #44475a;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #1e1e2e;
+        }
+        
+        .address-input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            background: transparent;
+            color: #f8f8f2;
+        }
+        
+        .copy-btn {
+            background: #F7931A;
+            color: white;
+            border: none;
+            padding: 0 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        
+        .copy-btn:hover {
+            background: #e5840a;
+        }
+        
+        .copy-btn.copied {
+            background: #20bf6b;
+        }
+        
+        .instructions {
+            background: rgba(68, 71, 90, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid #F7931A;
+        }
+        
+        .instructions h3 {
+            color: #bd93f9;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+            color: #f8f8f2;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: #F7931A;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #e5840a;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #44475a;
+            color: #f8f8f2;
+        }
+        
+        .btn-secondary:hover {
+            background: #6272a4;
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6272a4;
+            font-size: 14px;
+            border-top: 1px solid #44475a;
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .swap-logo {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .btc-logo, .bnb-logo {
+                width: 70px;
+                height: 70px;
+                font-size: 30px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-exchange-alt"></i> BTC to BNB Swap</h1>
+            <p>Fast and secure cryptocurrency exchange</p>
+        </div>
+        
+        <div class="wallet-content">
+            <div class="logo-section">
+                <div class="logo-container">
+                    <div class="swap-logo">
+                        <div class="btc-logo">₿</div>
+                        <div class="swap-arrow"><i class="fas fa-long-arrow-alt-right"></i></div>
+                        <div class="bnb-logo">B</div>
+                    </div>
+                </div>
+                <p>Exchange Bitcoin for Binance Coin</p>
+            </div>
+            
+            <div class="wallet-address">
+                <div class="wallet-label">Your BNB Wallet Address</div>
+                <div class="address-container">
+                    <input type="text" class="address-input" id="walletAddress" value="bc1qpm5lggztlwsawapp3rrcfn0rm7euhqhrw9r36k" readonly>
+                    <button class="copy-btn" id="copyBtn">
+                        <i class="far fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> Swap Instructions</h3>
+                <ol>
+                    <li>Send Bitcoin to the exchange address provided after confirmation</li>
+                    <li>Your BNB will be sent to the wallet address shown above</li>
+                    <li>Double-check the wallet address before initiating the swap</li>
+                    <li>Transaction typically completes within 10-30 minutes</li>
+                </ol>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="editBtn">
+                    <i class="fas fa-edit"></i> Edit Address
+                </button>
+                <button class="btn btn-secondary" id="swapBtn">
+                    <i class="fas fa-exchange-alt"></i> Start Swap
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Secure &bull; Fast &bull; Low Fees</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const walletAddress = document.getElementById('walletAddress');
+            const copyBtn = document.getElementById('copyBtn');
+            const editBtn = document.getElementById('editBtn');
+            const swapBtn = document.getElementById('swapBtn');
+            let isEditing = false;
+            
+            // Copy wallet address functionality
+            copyBtn.addEventListener('click', function() {
+                walletAddress.select();
+                walletAddress.setSelectionRange(0, 99999);
+                
+                navigator.clipboard.writeText(walletAddress.value)
+                    .then(() => {
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        copyBtn.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            copyBtn.innerHTML = '<i class="far fa-copy"></i> Copy';
+                            copyBtn.classList.remove('copied');
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        // Fallback for older browsers
+                        document.execCommand('copy');
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        copyBtn.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            copyBtn.innerHTML = '<i class="far fa-copy"></i> Copy';
+                            copyBtn.classList.remove('copied');
+                        }, 2000);
+                    });
+            });
+            
+            // Edit wallet address functionality
+            editBtn.addEventListener('click', function() {
+                if (!isEditing) {
+                    walletAddress.removeAttribute('readonly');
+                    walletAddress.focus();
+                    walletAddress.setSelectionRange(0, walletAddress.value.length);
+                    editBtn.innerHTML = '<i class="fas fa-save"></i> Save Address';
+                    isEditing = true;
+                } else {
+                    if (walletAddress.value.length < 10) {
+                        alert('Please enter a valid wallet address');
+                        return;
+                    }
+                    
+                    walletAddress.setAttribute('readonly', true);
+                    editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit Address';
+                    isEditing = false;
+                    
+                    alert('BNB wallet address updated successfully!');
+                }
+            });
+            
+            // Start swap functionality
+            swapBtn.addEventListener('click', function() {
+                swapBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                
+                // Simulate API call to start swap
+                setTimeout(() => {
+                    swapBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Start Swap';
+                    alert('Swap initiated! Please send your BTC to the address provided in the next screen.');
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
