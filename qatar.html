@@ -105,7 +105,7 @@
                         </div>
                         <div>
                             <p class="text-gray-500 text-xs sm:text-sm">Issued On</p>
-                            <p class="font-bold text-sm sm:text-base">Sep 11, 2025</p>
+                            <p class="font-bold text-sm sm:text-base">oct 6, 2025</p>
                         </div>
                         <div>
                             <p class="text-gray-500 text-xs sm:text-sm">Passengers</p>
@@ -135,7 +135,7 @@
                     </div>
                     <div class="pl-11">
                         <p class="text-gray-500 text-sm">Full Name</p>
-                        <p class="font-bold text-lg text-delta-gray">Michael Stone</p>
+                        <p class="font-bold text-lg text-delta-gray">Anthony Christopher Blake</p>
                         
                         <div class="grid grid-cols-2 gap-4 mt-3">
                             <div>
@@ -157,11 +157,11 @@
                     <div class="pl-11">
                         <div class="mb-3">
                             <p class="text-gray-500 text-sm">Email Address</p>
-                            <p class="font-medium">emeraldconstructions247@gmail.com</p>
+                            <p class="font-medium">dreamschasetony@gmail.com</p>
                         </div>
                         <div>
                             <p class="text-gray-500 text-sm">Phone Number</p>
-                            <p class="font-medium">+1 (812) 946-9084</p>
+                            <p class="font-medium">+1 (326) 216-8601</p>
                         </div>
                     </div>
                 </div>
@@ -191,77 +191,171 @@
     <div class="bg-delta-blue text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">
       <i class="fas fa-plane-departure"></i>
     </div>
-    <h3
-      class="leading-tight flex items-center gap-x-1 whitespace-nowrap overflow-hidden text-ellipsis"
-      title="Frankfurt, Germany (FRA) → Seattle–Tacoma International Airport (SEA)"
-      style="font-size: clamp(0.875rem, 2vw, 1.25rem);"
-    >
-      <small class="text-gray-600" style="font-size: clamp(0.7rem,1.5vw,0.875rem);">Frankfurt, Germany&nbsp;</small>
-      <span class="font-semibold" style="font-size: clamp(0.8rem,1.6vw,1rem);">(FRA)</span>
-      <span class="mx-1 text-delta-blue" style="font-size: clamp(0.875rem,1.8vw,1.125rem);">→</span>
-      <small class="text-gray-600" style="font-size: clamp(0.7rem,1.5vw,0.875rem);">George Bush International Airport
-</small>
-      <span class="font-semibold" style="font-size: clamp(0.8rem,1.6vw,1rem);">(SEA)</span>
-    </h3>
+<h3
+  class="flex items-center gap-x-1 whitespace-nowrap overflow-hidden text-ellipsis leading-tight"
+  title="Columbus (CMH) → Hartsfield–Jackson Atlanta International Airport (ATL) → Madrid–Barajas Airport (MAD)"
+  style="font-size: clamp(0.875rem, 2vw, 1.25rem);"
+>
+  <!-- First Leg: CMH -->
+  <span class="text-gray-600 text-[clamp(0.7rem,1.5vw,0.875rem)]">
+    Columbus
+  </span>
+  <span class="font-semibold text-[clamp(0.8rem,1.6vw,1rem)]">
+    (CMH)
+  </span>
+
+  <span class="mx-1 text-delta-blue text-[clamp(0.875rem,1.8vw,1.125rem)]">→</span>
+
+  <!-- Second Leg: ATL -->
+  <span class="text-gray-600 text-[clamp(0.7rem,1.5vw,0.875rem)]">
+    Hartsfield–Jackson Atlanta Intl
+  </span>
+  <span class="font-semibold text-[clamp(0.8rem,1.6vw,1rem)]">
+    (ATL)
+  </span>
+
+  <span class="mx-1 text-delta-blue text-[clamp(0.875rem,1.8vw,1.125rem)]">→</span>
+
+  <!-- Final Destination: MAD -->
+  <span class="text-gray-600 text-[clamp(0.7rem,1.5vw,0.875rem)]">
+    Madrid–Barajas Airport
+  </span>
+  <span class="font-semibold text-[clamp(0.8rem,1.6vw,1rem)]">
+    (MAD)
+  </span>
+</h3>
+
+
   </div>
 
-  <div class="border rounded-lg overflow-hidden border-delta-blue">
-    <div class="bg-gray-50 p-4 border-b flex justify-between items-center">
-      <div>
-        <p class="text-gray-500 text-sm">Flight</p>
-        <p class="font-bold">United Airlines • Boeing 777 / 787.</p>
+<div class="border rounded-lg overflow-hidden border-delta-blue">
+  <!-- 🧾 Flight Header -->
+  <div class="bg-gray-50 p-4 border-b flex flex-wrap justify-between items-start gap-3">
+    <!-- Flight Info -->
+    <div class="flex-1 min-w-[200px]">
+      <p class="text-gray-500 text-[clamp(0.75rem,1.5vw,0.9rem)] leading-tight">
+        Flight
+      </p>
+      <p class="font-bold text-[clamp(0.9rem,2vw,1.125rem)] leading-snug break-words">
+        Delta Air Lines 
+        <small class="text-gray-600">
+          • Airbus A330-300 / Boeing 737-900
+        </small>
+      </p>
+    </div>
+
+    <!-- Duration -->
+    <div class="text-end sm:text-right min-w-[120px] flex items-center, justify-between">
+      <p class="text-gray-500 text-[clamp(0.75rem,1.5vw,0.9rem)] leading-tight">
+        Duration
+      </p>
+      <p class="font-bold text-[clamp(0.9rem,2vw,1.125rem)] leading-snug whitespace-nowrap">
+        12h 00m
+      </p>
+    </div>
+  </div>
+
+  <!-- 🛫 Flight Segments -->
+  <div class="p-4 space-y-6">
+    <!-- ✈️ First Flight: CMH -> ATL -->
+    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+      <!-- Departure -->
+      <div class="flex-1 text-center">
+        <p class="font-bold text-[clamp(1.25rem,4vw,2rem)]">9:15 AM EDT</p>
+        <p class="text-gray-500 text-[clamp(0.7rem,2vw,0.9rem)]">Oct 10, 2025</p>
+        <p class="font-medium text-[clamp(0.8rem,2.5vw,1rem)]">
+          John Glenn Columbus Intl. (CMH)
+        </p>
+        <p class="text-gray-500 text-[clamp(0.6rem,1.5vw,0.75rem)]">Main Terminal</p>
       </div>
-      <div class="text-right">
-        <p class="text-gray-500 text-sm">Duration</p>
-        <p class="font-bold">10h 35m</p>
+
+      <!-- Flight Info -->
+      <div class="flex-1 flex flex-col items-center">
+        <div class="relative w-full my-2">
+          <div class="h-px bg-gray-300 w-full absolute top-1/2 left-0 right-0"></div>
+          <div class="bg-white p-1 relative z-10 mx-auto w-8">
+            <i class="fas fa-plane text-delta-blue"></i>
+          </div>
+        </div>
+        <p class="text-gray-500 text-[clamp(0.6rem,1.5vw,0.75rem)] mt-1">Non-stop</p>
+        <p class="text-delta-blue font-medium text-[clamp(0.6rem,1.5vw,0.75rem)] mt-1">
+          1h 40m
+        </p>
+      </div>
+
+      <!-- Arrival -->
+      <div class="flex-1 text-center">
+        <p class="font-bold text-[clamp(1.25rem,4vw,2rem)]">10:55 AM EDT</p>
+        <p class="text-gray-500 text-[clamp(0.7rem,2vw,0.9rem)]">Oct 10, 2025</p>
+        <p class="font-medium text-[clamp(0.8rem,2.5vw,1rem)]">
+          Hartsfield–Jackson ATL (ATL)
+        </p>
+        <p class="text-gray-500 text-[clamp(0.6rem,1.5vw,0.75rem)]">Terminal S</p>
       </div>
     </div>
 
-    <div class="p-4">
-      <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-        <!-- Departure -->
-        <div class="flex-1 text-center">
-          <p class="font-bold text-[clamp(1.25rem,4vw,2rem)]">12:00 PM CEST</p>
-          <p class="text-gray-500 text-[clamp(0.7rem,2vw,0.9rem)]">Sep 20, 2025</p>
-          <p class="font-medium text-[clamp(0.8rem,2.5vw,1rem)]">Frankfurt Airport (FRA)</p>
+    <!-- 🕓 Layover Info -->
+    <div class="text-center mb-2">
+      <p class="text-gray-500 text-sm">Layover in Atlanta: 2h 15m</p>
+    </div>
 
-          <p class="text-gray-500 text-[clamp(0.6rem,1.5vw,0.75rem)]">Terminal 1</p>
-        </div>
-
-        <!-- Flight Info -->
-        <div class="flex-1 flex flex-col items-center">
-          <div class="relative w-full my-2">
-            <div class="h-px bg-gray-300 w-full absolute top-1/2 left-0 right-0"></div>
-            <div class="bg-white p-1 relative z-10 mx-auto w-8">
-              <i class="fas fa-plane text-delta-blue"></i>
-            </div>
-          </div>
-          <p class="text-gray-500 text-[clamp(0.6rem,1.5vw,0.75rem)] mt-1">Non-stop</p>
-          <p class="text-delta-blue font-medium text-[clamp(0.6rem,1.5vw,0.75rem)] mt-1">10h 35m</p>
-        </div>
-
-        <!-- Arrival -->
-        <div class="flex-1 text-center">
-          <p class="font-bold text-[clamp(1.25rem,4vw,2rem)]">2:35 PM CDT</p>
-          <p class="text-gray-500 text-[clamp(0.7rem,2vw,0.9rem)]">Sep 20, 2025</p>
-          <p class="font-medium text-[clamp(0.8rem,2.5vw,1rem)]">George Bush International Airport
-</p>
-          <p class="text-gray-500 text-[clamp(0.6rem,1.5vw,0.75rem)]">Main Terminal</p>
-        </div>
+    <!-- ✈️ Second Flight: ATL -> MAD -->
+    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+      <!-- Departure -->
+      <div class="flex-1 text-center">
+        <p class="font-bold text-[clamp(1.25rem,4vw,2rem)]">1:10 PM EDT</p>
+        <p class="text-gray-500 text-[clamp(0.7rem,2vw,0.9rem)]">Oct 10, 2025</p>
+        <p class="font-medium text-[clamp(0.8rem,2.5vw,1rem)]">
+          Hartsfield–Jackson ATL (ATL)
+        </p>
+        <p class="text-gray-500 text-[clamp(0.6rem,1.5vw,0.75rem)]">
+          Terminal I (International)
+        </p>
       </div>
 
-      <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
-        <div class="flex items-center">
-          <div class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3">
-            <i class="fas fa-info-circle text-xs"></i>
+      <!-- Flight Info -->
+      <div class="flex-1 flex flex-col items-center">
+        <div class="relative w-full my-2">
+          <div class="h-px bg-gray-300 w-full absolute top-1/2 left-0 right-0"></div>
+          <div class="bg-white p-1 relative z-10 mx-auto w-8">
+            <i class="fas fa-plane text-delta-blue"></i>
           </div>
-          <p class="text-sm">
-            Economy Class • Baggage: 1 x 23kg checked + 1 cabin bag
-          </p>
         </div>
+        <p class="text-gray-500 text-[clamp(0.6rem,1.5vw,0.75rem)] mt-1">Non-stop</p>
+        <p class="text-delta-blue font-medium text-[clamp(0.6rem,1.5vw,0.75rem)] mt-1">
+          8h 05m
+        </p>
+      </div>
+
+      <!-- Arrival -->
+      <div class="flex-1 text-center">
+        <p class="font-bold text-[clamp(1.25rem,4vw,2rem)]">3:15 AM CEST</p>
+        <p class="text-gray-500 text-[clamp(0.7rem,2vw,0.9rem)]">Oct 21, 2025</p>
+        <p class="font-medium text-[clamp(0.8rem,2.5vw,1rem)]">
+          Madrid–Barajas Airport (MAD)
+        </p>
+        <p class="text-gray-500 text-[clamp(0.6rem,1.5vw,0.75rem)]">Terminal 4S</p>
+      </div>
+    </div>
+
+    <!-- ✨ Flight Info Banner -->
+    <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+      <div class="flex items-center">
+        <div
+          class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3"
+        >
+          <i class="fas fa-info-circle text-xs"></i>
+        </div>
+        <p class="text-sm">
+          Economy Class • 1 x 23kg checked baggage + 1 cabin bag • Operated by Delta Air Lines
+        </p>
       </div>
     </div>
   </div>
+</div>
+
+
+
 </div>
 
 
@@ -306,7 +400,7 @@
                         </div>
                         <div>
                             <p class="font-medium">Visa •••• •••• •••• 4297</p>
-                            <p class="text-sm text-gray-500">Paid on Sep 11, 2025</p>
+                            <p class="text-sm text-gray-500">Paid on oct 6, 2025</p>
                         </div>
                     </div>
                     
