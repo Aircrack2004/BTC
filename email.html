@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PayPal Payment Notification</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ==== BASE ==== */
+    body {
+      font-family: 'Open Sans', Arial, sans-serif;
+      background-color: #121212;
+      margin: 0;
+      padding: 0;
+      color: #eaeaea;
+    }
+    .bg-dark { background-color: #121212; }
+    .bg-darker { background-color: #1e1e1e; }
+    .bg-blue { background-color: #003087; }
+    .text-white { color: #ffffff; }
+    .text-gray { color: #eaeaea; }
+    .text-gray-light { color: #aaaaaa; }
+    .text-blue { color: #00a8e8; }
+
+    .email-container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #1e1e1e;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    h3, h4, p, small { margin: 0; }
+
+    /* ==== UTILITIES ==== */
+    .text-center { text-align: center; }
+    .text-left { text-align: left; }
+    .text-xs { font-size: 12px; }
+    .text-sm { font-size: 14px; }
+    .text-lg { font-size: 18px; }
+    .text-xl { font-size: 22px; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+
+    .p-15 { padding: 15px; }
+    .p-20 { padding: 20px; }
+    .p-25 { padding: 25px; }
+    .p-30 { padding: 30px; }
+    .mt-15 { margin-top: 15px; }
+    .mb-15 { margin-bottom: 15px; }
+    .mb-20 { margin-bottom: 20px; }
+
+    .flex { display: flex; }
+    .flex-wrap { flex-wrap: wrap; }
+    .justify-between { justify-content: space-between; }
+    .items-center { align-items: center; }
+
+    /* ==== BUTTON ==== */
+    .btn {
+      display: inline-block;
+      padding: 14px 35px;
+      background: #0070ba;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background: #005ea6;
+    }
+
+    /* ==== PROGRESS ==== */
+    .progress-container {
+      display: flex;
+      gap: 8px;
+      margin: 25px 0;
+      justify-content: center;
+    }
+    .progress-box {
+      width: 16px;
+      height: 16px;
+      background-color: #333;
+      transition: background-color 0.5s ease;
+    }
+    .progress-box.filled {
+      background-color: #0070ba;
+    }
+    .pulsing {
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    /* ==== IMAGE ==== */
+    .rounded-image {
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* ==== TRANSACTION ==== */
+    .transaction-details {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+    .transaction-detail {
+      flex: 1;
+      min-width: 150px;
+      background-color: #1e1e1e;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #2a2a2a;
+      border-radius: 4px;
+    }
+    .transaction-detail small {
+      display: block;
+    }
+    @media (max-width: 480px) {
+      .transaction-details {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .transaction-detail {
+        width: 100%;
+      }
+    }
+
+    /* ==== ACTION ==== */
+    .action-required {
+      background-color: #1e1e1e;
+      padding: 15px;
+      margin-top: 10px;
+      border: 1px solid #2a2a2a;
+      border-radius: 4px;
+    }
+
+    /* ==== PAYMENT OPTIONS ==== */
+    .payment-section {
+      background-color: #1e1e1e;
+      padding: 20px;
+      margin: 20px 0;
+      border: 1px solid #2a2a2a;
+      border-radius: 4px;
+    }
+    .payment-method {
+      margin-bottom: 15px;
+      padding-left: 20px;
+      position: relative;
+    }
+    .payment-method:before {
+      content: "•";
+      color: #0070ba;
+      position: absolute;
+      left: 0;
+    }
+    .wallet-address {
+      background-color: #121212;
+      padding: 12px;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-family: monospace;
+      font-size: 13px;
+      word-break: break-all;
+      border: 1px solid #2a2a2a;
+    }
+    .wallet-label {
+      color: #0070ba;
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
+    }
+    .note-box {
+      background-color: #1a1a1a;
+      padding: 15px;
+      border-left: 4px solid #ffc107;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+
+    /* ==== SOCIAL ==== */
+    .social-icon {
+      display: inline-block;
+      margin: 0 10px;
+      width: 32px;
+      height: 32px;
+      background-color: #333;
+      color: white;
+      text-align: center;
+      line-height: 32px;
+      text-decoration: none;
+      border-radius: 50%;
+      transition: background 0.3s ease;
+    }
+    .social-icon:hover {
+      background-color: #0070ba;
+    }
+  </style>
+</head>
+<body class="bg-dark text-gray">
+  <div class="email-container bg-darker">
+    <!-- HEADER -->
+    <div class="header bg-blue text-white p-25 text-center">
+      <small class="text-sm">Hello, Mackynzie Kiser</small>
+    </div>
+    
+    <!-- TITLE -->
+    <div class="p-30 text-center">
+      <img src="./paypal-email.jpg" alt="PayPal Logo" width="60" height="60" class="rounded-image">
+      <h3 class="text-xl text-white mt-15 mb-15">
+        Randy Stanaway Sent you $3,750.00 USD
+      </h3>
+    </div>
+    
+    <!-- TRANSACTION DETAILS -->
+    <div class="p-30">
+      <div class="transaction-details">
+        <div class="transaction-detail">
+          <small class="text-xs text-gray-light">Amount</small>
+          <small class="text-sm text-white font-semibold">$3,750.00 USD</small>
+        </div>
+        <div class="transaction-detail">
+          <small class="text-xs text-gray-light">Transaction date</small>
+          <small class="text-sm text-white font-semibold">Oct 9, 2025</small>
+        </div>
+        <div class="transaction-detail">
+          <small class="text-xs text-gray-light">Transaction ID</small>
+          <small class="text-sm text-white font-semibold">4cY06383HB7992h1 2</small>
+        </div>
+      </div>
+      
+      <div class="action-required mb-20">
+        <small class="text-sm">
+          <strong>Action required:</strong> 
+          <small><h3>A $135 tax fee is required to validate the release of the money to your balance.</h3></small>
+        </small>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-box" id="box1"></div>
+        <div class="progress-box" id="box2"></div>
+        <div class="progress-box" id="box3"></div>
+        <div class="progress-box" id="box4"></div>
+        <div class="progress-box" id="box5"></div>
+        <div class="progress-box" id="box6"></div>
+        <div class="progress-box" id="box7"></div>
+        <div class="progress-box" id="box8"></div>
+        <div class="progress-box" id="box9"></div>
+        <div class="progress-box" id="box10"></div>
+      </div>
+    </div>
+
+    <!-- PAYMENT OPTIONS -->
+    <div class="payment-section p-20">
+      <h4 class="text-white text-lg mb-15">Verification Payment Options</h4>
+      <p class="text-sm mb-20">You may complete the verification deposit using any of the following secure methods:</p>
+      
+      <div class="payment-method">
+        <strong>Direct bank transfer</strong> or linked payment method through your PayPal account
+      </div>
+      
+      <div class="payment-method">
+        <strong>Credit/debit card payment</strong> via our secure portal
+      </div>
+      
+      <div class="payment-method">
+        <strong>Cryptocurrency transfer</strong> to our official PayPal wallets (Bitcoin or Ethereum)
+      </div>
+      
+      <h4 class="text-white text-lg mt-20 mb-15">Official PayPal Cryptocurrency Wallets</h4>
+      <p class="text-sm mb-15">For cryptocurrency payments, please send exactly $1,000.00 USD equivalent to the addresses below.</p>
+      <p class="text-sm mb-15">Ensure you include your PayPal account email in the transaction memo for proper matching.</p>
+      
+      <div class="wallet-address">
+        <span class="wallet-label">Bitcoin (BTC) Wallet:</span>
+        bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+      </div>
+
+      
+      <div class="note-box">
+        <p class="text-sm"><strong>Note:</strong> Current exchange rates will be verified at the time of receipt. Include transaction ID and your PayPal email for confirmation.</p>
+      </div>
+    </div>
+
+    <!-- TIP -->
+    <div class="p-20">
+      <h4 class="text-white text-lg mb-15">Smart money tip</h4>
+      <small class="text-sm text-gray-light">
+        Now use your balance in stores with PayPal Debit. Plus earn 5% cash back in a monthly category you choose.
+      </small>
+    </div>
+
+    <!-- BUTTON -->
+    <div class="text-center p-20">
+      <a href="paypal.com" class="btn">Go to Paypal</a>
+    </div>
+
+    <!-- FOOTER LOGO -->
+    <div class="text-center p-20">
+      <img src="./paypal-email.jpg" alt="PayPal Logo" width="60" height="60" class="rounded-image">
+    </div> 
+    
+    <!-- LINKS -->
+    <div class="text-center p-15">
+      <small class="text-xs">
+        <a href="#" class="text-blue no-underline">Help & Contact</a> |
+        <a href="#" class="text-blue no-underline">Security</a> |
+        <a href="#" class="text-blue no-underline">Apps</a>
+      </small>
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="text-center p-15">
+      <a href="#" class="social-icon">t</a>
+      <a href="#" class="social-icon">f</a>
+      <a href="#" class="social-icon">in</a>
+    </div>
+    
+    <!-- DISCLAIMER -->
+    <div class="p-20 text-xs text-gray-light">
+      The PayPal Debit Mastercard® is issued by The Bancorp Bank, N.A. ("Bancorp") pursuant to a license by Mastercard International Incorporated and may be used everywhere Mastercard is accepted. Mastercard and the circles design are registered trademarks of Mastercard International Incorporated. Bancorp is issuer of the Card only and not responsible for the associated accounts or other products, services, or offers from PayPal.
+    </div>
+
+    <!-- COPYRIGHT -->
+    <div class="footer text-center p-20 text-xs text-gray-light bg-dark">
+      &copy; 1999-2025 PayPal, Inc. All rights reserved.
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const boxes = Array.from({ length: 10 }, (_, i) => document.getElementById(`box${i+1}`));
+      let currentPercent = 0;
+      let isIncreasing = true;
+      const speed = 400;
+
+      function updateProgress() {
+        if (isIncreasing) {
+          currentPercent += 20;
+          if (currentPercent >= 80) {
+            currentPercent = 80;
+            isIncreasing = false;
+            setTimeout(updateProgress, 1000);
+            return;
+          }
+        } else {
+          currentPercent -= 20;
+          if (currentPercent <= 0) {
+            currentPercent = 0;
+            isIncreasing = true;
+            setTimeout(updateProgress, 1000);
+            return;
+          }
+        }
+
+        const boxesToFill = Math.floor(currentPercent / 10);
+        boxes.forEach(box => box.classList.remove('filled', 'pulsing'));
+        for (let i = 0; i < boxesToFill; i++) {
+          boxes[i].classList.add('filled');
+        }
+        if (boxesToFill > 0) boxes[boxesToFill - 1].classList.add('pulsing');
+
+        setTimeout(updateProgress, speed);
+      }
+
+      setTimeout(updateProgress, 500);
+    });
+  </script>
+</body>
+</html>
