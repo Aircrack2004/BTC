@@ -26,11 +26,10 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 0;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         
         header {
-            background: linear-gradient(135deg, #003580 0%, #0077c2 100%);
+            background-color: #003580;
             color: white;
             padding: 15px 20px;
             border-radius: 0;
@@ -76,6 +75,7 @@
             flex-grow: 1;
             background-color: white;
             border-radius: 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
         
@@ -98,7 +98,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #003580 0%, #0077c2 100%);
+            background-color: #003580;
             color: white;
             display: flex;
             align-items: center;
@@ -217,7 +217,7 @@
         }
         
         .send-button {
-            background: linear-gradient(135deg, #003580 0%, #0077c2 100%);
+            background-color: #003580;
             color: white;
             border: none;
             border-radius: 50%;
@@ -231,7 +231,7 @@
         }
         
         .send-button:hover {
-            background: linear-gradient(135deg, #002244 0%, #0066a1 100%);
+            background-color: #0046a0;
         }
         
         .booking-details {
@@ -284,24 +284,6 @@
             color: white;
         }
         
-        .booking-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 4px solid #003580;
-        }
-        
-        .booking-card h4 {
-            color: #003580;
-            margin-bottom: 10px;
-        }
-        
-        .booking-card p {
-            margin-bottom: 8px;
-        }
-        
         @media (max-width: 600px) {
             .container {
                 height: 100vh;
@@ -310,20 +292,6 @@
             
             .message-bubble {
                 max-width: 85%;
-            }
-            
-            .options {
-                flex-direction: column;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .status {
-                align-self: flex-end;
             }
             
             .chat-header {
@@ -340,28 +308,6 @@
             
             header {
                 padding: 12px 15px;
-            }
-        }
-        
-        @media (max-height: 600px) {
-            .chat-header {
-                padding: 10px 15px;
-            }
-            
-            .chat-messages {
-                padding: 10px 15px;
-            }
-            
-            .message {
-                margin-bottom: 10px;
-            }
-            
-            .message-bubble {
-                padding: 8px 12px;
-            }
-            
-            header {
-                padding: 10px 15px;
             }
         }
     </style>
@@ -386,9 +332,9 @@
         <div class="chat-container">
             <div class="chat-header">
                 <div class="agent-info">
-                    <div class="agent-avatar">BC</div>
+                    <div class="agent-avatar">SJ</div>
                     <div>
-                        <div class="agent-name">Maria Rodriguez</div>
+                        <div class="agent-name">Sarah</div>
                         <div class="agent-title">Customer Support Specialist</div>
                     </div>
                 </div>
@@ -400,7 +346,7 @@
             </div>
             
             <div class="typing-indicator" id="typingIndicator">
-                Maria is typing
+                Sarah is typing
                 <div class="typing-dots">
                     <div class="typing-dot"></div>
                     <div class="typing-dot"></div>
@@ -419,202 +365,248 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const chatMessages = document.getElementById('chatMessages');
-            const messageInput = document.getElementById('messageInput');
-            const sendButton = document.getElementById('sendButton');
-            const typingIndicator = document.getElementById('typingIndicator');
-            
-            let bookingReferenceProvided = false;
-            const correctBookingRef = "DL7X9P2K";
-            
-            // Initial conversation
-            const initialMessages = [
-                {
-                    sender: 'customer',
-                    text: 'Hi, I have a booking from Madrid to Buffalo on Oct 20, 2025. My final destination is closer to Pittsburgh. Is it possible to change my last leg from Philadelphia to Pittsburgh instead of Buffalo, preferably on the same day?',
-                    time: '10:05 AM'
-                }
-            ];
-            
-            // Function to add a message to the chat
-            function addMessage(sender, text, time) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${sender}-message`;
-                
-                const bubbleDiv = document.createElement('div');
-                bubbleDiv.className = 'message-bubble';
-                bubbleDiv.textContent = text;
-                
-                const timeDiv = document.createElement('div');
-                timeDiv.className = 'message-time';
-                timeDiv.textContent = time;
-                
-                messageDiv.appendChild(bubbleDiv);
-                messageDiv.appendChild(timeDiv);
-                
-                chatMessages.appendChild(messageDiv);
-                
-                // Scroll to the bottom
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-            
-            // Function to show booking details
-            function showBookingDetails() {
-                const detailsDiv = document.createElement('div');
-                detailsDiv.className = 'booking-details';
-                
-                detailsDiv.innerHTML = `
-                    <h3>Booking Details</h3>
-                    <div class="booking-info">
-                        <span class="booking-label">Booking Reference:</span>
-                        <span class="booking-value">DL7X9P2K</span>
-                    </div>
-                    <div class="booking-info">
-                        <span class="booking-label">Original Route:</span>
-                        <span class="booking-value">MAD → PHL → BUF</span>
-                    </div>
-                    <div class="booking-info">
-                        <span class="booking-label">Requested Route:</span>
-                        <span class="booking-value">MAD → PHL → PIT</span>
-                    </div>
-                    <div class="booking-info">
-                        <span class="booking-label">Date:</span>
-                        <span class="booking-value">October 20, 2025</span>
-                    </div>
-                `;
-                
-                chatMessages.appendChild(detailsDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-            
-            // Function to show alternative booking options
-            function showAlternativeOptions() {
-                const cardDiv = document.createElement('div');
-                cardDiv.className = 'booking-card';
-                
-                cardDiv.innerHTML = `
-                    <h4>Alternative Flight Option</h4>
-                    <p><strong>Route:</strong> Madrid → Philadelphia → Pittsburgh</p>
-                    <p><strong>Departure:</strong> October 20, 2025, 8:30 AM</p>
-                    <p><strong>Arrival:</strong> October 20, 2025, 5:45 PM</p>
-                    <p><strong>Price Difference:</strong> +$45 (includes change fee)</p>
-                `;
-                
-                chatMessages.appendChild(cardDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-            
-            // Function to show options
-            function showOptions() {
-                const optionsDiv = document.createElement('div');
-                optionsDiv.className = 'options';
-                
-                optionsDiv.innerHTML = `
-                    <button class="option-button" id="optionYes">Yes, please proceed</button>
-                    <button class="option-button" id="optionNo">No, let me check other dates</button>
-                `;
-                
-                chatMessages.appendChild(optionsDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                // Add event listeners to option buttons
-                document.getElementById('optionYes').addEventListener('click', function() {
-                    addMessage('customer', 'Yes, please proceed with the change.', getCurrentTime());
-                    simulateAgentResponse("Great! I've initiated the change. There is a $75 change fee plus a fare difference of $45. Your new total is $120. Would you like to proceed with payment?");
-                });
-                
-                document.getElementById('optionNo').addEventListener('click', function() {
-                    addMessage('customer', 'No, let me check other dates first.', getCurrentTime());
-                    simulateAgentResponse("No problem. I can hold this option for 24 hours while you check your schedule. Would you like me to send you the available options for other dates?");
-                });
-            }
-            
-            // Function to simulate agent response
-            function simulateAgentResponse(text) {
-                // Show typing indicator
-                typingIndicator.style.display = 'flex';
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                // Wait for a moment before showing the response
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+    const typingIndicator = document.getElementById('typingIndicator');
+
+    let bookingReferenceProvided = false;
+    const expectedBookingRef = "DL7X9P2K";
+
+    // Initial conversation
+    const initialMessages = [
+        {
+            sender: 'customer',
+            text: 'Hi, I have a booking from Madrid to Buffalo on Oct 20, 2025. My final destination is closer to Pittsburgh. Is it possible to change my last leg from Philadelphia to Pittsburgh instead of Buffalo, preferably on the same day?',
+            time: '10:05 AM'
+        },
+        {
+            sender: 'agent',
+            text: "Hello! I'd be happy to help you with your flight change request. To access your booking details, could you please provide your booking reference number?",
+            time: '10:06 AM'
+        }
+    ];
+
+    // Add message to chat
+    function addMessage(sender, text, time) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+
+        const bubbleDiv = document.createElement('div');
+        bubbleDiv.className = 'message-bubble';
+        bubbleDiv.textContent = text;
+
+        const timeDiv = document.createElement('div');
+        timeDiv.className = 'message-time';
+        timeDiv.textContent = time;
+
+        messageDiv.appendChild(bubbleDiv);
+        messageDiv.appendChild(timeDiv);
+
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Show booking details
+    function showBookingDetails() {
+        const detailsDiv = document.createElement('div');
+        detailsDiv.className = 'booking-details';
+
+        detailsDiv.innerHTML = `
+            <h3>Booking Details</h3>
+            <div class="booking-info">
+                <span class="booking-label">Booking Reference:</span>
+                <span class="booking-value">DL7X9P2K</span>
+            </div>
+            <div class="booking-info">
+                <span class="booking-label">Original Route:</span>
+                <span class="booking-value">MAD → PHL → BUF</span>
+            </div>
+            <div class="booking-info">
+                <span class="booking-label">Requested Route:</span>
+                <span class="booking-value">MAD → PHL → PIT</span>
+            </div>
+            <div class="booking-info">
+                <span class="booking-label">Date:</span>
+                <span class="booking-value">October 20, 2025</span>
+            </div>
+            <div class="booking-info">
+                <span class="booking-label">Departure MAD:</span>
+                <span class="booking-value">10:15 AM CEST, Terminal 4S</span>
+            </div>
+            <div class="booking-info">
+                <span class="booking-label">Arrival PHL:</span>
+                <span class="booking-value">1:00 PM EDT, Terminal A</span>
+            </div>
+            <div class="booking-info">
+                <span class="booking-label">Layover Duration:</span>
+                <span class="booking-value">2h 05m</span>
+            </div>
+            <div class="booking-info">
+                <span class="booking-label">Departure PHL:</span>
+                <span class="booking-value">3:05 PM EDT</span>
+            </div>
+            <div class="booking-info">
+                <span class="booking-label">Arrival PIT:</span>
+                <span class="booking-value">4:30 PM EDT</span>
+            </div>
+            <div class="booking-info">
+                <span class="booking-label">Total Duration:</span>
+                <span class="booking-value">11h 55m (1 stop)</span>
+            </div>
+        `;
+
+        chatMessages.appendChild(detailsDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Show options
+    function showOptions() {
+        const optionsDiv = document.createElement('div');
+        optionsDiv.className = 'options';
+
+        optionsDiv.innerHTML = `
+            <button class="option-button" id="optionYes">Yes, please proceed</button>
+            <button class="option-button" id="optionNo">No, let me check other dates</button>
+        `;
+
+        chatMessages.appendChild(optionsDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        document.getElementById('optionYes').addEventListener('click', function() {
+            addMessage('customer', 'Yes, please proceed with the change.', getCurrentTime());
+            simulateAgentResponse(
+                "Great! I've initiated the change.\n\n" +
+                "Change Fee: $75.00\n" +
+                "Fare Difference: $45.00\n\n" +
+                "Your new total is $120.00.\n\n"
+            );
+        });
+
+        document.getElementById('optionNo').addEventListener('click', function() {
+            addMessage('customer', 'No, let me check other dates first.', getCurrentTime());
+            simulateAgentResponse(
+                "No problem. I can hold this option for 24 hours while you check your schedule. " +
+                "Would you like me to send you the available options for other dates?"
+            );
+        });
+    }
+
+    // Simulate agent response
+    function simulateAgentResponse(text) {
+        typingIndicator.style.display = 'flex';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        setTimeout(() => {
+            typingIndicator.style.display = 'none';
+            addMessage('agent', text, getCurrentTime());
+
+            // Show booking details if flight info included
+            if (text.includes("available flights")) {
+                showBookingDetails();
                 setTimeout(() => {
-                    typingIndicator.style.display = 'none';
-                    addMessage('agent', text, getCurrentTime());
-                    
-                    // If this is the first agent response after booking reference, show booking details
-                    if (text.includes("I can see your booking")) {
-                        showBookingDetails();
-                        
-                        // Show options after a brief delay
-                        setTimeout(() => {
-                            simulateAgentResponse("I found available flights from Philadelphia to Pittsburgh on the same day. The flight departs at 4:15 PM and arrives at 5:45 PM. This would get you to your final destination about an hour earlier than your original Buffalo flight.");
-                            setTimeout(showAlternativeOptions, 1500);
-                            setTimeout(() => {
-                                simulateAgentResponse("Would you like me to proceed with changing your flight to Pittsburgh?");
-                                setTimeout(showOptions, 1500);
-                            }, 3000);
-                        }, 1500);
-                    }
-                }, 2000);
+                    simulateAgentResponse("Would you like me to proceed with changing your flight to Pittsburgh?");
+                    setTimeout(showOptions, 1500);
+                }, 1500);
             }
-            
-            // Function to get current time in HH:MM format
-            function getCurrentTime() {
-                const now = new Date();
-                return now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
-            }
-            
-            // Initialize the chat with initial messages
-            initialMessages.forEach(msg => {
-                addMessage(msg.sender, msg.text, msg.time);
-            });
-            
-            // Show typing indicator and then the agent asks for booking reference
+        }, 2000);
+    }
+
+    // Get current time HH:MM
+    function getCurrentTime() {
+        const now = new Date();
+        return now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+    }
+
+    // Initialize chat
+    initialMessages.forEach(msg => addMessage(msg.sender, msg.text, msg.time));
+
+    // Handle booking reference input
+    function handleBookingReference(message) {
+        if (message.toUpperCase().includes(expectedBookingRef)) {
+            bookingReferenceProvided = true;
+
             setTimeout(() => {
                 typingIndicator.style.display = 'flex';
                 setTimeout(() => {
                     typingIndicator.style.display = 'none';
-                    addMessage('agent', "Hello! Thank you for contacting Booking.com Customer Support. I'd be happy to help you with your flight change request. To access your booking details, could you please provide your booking reference number?", getCurrentTime());
+                    addMessage('agent',
+                        "Thank you! I've found your booking. Let me check the availability for changing your final destination to Pittsburgh.",
+                        getCurrentTime()
+                    );
+
+                    // Flight availability
+                    setTimeout(() => {
+                        typingIndicator.style.display = 'flex';
+                        setTimeout(() => {
+                            typingIndicator.style.display = 'none';
+                            addMessage('agent',
+                                "I found available flights for your requested change:\n\n" +
+                                "Flight: American Airlines • Boeing 787-9 / Airbus A321\n" +
+                                "Duration: 11h 55m (1 stop)\n\n" +
+                                "Departure: Madrid–Barajas (MAD) Terminal 4S at 10:15 AM CEST, Oct 20, 2025\n" +
+                                "Arrival: Philadelphia Intl (PHL) Terminal A at 1:00 PM EDT, Oct 20, 2025\n" +
+                                "Layover in Philadelphia: 2h 05m\n" +
+                                "Departure PHL: 3:05 PM EDT, Oct 20, 2025\n" +
+                                "Arrival Pittsburgh Intl (PIT) at 4:30 PM EDT, Oct 20, 2025\n\n" +
+                                "Economy Class • 1 × 23 kg checked bag + 1 cabin bag • Operated by American Airlines",
+                                getCurrentTime()
+                            );
+
+                            setTimeout(showBookingDetails, 500);
+                            setTimeout(() => {
+                                simulateAgentResponse("Would you like me to proceed with changing your flight to Pittsburgh?");
+                                setTimeout(showOptions, 1500);
+                            }, 1500);
+
+                        }, 2000);
+                    }, 1500);
                 }, 2000);
             }, 1000);
-            
-            // Send message when send button is clicked
-            sendButton.addEventListener('click', function() {
-                const message = messageInput.value.trim();
-                if (message) {
-                    addMessage('customer', message, getCurrentTime());
-                    
-                    // Check if this is the booking reference
-                    if (!bookingReferenceProvided && message.toUpperCase() === correctBookingRef) {
-                        bookingReferenceProvided = true;
-                        // Simulate agent response after a delay
-                        setTimeout(() => {
-                            simulateAgentResponse("Thank you! I've found your booking. I can see your flight from Madrid to Buffalo with a layover in Philadelphia on October 20, 2025. Let me check the availability for changing your final destination to Pittsburgh.");
-                        }, 1000);
-                    } else if (!bookingReferenceProvided) {
-                        // If booking reference is incorrect or not provided yet
-                        setTimeout(() => {
-                            simulateAgentResponse("I'm sorry, but I couldn't find a booking with that reference. Could you please double-check and provide your correct booking reference number?");
-                        }, 1000);
-                    } else {
-                        // Regular conversation after booking reference is provided
-                        setTimeout(() => {
-                            simulateAgentResponse("Thank you for your message. I'm checking that information for you now.");
-                        }, 1000);
-                    }
-                    
-                    messageInput.value = '';
+
+            return true;
+        } else if (message.toLowerCase().includes("booking") || message.toLowerCase().includes("reference")) {
+            simulateAgentResponse(
+                "I need your booking reference to access your reservation details. It should look something like DL7X9P2K. Could you please provide it?"
+            );
+            return false;
+        }
+        return false;
+    }
+
+    // Send button click
+    sendButton.addEventListener('click', function() {
+        const message = messageInput.value.trim();
+        if (message) {
+            addMessage('customer', message, getCurrentTime());
+
+            if (!bookingReferenceProvided) {
+                if (!handleBookingReference(message)) {
+                    setTimeout(() => {
+                        simulateAgentResponse(
+                            "To help you with your booking modification, I'll need your booking reference number. " +
+                            "It should look something like DL7X9P2K. Could you please provide it?"
+                        );
+                    }, 1000);
                 }
-            });
-            
-            // Send message when Enter key is pressed
-            messageInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendButton.click();
-                }
-            });
-        });
-    </script>
+            } else {
+                setTimeout(() => {
+                    simulateAgentResponse("Thank you for your message. I'm checking that information for you now.");
+                }, 1000);
+            }
+
+            messageInput.value = '';
+        }
+    });
+
+    // Enter key
+    messageInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendButton.click();
+    });
+});
+</script>
+
 </body>
 </html>
