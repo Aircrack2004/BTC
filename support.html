@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>American Airlines Customer Support</title>
+    <title>Booking.com Customer Support</title>
     <style>
         * {
             margin: 0;
@@ -25,7 +25,7 @@
         }
         
         header {
-            background-color: #002244;
+            background-color: #003580;
             color: white;
             padding: 15px 0;
             border-radius: 8px 8px 0 0;
@@ -90,7 +90,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #002244;
+            background-color: #003580;
             color: white;
             display: flex;
             align-items: center;
@@ -127,7 +127,7 @@
         }
         
         .customer-message .message-bubble {
-            background-color: #002244;
+            background-color: #003580;
             color: white;
             border-bottom-right-radius: 4px;
         }
@@ -207,7 +207,7 @@
         }
         
         .send-button {
-            background-color: #002244;
+            background-color: #003580;
             color: white;
             border: none;
             border-radius: 50%;
@@ -221,10 +221,10 @@
         }
         
         .send-button:hover {
-            background-color: #003366;
+            background-color: #0046a0;
         }
         
-        .flight-details {
+        .booking-details {
             background-color: #e8f4fd;
             border: 1px solid #c5e1f7;
             border-radius: 8px;
@@ -232,24 +232,24 @@
             margin: 10px 0;
         }
         
-        .flight-details h3 {
-            color: #002244;
+        .booking-details h3 {
+            color: #003580;
             margin-bottom: 10px;
         }
         
-        .flight-info {
+        .booking-info {
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
         }
         
-        .flight-label {
+        .booking-label {
             font-weight: bold;
             color: #555;
         }
         
-        .flight-value {
-            color: #002244;
+        .booking-value {
+            color: #003580;
         }
         
         .options {
@@ -260,8 +260,8 @@
         
         .option-button {
             background-color: white;
-            border: 1px solid #002244;
-            color: #002244;
+            border: 1px solid #003580;
+            color: #003580;
             padding: 8px 15px;
             border-radius: 20px;
             cursor: pointer;
@@ -270,7 +270,7 @@
         }
         
         .option-button:hover {
-            background-color: #002244;
+            background-color: #003580;
             color: white;
         }
         
@@ -295,10 +295,9 @@
             <div class="header-content">
                 <div class="logo">
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
-                        <path d="M22 14v-2h-5.586l2.293-2.293-1.414-1.414L13.586 12l3.707 3.707 1.414-1.414L16.414 12H22z"/>
-                        <path d="M8 12l3.707-3.707-1.414-1.414L5.586 12l4.707 4.707 1.414-1.414L8.414 12H2v-2h6.414L6.121 7.707l1.414-1.414L8 12z"/>
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
                     </svg>
-                    <h1>American Airlines</h1>
+                    <h1>Booking.com</h1>
                 </div>
                 <div class="status">
                     <div class="status-dot"></div>
@@ -310,7 +309,7 @@
         <div class="chat-container">
             <div class="chat-header">
                 <div class="agent-info">
-                    <div class="agent-avatar">AA</div>
+                    <div class="agent-avatar">BC</div>
                     <div>
                         <div class="agent-name">Sarah Johnson</div>
                         <div class="agent-title">Customer Support Specialist</div>
@@ -350,6 +349,9 @@
             const sendButton = document.getElementById('sendButton');
             const typingIndicator = document.getElementById('typingIndicator');
             
+            let bookingReferenceProvided = false;
+            const expectedBookingRef = "DL7X9P2K";
+            
             // Initial conversation
             const initialMessages = [
                 {
@@ -359,13 +361,8 @@
                 },
                 {
                     sender: 'agent',
-                    text: "Hello! I'd be happy to help you with your flight change request. Let me pull up your reservation details first.",
+                    text: "Hello! I'd be happy to help you with your flight change request. To access your booking details, could you please provide your booking reference number?",
                     time: '10:06 AM'
-                },
-                {
-                    sender: 'agent',
-                    text: "I can see your booking from Madrid to Buffalo with a layover in Philadelphia on October 20, 2025. Let me check the availability for changing your final destination to Pittsburgh.",
-                    time: '10:07 AM'
                 }
             ];
             
@@ -391,28 +388,28 @@
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
             
-            // Function to show flight details
-            function showFlightDetails() {
+            // Function to show booking details
+            function showBookingDetails() {
                 const detailsDiv = document.createElement('div');
-                detailsDiv.className = 'flight-details';
+                detailsDiv.className = 'booking-details';
                 
                 detailsDiv.innerHTML = `
-                    <h3>Flight Details</h3>
-                    <div class="flight-info">
-                        <span class="flight-label">Booking Reference:</span>
-                        <span class="flight-value">AA7X9B2</span>
+                    <h3>Booking Details</h3>
+                    <div class="booking-info">
+                        <span class="booking-label">Booking Reference:</span>
+                        <span class="booking-value">DL7X9P2K</span>
                     </div>
-                    <div class="flight-info">
-                        <span class="flight-label">Original Route:</span>
-                        <span class="flight-value">MAD → PHL → BUF</span>
+                    <div class="booking-info">
+                        <span class="booking-label">Original Route:</span>
+                        <span class="booking-value">MAD → PHL → BUF</span>
                     </div>
-                    <div class="flight-info">
-                        <span class="flight-label">Requested Route:</span>
-                        <span class="flight-value">MAD → PHL → PIT</span>
+                    <div class="booking-info">
+                        <span class="booking-label">Requested Route:</span>
+                        <span class="booking-value">MAD → PHL → PIT</span>
                     </div>
-                    <div class="flight-info">
-                        <span class="flight-label">Date:</span>
-                        <span class="flight-value">October 20, 2025</span>
+                    <div class="booking-info">
+                        <span class="booking-label">Date:</span>
+                        <span class="booking-value">October 20, 2025</span>
                     </div>
                 `;
                 
@@ -456,9 +453,9 @@
                     typingIndicator.style.display = 'none';
                     addMessage('agent', text, getCurrentTime());
                     
-                    // If this is the first agent response after initial messages, show flight details
+                    // If this is the first agent response after initial messages, show booking details
                     if (text.includes("I found available flights")) {
-                        showFlightDetails();
+                        showBookingDetails();
                         
                         // Show options after a brief delay
                         setTimeout(() => {
@@ -480,35 +477,68 @@
                 addMessage(msg.sender, msg.text, msg.time);
             });
             
-            // Show typing indicator and then the next agent message
-            setTimeout(() => {
-                typingIndicator.style.display = 'flex';
-                setTimeout(() => {
-                    typingIndicator.style.display = 'none';
-                    addMessage('agent', "I found available flights from Philadelphia to Pittsburgh on the same day. The flight departs at 4:15 PM and arrives at 5:45 PM. This would get you to your final destination about an hour earlier than your original Buffalo flight.", getCurrentTime());
+            // Function to handle booking reference
+            function handleBookingReference(message) {
+                if (message.toUpperCase().includes(expectedBookingRef)) {
+                    bookingReferenceProvided = true;
                     
-                    // Show flight details after a brief delay
-                    setTimeout(showFlightDetails, 500);
-                    
-                    // Show options after another delay
+                    // Show typing indicator and then the next agent message
                     setTimeout(() => {
-                        simulateAgentResponse("Would you like me to proceed with changing your flight to Pittsburgh?");
-                        setTimeout(showOptions, 1500);
-                    }, 1500);
-                }, 2000);
-            }, 1000);
+                        typingIndicator.style.display = 'flex';
+                        setTimeout(() => {
+                            typingIndicator.style.display = 'none';
+                            addMessage('agent', "Thank you! I've found your booking. Let me check the availability for changing your final destination to Pittsburgh.", getCurrentTime());
+                            
+                            // Continue with the flight availability check
+                            setTimeout(() => {
+                                typingIndicator.style.display = 'flex';
+                                setTimeout(() => {
+                                    typingIndicator.style.display = 'none';
+                                    addMessage('agent', "I found available flights from Philadelphia to Pittsburgh on the same day. The flight departs at 4:15 PM and arrives at 5:45 PM. This would get you to your final destination about an hour earlier than your original Buffalo flight.", getCurrentTime());
+                                    
+                                    // Show booking details after a brief delay
+                                    setTimeout(showBookingDetails, 500);
+                                    
+                                    // Show options after another delay
+                                    setTimeout(() => {
+                                        simulateAgentResponse("Would you like me to proceed with changing your flight to Pittsburgh?");
+                                        setTimeout(showOptions, 1500);
+                                    }, 1500);
+                                }, 2000);
+                            }, 1500);
+                        }, 2000);
+                    }, 1000);
+                    
+                    return true;
+                } else if (message.toLowerCase().includes("booking") || message.toLowerCase().includes("reference")) {
+                    simulateAgentResponse("I need your booking reference to access your reservation details. It should look something like DL7X9P2K. Could you please provide it?");
+                    return false;
+                }
+                return false;
+            }
             
             // Send message when send button is clicked
             sendButton.addEventListener('click', function() {
                 const message = messageInput.value.trim();
                 if (message) {
                     addMessage('customer', message, getCurrentTime());
-                    messageInput.value = '';
                     
-                    // Simulate agent response after a delay
-                    setTimeout(() => {
-                        simulateAgentResponse("Thank you for your message. I'm checking that information for you now.");
-                    }, 1000);
+                    // Check if booking reference is provided
+                    if (!bookingReferenceProvided) {
+                        if (!handleBookingReference(message)) {
+                            // If not a booking reference, give a generic response
+                            setTimeout(() => {
+                                simulateAgentResponse("To help you with your booking modification, I'll need your booking reference number. It should look something like DL7X9P2K. Could you please provide it?");
+                            }, 1000);
+                        }
+                    } else {
+                        // If booking reference already provided, give a generic response
+                        setTimeout(() => {
+                            simulateAgentResponse("Thank you for your message. I'm checking that information for you now.");
+                        }, 1000);
+                    }
+                    
+                    messageInput.value = '';
                 }
             });
             
