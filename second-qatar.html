@@ -105,6 +105,7 @@
                     <p class="text-gray-500 text-xs sm:text-sm">Status</p>
                     <p class="font-bold text-sm sm:text-base text-green-600">Confirmed</p>
                 </div>
+
                 <div>
                     <p class="text-gray-500 text-xs sm:text-sm">Class</p>
                     <p class="font-bold text-sm sm:text-base text-blue-600">Business Class</p>
@@ -217,9 +218,8 @@
                 <div class="flex-1 min-w-[200px]">
                 <p class="text-gray-500 text-sm">Flight</p>
                 <p class="font-bold">
-                American Airlines <small class="text-gray-600">• Boeing 787-9 / Airbus A321</small>
+                    American Airlines <small class="text-gray-600">• Boeing 787-9 / Airbus A321</small>
                 </p>
-
                 </div>
                 <div class="text-end min-w-[120px]">
                 <p class="text-gray-500 text-sm">Duration</p>
@@ -272,7 +272,7 @@
             </div>
         </div>
 
-        <!-- Return Flight: Madrid to Buffalo City -->
+        <!-- Return Flight: Madrid to Pittsburgh (PIT) -->
         <div class="mb-8">
             <div class="flex items-center mb-4">
             <div class="bg-delta-blue text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">
@@ -280,14 +280,17 @@
             </div>
             <h3
                 class="flex items-center gap-x-1 whitespace-nowrap overflow-hidden text-ellipsis leading-tight"
-                title="Madrid–Barajas Airport (MAD) → Buffalo Niagara Intl (BUF)"
+                title="Madrid–Barajas Airport (MAD) → Philadelphia Intl (PHL) → Pittsburgh Intl (PIT)"
                 style="font-size: clamp(0.875rem, 2vw, 1.25rem);"
             >
                 <span class="text-gray-600">Madrid–Barajas Airport</span>
                 <span class="font-semibold">(MAD)</span>
                 <span class="mx-1 text-delta-blue">→</span>
-                <span class="text-gray-600">Buffalo Niagara Intl</span>
-                <span class="font-semibold">(BUF)</span>
+                <span class="text-gray-600">Philadelphia Intl</span>
+                <span class="font-semibold">(PHL)</span>
+                <span class="mx-1 text-delta-blue">→</span>
+                <span class="text-gray-600">Pittsburgh Intl</span>
+                <span class="font-semibold">(PIT)</span>
             </h3>
             </div>
 
@@ -339,7 +342,7 @@
                 <p class="text-gray-500 text-sm">Layover in Philadelphia: 2h 05m</p>
                 </div>
 
-                <!-- Philadelphia to Buffalo -->
+                <!-- Philadelphia to Pittsburgh -->
                 <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
                 <div class="flex-1 text-center">
                     <p class="font-bold text-2xl">3:05 PM EDT</p>
@@ -361,7 +364,7 @@
                 <div class="flex-1 text-center">
                     <p class="font-bold text-2xl">4:30 PM EDT</p>
                     <p class="text-gray-500">Oct 20, 2025</p>
-                    <p class="font-medium">Buffalo Niagara Intl (BUF)</p>
+                    <p class="font-medium">Pittsburgh Intl (PIT)</p>
                 </div>
                 </div>
 
@@ -381,57 +384,66 @@
         </section>
 
 
-        <!-- Payment Summary -->
-        <section class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid">
-            <h2 class="text-xl font-bold mb-4 text-delta-blue border-b pb-2 flex items-center">
-                <i class="fas fa-receipt mr-2"></i>Payment Summary
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <h3 class="font-bold mb-2 text-delta-light-blue">Price breakdown</h3>
-                    <div class="space-y-2">
-                        <div class="flex justify-between">
-                            <p class="text-gray-600">1 Adult Fare</p>
-                            <p>$4,375.00</p>
-                        </div>
-                        <div class="flex justify-between">
-                            <p class="text-gray-600">Taxes and fees</p>
-                            <p>$225.00</p>
-                        </div>
-                        <div class="flex justify-between border-t border-dashed pt-2 mt-2">
-                            <p class="font-medium text-delta-light-blue">Subtotal</p>
-                            <p class="font-medium">$4,600.00</p>
-                        </div>
 
-                        <div class="border-t pt-2 mt-2">
-                            <div class="flex justify-between font-bold text-lg text-delta-blue">
-                                <p>Total Paid</p>
-                                <p>$4,600.00</p>
-                            </div>
-                        </div>
+    <!-- Payment Summary -->
+    <section class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid">
+        <h2 class="text-xl font-bold mb-4 text-delta-blue border-b pb-2 flex items-center">
+            <i class="fas fa-receipt mr-2"></i>Payment Summary
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h3 class="font-bold mb-2 text-delta-light-blue">Price breakdown</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <p class="text-gray-600">1 Adult Fare</p>
+                        <p>$4,375.00</p>
                     </div>
-                </div>
-                <div>
-                    <h3 class="font-bold mb-2 text-delta-light-blue">Payment method</h3>
-                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
-                        <div class="bg-gray-100 p-2 rounded mr-3">
-                            <i class="fab fa-cc-visa text-2xl text-blue-800"></i>
-                        </div>
-                        <div>
-                            <p class="font-medium">Visa •••• •••• •••• 4297</p>
-                            <p class="text-sm text-gray-500">Paid on oct 10, 2025</p>
-                        </div>
+                    <div class="flex justify-between">
+                        <p class="text-gray-600">Taxes and fees</p>
+                        <p>$225.00</p>
                     </div>
-                    
-                    <h3 class="font-bold mb-2 mt-4 text-delta-light-blue">Fare Rules</h3>
-                    <ul class="text-sm list-disc pl-5 space-y-1">
-                        <li>Changes allowed with fee</li>
-                        <li>Refundable with cancellation fee</li>
-                        <li>Fare difference may apply</li>
-                    </ul>
+                    <div class="flex justify-between border-t border-dashed pt-2 mt-2">
+                        <p class="font-medium text-delta-light-blue">Subtotal</p>
+                        <p class="font-medium">$4,600.00</p>
+                    </div>
+
+                    <!-- Change Fee and Fare Difference -->
+                    <div class="flex justify-between text-gray-600">
+                        <p>Change Fee</p>
+                        <p>$75.00</p>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <p>Fare Difference</p>
+                        <p>$45.00</p>
+                    </div>
+                    <div class="flex justify-between border-t border-dashed pt-2 mt-2 font-bold text-lg text-delta-blue">
+                        <p>New Total</p>
+                        <p>$4,720.00</p>
+                    </div>
                 </div>
             </div>
-        </section>
+            <div>
+                <h3 class="font-bold mb-2 text-delta-light-blue">Payment method</h3>
+                <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                    <div class="bg-gray-100 p-2 rounded mr-3">
+                        <i class="fab fa-cc-visa text-2xl text-blue-800"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Visa •••• •••• •••• 4297</p>
+                        <p class="text-sm text-gray-500">Paid on Oct 10, 2025</p>
+                    </div>
+                </div>
+                
+                <h3 class="font-bold mb-2 mt-4 text-delta-light-blue">Fare Rules</h3>
+                <ul class="text-sm list-disc pl-5 space-y-1">
+                    <li>Changes allowed with fee ($75)</li>
+                    <li>Refundable with cancellation fee</li>
+                    <li>Fare difference may apply ($45)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
 
         <!-- Important Information -->
         <section class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid">
