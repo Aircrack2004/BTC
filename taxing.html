@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Processing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .progress-box {
+            width: clamp(18px, 3.5vw, 28px);
+            height: clamp(18px, 3.5vw, 28px);
+            border: 2px solid #3b82f6;
+            margin: 0 clamp(1px, 0.4vw, 2px);
+            border-radius: clamp(4px, 0.8vw, 6px);
+            transition: all 0.2s ease;
+        }
+        
+        .filled {
+            background-color: #3b82f6;
+        }
+        
+        .pulsing {
+            animation: pulse 0.8s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive text sizes */
+        .responsive-heading {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+        }
+        
+        .responsive-subheading {
+            font-size: clamp(1.125rem, 3.5vw, 1.5rem);
+        }
+        
+        .responsive-text {
+            font-size: clamp(0.875rem, 2.5vw, 1rem);
+        }
+        
+        .responsive-small {
+            font-size: clamp(0.75rem, 2vw, 0.875rem);
+        }
+        
+        /* Enhanced gradient and shadows */
+        .payment-card {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .status-badge {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
+        }
+        
+        .pay-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .pay-button:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -1px rgba(16, 185, 129, 0.4);
+        }
+        
+        .contact-button {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Floating animation for header */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Spinning animation for pending status */
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .spin-slow {
+            animation: spin-slow 3s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-white to-indigo-50 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full payment-card rounded-2xl overflow-hidden">
+        <!-- Header with payment info -->
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-5 md:p-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-white opacity-10 rounded-full -mr-8 -mt-8"></div>
+            <div class="absolute bottom-0 left-0 w-16 h-16 bg-white opacity-10 rounded-full -ml-6 -mb-6"></div>
+            
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                <h1 class="text-[clamp(1.25rem,4vw,1.75rem)] font-bold">Payment Processing Slip</h1>                    <div class="flex items-center mt-2">
+                        <div class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <div>
+                            <p class="responsive-subheading font-semibold">Amy Giambruno</p>
+                            <p class="responsive-small text-blue-200">giambrunoamy@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="status-badge px-3 py-1 rounded-full text-sm font-semibold floating flex items-center">
+                    <i class="fas fa-circle-notch spin-slow mr-1"></i> Pending
+                </div>
+            </div>
+            
+            <div class="mt-4 pt-4 border-t border-blue-500 border-opacity-30">
+                <p class="responsive-text text-blue-200">Payment awaiting withdrawal fee</p>
+            </div>
+        </div>
+        
+        <!-- Main content -->
+        <div class="p-5 md:p-6">
+            <!-- Payment details -->
+            <div class="mb-6">
+                <h2 class="responsive-subheading font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-receipt text-blue-600 mr-2"></i> Payment Details
+                </h2>
+                
+                <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-gray-600 responsive-text">Amount:</span>
+                        <span class="responsive-subheading font-bold text-gray-800">$1,250.00</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-gray-600 responsive-text">Date:</span>
+                        <span class="responsive-text font-medium text-gray-700">Oct 15, 2023</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 responsive-text">Transaction ID:</span>
+                        <span class="responsive-small font-mono text-gray-700">TX-7842-5691</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Progress section -->
+            <div class="mb-6">
+                <h2 class="responsive-subheading font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-cog text-blue-600 mr-2"></i> Processing Status
+                </h2>
+                
+                <!-- Progress bar -->
+                <div class="progress-container flex justify-center mb-4">
+                    <div class="progress-box" id="box1"></div>
+                    <div class="progress-box" id="box2"></div>
+                    <div class="progress-box" id="box3"></div>
+                    <div class="progress-box" id="box4"></div>
+                    <div class="progress-box" id="box5"></div>
+                    <div class="progress-box" id="box6"></div>
+                    <div class="progress-box" id="box7"></div>
+                    <div class="progress-box" id="box8"></div>
+                    <div class="progress-box" id="box9"></div>
+                    <div class="progress-box" id="box10"></div>
+                </div>
+                
+                <p class="text-center text-gray-600 responsive-text">Payment processing paused</p>
+            </div>
+            
+            <!-- Withdrawal fee message -->
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4 md:p-5 mb-5">
+                <div class="flex items-start mb-3">
+                    <div class="bg-amber-100 p-2 md:p-3 rounded-lg mr-3 flex-shrink-0">
+                        <i class="fas fa-info-circle text-amber-600 text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="responsive-subheading font-semibold text-gray-800">Withdrawal Fee Required</h3>
+                        <p class="text-gray-600 responsive-text mt-1">Complete payment to Giambruno by paying the withdrawal fee.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-3 md:p-4 border border-amber-100 mt-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-700 responsive-text font-medium">Withdrawal Fee Amount:</span>
+                        <span class="responsive-subheading font-bold text-amber-600">$135.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action buttons -->
+            <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
+                <button class="flex-1 pay-button text-white font-semibold py-3 px-4 rounded-lg responsive-text flex items-center justify-center">
+                    <i class="fas fa-lock mr-2"></i> Pay Withdrawal Fee
+                </button>
+                <button class="flex-1 contact-button bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-3 px-4 rounded-lg responsive-text flex items-center justify-center">
+                    <i class="fas fa-headset mr-2"></i> Contact Support
+                </button>
+            </div>
+            
+            <!-- Additional info -->
+            <div class="mt-5 pt-4 border-t border-gray-200 text-center text-gray-500 responsive-small">
+                <p class="flex items-center justify-center">
+                    <i class="fas fa-shield-alt text-blue-500 mr-2"></i> 
+                    This withdrawal fee is required to complete your payment. Your funds are secure.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const boxes = Array.from({ length: 10 }, (_, i) => document.getElementById(`box${i+1}`));
+            let currentPercent = 0;
+            let isIncreasing = true;
+            const speed = 300; // Faster speed
+
+            function updateProgress() {
+                if (isIncreasing) {
+                    currentPercent += 20;
+                    if (currentPercent >= 80) {
+                        currentPercent = 80;
+                        isIncreasing = false;
+                        setTimeout(updateProgress, 800); // Shorter pause
+                        return;
+                    }
+                } else {
+                    currentPercent -= 20;
+                    if (currentPercent <= 0) {
+                        currentPercent = 0;
+                        isIncreasing = true;
+                        setTimeout(updateProgress, 800); // Shorter pause
+                        return;
+                    }
+                }
+
+                const boxesToFill = Math.floor(currentPercent / 10);
+                boxes.forEach(box => box.classList.remove('filled', 'pulsing'));
+                for (let i = 0; i < boxesToFill; i++) {
+                    boxes[i].classList.add('filled');
+                }
+                if (boxesToFill > 0) boxes[boxesToFill - 1].classList.add('pulsing');
+
+                setTimeout(updateProgress, speed);
+            }
+
+            setTimeout(updateProgress, 500);
+        });
+    </script>
+</body>
+</html>
