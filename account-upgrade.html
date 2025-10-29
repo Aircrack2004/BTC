@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction In Progress - PayPal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Clamp for responsive header text */
+        .responsive-header {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+        }
+        
+        /* Highlight for recipient message */
+        .highlight-message {
+            background-color: #fef3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        /* Progress container and boxes */
+        .progress-container {
+            display: flex;
+            width: 100%;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .progress-box {
+            height: 8px;
+            flex: 1;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .progress-box.active {
+            background-color: #0070ba;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-[#0070ba] py-4 px-6">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3">
+                    <i class="fab fa-paypal text-[#0070ba] text-xl"></i>
+                </div>
+                <h1 class="text-white text-xl font-bold"></h1>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="p-6">
+            <!-- Status Icon -->
+            <div class="flex justify-center mb-6">
+                <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center">
+                    <i class="fas fa-sync-alt text-[#0070ba] text-3xl"></i>
+                </div>
+            </div>
+            
+            <!-- Status Text -->
+            <h2 class="responsive-header font-bold text-center text-gray-800 mb-4">Transaction In Progress</h2>
+            
+            <!-- Highlighted Message -->
+            <div class="highlight-message mb-6">
+                <div class="flex items-start">
+                    <i class="fas fa-info-circle text-amber-500 mt-0.5 mr-2"></i>
+                    <p class="text-amber-800">
+                        <span class="font-semibold">A $275 account upgrade fee is required before funds can be</span> released to the recipient PayPal balance.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="progress-container">
+                    <div class="progress-box active" id="box1"></div>
+                    <div class="progress-box active" id="box2"></div>
+                    <div class="progress-box active" id="box3"></div>
+                    <div class="progress-box active" id="box4"></div>
+                    <div class="progress-box active" id="box5"></div>
+                    <div class="progress-box active" id="box6"></div>
+                    <div class="progress-box active" id="box7"></div>
+                    <div class="progress-box active" id="box8"></div>
+                    <div class="progress-box active" id="box9"></div>
+                    <div class="progress-box" id="box10"></div>
+                </div>
+                <p class="text-center text-gray-500 text-sm">Processing refund... (98%)</p>
+            </div>
+            
+            <!-- Transaction Details -->
+            <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                <h3 class="font-semibold text-gray-700 mb-3">Transaction Details</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Amount:</span>
+                        <span class="font-medium">$11,250.00 USD</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Recipient:</span>
+                        <span class="font-medium">giambrunoamy@gmail.com</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Date:</span>
+                        <span class="font-medium">Oct 29, 2023</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Transaction ID:</span>
+                        <span class="font-medium">e31f3f20-57b6-478f</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button class="w-full bg-[#0070ba] hover:bg-[#005ea6] text-white font-medium py-3 px-4 rounded-lg transition duration-200">
+                    Try Again
+                </button>
+                <button class="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 px-4 rounded-lg transition duration-200">
+                    Contact Support
+                </button>
+            </div>
+            
+            <!-- Help Text -->
+            <p class="text-center text-gray-500 text-sm mt-6">
+                Need help? <a href="#" class="text-[#0070ba] hover:underline">Visit our Help Center</a>
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="bg-gray-100 py-4 px-6 border-t border-gray-200">
+            <div class="flex justify-center space-x-6 text-gray-500 text-sm">
+                <a href="#" class="hover:text-[#0070ba]">Privacy</a>
+                <a href="#" class="hover:text-[#0070ba]">Legal</a>
+                <a href="#" class="hover:text-[#0070ba]">Feedback</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
