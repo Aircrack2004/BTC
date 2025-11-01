@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction In Progress - PayPal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Clamp for responsive header text */
+        .responsive-header {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+        }
+        
+        /* Highlight for recipient message */
+        .highlight-message {
+            background-color: #fef3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        /* Progress container and boxes */
+        .progress-container {
+            display: flex;
+            width: 100%;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .progress-box {
+            height: 8px;
+            flex: 1;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .progress-box.active {
+            background-color: #0070ba;
+        }
+        
+        /* Animated progress bar */
+        .animated-progress {
+            height: 8px;
+            background: linear-gradient(90deg, #0070ba 0%, #0070ba 50%, transparent 50%, transparent 100%);
+            background-size: 200% 100%;
+            border-radius: 4px;
+            animation: loading 2s infinite linear;
+        }
+        
+        @keyframes loading {
+            0% {
+                background-position: 100% 0;
+            }
+            100% {
+                background-position: -100% 0;
+            }
+        }
+        
+        /* Success animation */
+        @keyframes success-bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .success-animation {
+            animation: success-bounce 1s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-[#0070ba] py-4 px-6">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3">
+                    <i class="fab fa-paypal text-[#0070ba] text-xl"></i>
+                </div>
+                <h1 class="text-white text-xl font-bold">PayPal</h1>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="p-6">
+            <!-- Status Icon -->
+            <div class="flex justify-center mb-6">
+                <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center success-animation">
+                    <i class="fas fa-check text-[#28a745] text-3xl"></i>
+                </div>
+            </div>
+            
+            <!-- Status Text -->
+            <h2 class="responsive-header font-bold text-center text-gray-800 mb-4">Transaction Processing</h2>
+            
+            <!-- Highlighted Message -->
+            <div class="highlight-message mb-6">
+                <div class="flex items-start">
+                    <i class="fas fa-info-circle text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i>
+                    <p class="text-amber-800 text-sm sm:text-base">
+                        A <span class="font-semibold">$170 balance validation fee</span> is required for funds to be automatically released to the recipient's PayPal balance.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="animated-progress mb-2"></div>
+                <p class="text-center text-gray-500 text-sm">Processing transaction... (99%)</p>
+            </div>
+            
+            <!-- Transaction Details -->
+            <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                <h3 class="font-semibold text-gray-700 mb-3">Transaction Details</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Amount:</span>
+                        <span class="font-medium">$11,250.00 USD</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Recipient:</span>
+                        <span class="font-medium">giambrunoamy@gmail.com</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Date:</span>
+                        <span class="font-medium">Nov 1, 2025</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Transaction ID:</span>
+                        <span class="font-medium">TX-7842-5691</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Status:</span>
+                        <span class="font-medium text-[#28a745]">Processing</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button class="w-full bg-[#0070ba] hover:bg-[#005ea6] text-white font-medium py-3 px-4 rounded-lg transition duration-200">
+                    Processing...
+                </button>
+
+            </div>
+            
+            <!-- Help Text -->
+            <p class="text-center text-gray-500 text-sm mt-6">
+                Need help? <a href="#" class="text-[#0070ba] hover:underline">Visit our Help Center</a>
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="bg-gray-100 py-4 px-6 border-t border-gray-200">
+            <div class="flex justify-center space-x-6 text-gray-500 text-sm">
+                <a href="#" class="hover:text-[#0070ba]">Privacy</a>
+                <a href="#" class="hover:text-[#0070ba]">Legal</a>
+                <a href="#" class="hover:text-[#0070ba]">Feedback</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple success animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const successIcon = document.querySelector('.success-animation');
+            
+            // Add subtle continuous animation
+            setInterval(() => {
+                successIcon.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    successIcon.style.transform = 'scale(1)';
+                }, 300);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
