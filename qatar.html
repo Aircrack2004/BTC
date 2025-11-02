@@ -1,451 +1,644 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Delta Air Lines Itinerary</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'delta-blue': '#0033a0',
-                        'delta-light-blue': '#0076c0',
-                        'delta-red': '#ed1b2e',
-                        'delta-gray': '#4d4d4d',
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "delta-blue": "#0033a0",
+              "delta-light-blue": "#0076c0",
+              "delta-red": "#ed1b2e",
+              "delta-gray": "#4d4d4d",
+            },
+          },
+        },
+      };
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        @media print {
-            .no-print {
-                display: none;
-            }
-            body {
-                padding: 0;
-                margin: 0;
-                background: white;
-            }
-            .print-shadow {
-                box-shadow: none;
-            }
-            .break-inside-avoid {
-                break-inside: avoid;
-            }
-            @page {
-                margin: 0.5in;
-            }
+      @media print {
+        .no-print {
+          display: none;
         }
-        .flight-path {
-            position: relative;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
+        body {
+          padding: 0;
+          margin: 0;
+          background: white;
         }
-        .flight-path::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #0033a0 0%, #0076c0 50%, #4d4d4d 100%);
-            z-index: 1;
+        .print-shadow {
+          box-shadow: none;
         }
-        .flight-time {
-            background: white;
-            padding: 0.5rem;
-            z-index: 2;
-            position: relative;
+        .break-inside-avoid {
+          break-inside: avoid;
         }
-        .passport-stamp {
-            background: repeating-linear-gradient(
-                45deg,
-                #f0f8ff,
-                #f0f8ff 10px,
-                #e6f2ff 10px,
-                #e6f2ff 20px
-            );
-            border: 2px dashed #0076c0;
-            border-radius: 8px;
+        @page {
+          margin: 0.5in;
         }
+      }
+      .flight-path {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+      }
+      .flight-path::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          #0033a0 0%,
+          #0076c0 50%,
+          #4d4d4d 100%
+        );
+        z-index: 1;
+      }
+      .flight-time {
+        background: white;
+        padding: 0.5rem;
+        z-index: 2;
+        position: relative;
+      }
+      .passport-stamp {
+        background: repeating-linear-gradient(
+          45deg,
+          #f0f8ff,
+          #f0f8ff 10px,
+          #e6f2ff 10px,
+          #e6f2ff 20px
+        );
+        border: 2px dashed #0076c0;
+        border-radius: 8px;
+      }
     </style>
-</head>
-<body class="bg-gray-100 font-sans">
+  </head>
+  <body class="bg-gray-100 font-sans">
     <div class="max-w-4xl mx-auto p-4 bg-white print:bg-white print:p-0">
-        <!-- Header -->
-        <header class="bg-white print-shadow rounded-lg mb-6 overflow-hidden border border-gray-200 print:border-0">
-            <div class="bg-delta-blue p-4 text-white">
-                <div class="flex flex-row justify-between items-start sm:items-center gap-2 flex-wrap">
-                    <div class="flex items-center">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjMDAzM2EwIiBkPSJNNjAgMTBsMTAgMTVoLTIwbDEwLTE1em0tNDAgNjBsMTAgMTVoLTIwbDEwLTE1em04MCAwbDEwIDE1aC0yMGwxMC0xNXpNNjAgNzBsMTAgMTVoLTIwbDEwLTE1eiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik00MCA0MGwyMCAxMCAyMC0xMC0yMC0xMC0yMCAxMHoiLz48L3N2Zz4=" alt="Delta Logo" class="h-10 mr-3">
-                        <div>
-                        <h1 class="text-xl sm:text-2xl font-bold">United Airlines</h1>
+      <!-- Header -->
+      <header
+        class="bg-white print-shadow rounded-lg mb-6 overflow-hidden border border-gray-200 print:border-0"
+      >
+        <div class="bg-delta-blue p-4 text-white">
+          <div
+            class="flex flex-row justify-between items-start sm:items-center gap-2 flex-wrap"
+          >
+            <div class="flex items-center">
+              <img
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjMDAzM2EwIiBkPSJNNjAgMTBsMTAgMTVoLTIwbDEwLTE1em0tNDAgNjBsMTAgMTVoLTIwbDEwLTE1em04MCAwbDEwIDE1aC0yMGwxMC0xNXpNNjAgNzBsMTAgMTVoLTIwbDEwLTE1eiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik00MCA0MGwyMCAxMCAyMC0xMC0yMC0xMC0yMCAxMHoiLz48L3N2Zz4="
+                alt="Delta Logo"
+                class="h-10 mr-3"
+              />
+              <div>
+                <h1 class="text-xl sm:text-2xl font-bold">United Airlines</h1>
 
-                            <p class="text-gray-300 text-sm sm:text-base">Electronic Travel Itinerary</p>
-                        </div>
-                    </div>
-                    <div class="text-right sm:text-left">
-                        <p class="text-xs sm:text-sm">Booking reference</p>
-                        <p class="font-bold text-sm sm:text-base">DL7X9P2K</p>
-                    </div>
-                </div>
+                <p class="text-gray-300 text-sm sm:text-base">
+                  Electronic Travel Itinerary
+                </p>
+              </div>
             </div>
-
-            <div class="p-4 border-b">
-                <div class="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between items-start sm:items-center">
-                    <div class="flex flex-col sm:flex-row sm:gap-6">
-
-                <div>
-                    <p class="text-gray-500 text-xs sm:text-sm">Status</p>
-                    <p class="font-bold text-sm sm:text-base text-green-600">Confirmed</p>
-                </div>
-
-                <div>
-                    <p class="text-gray-500 text-xs sm:text-sm">Class</p>
-                    <p class="font-bold text-sm sm:text-base text-blue-600">Economy Class</p>
-                </div>
-
-
-
-                        <div>
-                            <p class="text-gray-500 text-xs sm:text-sm">Issued On</p>
-                            <p class="font-bold text-sm sm:text-base">oct 28, 2025</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-500 text-xs sm:text-sm">Passengers</p>
-                            <p class="font-bold text-sm sm:text-base">1 Adult</p>
-                        </div>
-                    </div>
-                    <button onclick="window.print()" class="no-print bg-delta-light-blue hover:bg-delta-blue text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base mt-2 sm:mt-0 transition-colors">
-                        <i class="fas fa-print mr-1 sm:mr-2"></i>Print Itinerary
-                    </button>
-                </div>
+            <div class="text-right sm:text-left">
+              <p class="text-xs sm:text-sm">Booking reference</p>
+              <p class="font-bold text-sm sm:text-base">DL7X9P2K</p>
             </div>
-        </header>
+          </div>
+        </div>
 
-        <!-- Passenger Details - Updated to look more like an itinerary -->
-        <section class="passport-stamp rounded-lg print-shadow p-6 mb-6 border-2 border-dashed border-delta-light-blue print:border-0 break-inside-avoid">
-            <h2 class="text-xl font-bold mb-4 text-delta-blue border-b-2 border-delta-blue pb-2 flex items-center">
-                <i class="fas fa-passport mr-2"></i>Passenger Details
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                    <div class="flex items-center mb-3">
-                        <div class="bg-delta-blue text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <h3 class="font-medium text-delta-blue">Primary Passenger</h3>
-                    </div>
-                    <div class="pl-11">
-                        <p class="text-gray-500 text-sm">Full Name</p>
-                        <p class="font-bold text-lg text-delta-gray">Ryan Williams 
+        <div class="p-4 border-b">
+          <div
+            class="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between items-start sm:items-center"
+          >
+            <div class="flex flex-col sm:flex-row sm:gap-6">
+              <div>
+                <p class="text-gray-500 text-xs sm:text-sm">Status</p>
+                <p class="font-bold text-sm sm:text-base text-green-600">
+                  Confirmed
+                </p>
+              </div>
 
+              <div>
+                <p class="text-gray-500 text-xs sm:text-sm">Class</p>
+                <p class="font-bold text-sm sm:text-base text-blue-600">
+                  Economy Class
+                </p>
+              </div>
 
+              <div>
+                <p class="text-gray-500 text-xs sm:text-sm">Issued On</p>
+                <p class="font-bold text-sm sm:text-base">oct 28, 2025</p>
+              </div>
+              <div>
+                <p class="text-gray-500 text-xs sm:text-sm">Passengers</p>
+                <p class="font-bold text-sm sm:text-base">1 Adult</p>
+              </div>
+            </div>
+            <button
+              onclick="window.print()"
+              class="no-print bg-delta-light-blue hover:bg-delta-blue text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base mt-2 sm:mt-0 transition-colors"
+            >
+              <i class="fas fa-print mr-1 sm:mr-2"></i>Print Itinerary
+            </button>
+          </div>
+        </div>
+      </header>
 
-</p>
-                        
-                        <div class="grid grid-cols-2 gap-4 mt-3">
-                            <div>
-                                <p class="text-gray-500 text-sm">Seat Preference</p>
-                                <p class="font-medium">Window</p>
-                            </div>
+      <!-- Passenger Details - Updated to look more like an itinerary -->
+      <section
+        class="passport-stamp rounded-lg print-shadow p-6 mb-6 border-2 border-dashed border-delta-light-blue print:border-0 break-inside-avoid"
+      >
+        <h2
+          class="text-xl font-bold mb-4 text-delta-blue border-b-2 border-delta-blue pb-2 flex items-center"
+        >
+          <i class="fas fa-passport mr-2"></i>Passenger Details
+        </h2>
 
-                        </div>
-                    </div>
-                </div>
-                
-        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
             <div class="flex items-center mb-3">
-                <div class="bg-delta-blue text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">
-                    <i class="fas fa-address-card"></i>
+              <div
+                class="bg-delta-blue text-white rounded-full w-8 h-8 flex items-center justify-center mr-3"
+              >
+                <i class="fas fa-user"></i>
+              </div>
+              <h3 class="font-medium text-delta-blue">Primary Passenger</h3>
+            </div>
+            <div class="pl-11">
+              <p class="text-gray-500 text-sm">Full Name</p>
+              <p class="font-bold text-lg text-delta-gray">Ryan Williams</p>
+
+              <div class="grid grid-cols-2 gap-4 mt-3">
+                <div>
+                  <p class="text-gray-500 text-sm">Seat Preference</p>
+                  <p class="font-medium">Window</p>
                 </div>
-                <h3 class="font-medium text-delta-blue">Contact Information</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+            <div class="flex items-center mb-3">
+              <div
+                class="bg-delta-blue text-white rounded-full w-8 h-8 flex items-center justify-center mr-3"
+              >
+                <i class="fas fa-address-card"></i>
+              </div>
+              <h3 class="font-medium text-delta-blue">Contact Information</h3>
             </div>
 
             <div class="pl-11">
+              <div class="mb-3">
+                <p class="text-gray-500 text-sm">Phone Number</p>
+                <p class="font-medium">+1 (607) 349-6078</p>
+              </div>
+              <div>
                 <div class="mb-3">
-                    <p class="text-gray-500 text-sm">Phone Number</p>
-                    <p class="font-medium">+1 (607) 349-6078</p>
+                  <p class="text-gray-500 text-sm">Email</p>
+                  <p class="font-medium">ryanwilliams787898@gmail.com</p>
                 </div>
-                <div>
-                <div class="mb-3">
-                    <p class="text-gray-500 text-sm">Email</p>
-                    <p class="font-medium">ryanwilliams787898@gmail.com</p>
-                </div>
-
-                </div>
+              </div>
             </div>
-                
-
+          </div>
         </div>
 
-
+        <div class="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
+          <div class="flex">
+            <div
+              class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0"
+            >
+              <i class="fas fa-info-circle text-xs"></i>
             </div>
-            
-            <div class="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
-                <div class="flex">
-                    <div class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                        <i class="fas fa-info-circle text-xs"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm text-blue-800">Please ensure the name on your itinerary matches exactly with your government-issued photo ID.</p>
-                    </div>
-                </div>
+            <div>
+              <p class="text-sm text-blue-800">
+                Please ensure the name on your itinerary matches exactly with
+                your government-issued photo ID.
+              </p>
             </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
-<!-- Flight Details -->
-<section class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid relative">
-    <!-- Outbound Badge -->
-    <div class="absolute -top-2 -right-2 bg-gradient-to-br from-cyan-400 to-emerald-400 text-white rounded-full px-3 py-1 text-xs font-semibold shadow-lg z-10">
-        Outbound
-    </div>
+      <!-- Flight Details Updated with Outbound & Return in Same Color -->
+      <section
+        class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid relative"
+      >
+        <!-- Outbound Badge -->
+        <div
+          class="absolute -top-2 -right-2 bg-gradient-to-br from-cyan-400 to-emerald-400 text-white rounded-full px-3 py-1 text-xs font-semibold shadow-lg z-10"
+        >
+          Outbound
+        </div>
 
-    <h2 class="text-xl font-bold mb-4 text-delta-blue border-b pb-2 flex items-center">
-        <i class="fas fa-plane mr-2"></i>Flight Itinerary
-    </h2>
+        <h2
+          class="text-xl font-bold mb-4 text-delta-blue border-b pb-2 flex items-center"
+        >
+          <i class="fas fa-plane mr-2"></i>Flight Itinerary
+        </h2>
 
-    <!-- Outbound Flight: Jackson → Houston → Orlando -->
-    <div class="mb-8 relative">
-        <div class="flex items-center mb-4">
-            <div class="bg-delta-blue text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">
-                <i class="fas fa-plane-departure"></i>
+        <!-- Outbound Flight: JAN → IAH → MCO -->
+        <div class="mb-12 relative">
+          <div class="flex items-center mb-4">
+            <div
+              class="bg-delta-blue text-white rounded-full w-8 h-8 flex items-center justify-center mr-3"
+            >
+              <i class="fas fa-plane-departure"></i>
             </div>
-            <h3 class="flex items-center gap-x-1 whitespace-nowrap overflow-hidden text-ellipsis leading-tight"
-                title="Jackson (JAN) → Houston (IAH) → Orlando (MCO)"
-                style="font-size: clamp(0.875rem, 2vw, 1.25rem);">
-                <span class="text-gray-600">Jackson Intl</span><span class="font-semibold">(JAN)</span>
-                <span class="mx-1 text-delta-blue">→</span>
-                <span class="text-gray-600">Houston</span><span class="font-semibold">(IAH)</span>
-                <span class="mx-1 text-delta-blue">→</span>
-                <span class="text-gray-600">Orlando Intl</span><span class="font-semibold">(MCO)</span>
+
+            <h3
+              class="flex items-center gap-x-2 leading-tight"
+              title="Jackson (JAN) → Houston (IAH) → Orlando (MCO)"
+              style="font-size: clamp(0.875rem, 2vw, 1.25rem)"
+            >
+
+
+              <span class="text-gray-600">Jackson Intl</span
+              ><span class="font-semibold">(JAN)</span>
+              <span class="mx-1 text-delta-blue">→</span>
+              <span class="text-gray-600">Houston</span
+              ><span class="font-semibold">(IAH)</span>
+              <span class="mx-1 text-delta-blue">→</span>
+              <span class="text-gray-600">Orlando Intl</span
+              ><span class="font-semibold">(MCO)</span>
             </h3>
-        </div>
+          </div>
 
-        <div class="border rounded-lg overflow-hidden border-delta-blue">
-            <div class="bg-gray-50 p-4 border-b flex flex-wrap justify-between items-start gap-3">
-                <div class="flex-1 min-w-[200px]">
-                    <p class="text-gray-500 text-sm">Flights</p>
-                    <p class="font-bold">
-                        United Airlines <small class="text-gray-600">• Boeing 737 Series</small>
-                    </p>
-                </div>
-                <div class="text-end min-w-[120px]">
-                    <p class="text-gray-500 text-sm">Duration</p>
-                    <p class="font-bold">4h 50m (1 stop)</p>
-                </div>
+          <div class="border rounded-lg overflow-hidden border-delta-blue">
+            <div
+              class="bg-gray-50 p-4 border-b flex justify-between flex-wrap gap-3"
+            >
+              <div class="min-w-[200px]">
+                <p class="text-gray-500 text-sm">Flights</p>
+                <p class="font-bold">
+                  United Airlines
+                  <small class="text-gray-600">• Boeing 737 Series</small>
+                </p>
+              </div>
+              <div class="text-end min-w-[120px]">
+                <p class="text-gray-500 text-sm">Duration</p>
+                <p class="font-bold">4h 50m (1 stop)</p>
+              </div>
             </div>
 
             <div class="p-4 space-y-6">
-                <!-- Leg 1: JAN → IAH -->
-                <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                    <div class="flex-1 text-center">
-                        <p class="font-bold text-2xl">07:00 AM</p>
-                        <p class="text-gray-500">Nov 25, 2025</p>
-                        <p class="font-medium">Jackson Intl (JAN)</p>
-                    </div>
-
-                    <div class="flex-1 flex flex-col items-center">
-                        <div class="relative w-full my-2">
-                            <div class="h-px bg-gray-300 w-full absolute top-1/2"></div>
-                            <div class="bg-white p-1 relative z-10 mx-auto w-8">
-                                <i class="fas fa-plane text-delta-blue"></i>
-                            </div>
-                        </div>
-                        <p class="text-gray-500 text-xs mt-1">UA 4245 — Non-stop</p>
-                        <p class="text-delta-blue font-medium text-xs mt-1">1h 45m</p>
-                    </div>
-
-                    <div class="flex-1 text-center">
-                        <p class="font-bold text-2xl">08:45 AM</p>
-                        <p class="text-gray-500">Nov 25, 2025</p>
-                        <p class="font-medium">Houston (IAH)</p>
-                    </div>
+              <!-- Leg 1 -->
+              <div class="flex flex-wrap justify-between items-center gap-4">
+                <div class="flex-1 text-center">
+                  <p class="font-bold text-2xl">07:00 AM</p>
+                  <p class="text-gray-500">Nov 25, 2025</p>
+                  <p class="font-medium">Jackson Intl (JAN)</p>
                 </div>
 
-                <!-- Layover IAH -->
-                <div class="text-center mb-2">
-                    <p class="text-gray-500 text-sm">Layover in Houston: 1h 20m</p>
+                <div class="flex-1 flex flex-col items-center">
+                  <div class="relative w-full my-2">
+                    <div class="h-px bg-gray-300 w-full absolute top-1/2"></div>
+                    <div class="bg-white p-1 relative z-10 mx-auto w-8">
+                      <i class="fas fa-plane text-delta-blue"></i>
+                    </div>
+                  </div>
+                  <p class="text-gray-500 text-xs mt-1">UA 4245 — Non-stop</p>
                 </div>
 
-                <!-- Leg 2: IAH → MCO -->
-                <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-                    <div class="flex-1 text-center">
-                        <p class="font-bold text-2xl">10:05 AM</p>
-                        <p class="text-gray-500">Nov 25, 2025</p>
-                        <p class="font-medium">Houston (IAH)</p>
-                    </div>
+                <div class="flex-1 text-center">
+                  <p class="font-bold text-2xl">08:45 AM</p>
+                  <p class="text-gray-500">Nov 25, 2025</p>
+                  <p class="font-medium">Houston (IAH)</p>
+                </div>
+              </div>
 
-                    <div class="flex-1 flex flex-col items-center">
-                        <div class="relative w-full my-2">
-                            <div class="h-px bg-gray-300 w-full absolute top-1/2"></div>
-                            <div class="bg-white p-1 relative z-10 mx-auto w-8">
-                                <i class="fas fa-plane text-delta-blue"></i>
-                            </div>
-                        </div>
-                        <p class="text-gray-500 text-xs mt-1">UA 2041 — Non-stop</p>
-                        <p class="text-delta-blue font-medium text-xs mt-1">3h 05m</p>
-                    </div>
-
-                    <div class="flex-1 text-center">
-                        <p class="font-bold text-2xl">02:10 PM</p>
-                        <p class="text-gray-500">Nov 25, 2025</p>
-                        <p class="font-medium">Orlando Intl (MCO)</p>
-                    </div>
+              <!-- Leg 2 -->
+              <div class="flex flex-wrap justify-between items-center gap-4">
+                <div class="flex-1 text-center">
+                  <p class="font-bold text-2xl">10:05 AM</p>
+                  <p class="text-gray-500">Nov 25, 2025</p>
+                  <p class="font-medium">Houston (IAH)</p>
                 </div>
 
-                <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
-                    <div class="flex items-center">
-                        <div class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3">
-                            <i class="fas fa-info-circle text-xs"></i>
-                        </div>
-                        <p class="text-sm">
-                            Economy Class • 1 × 23 kg checked bag + 1 cabin bag • Operated by United Airlines
-                        </p>
+                <div class="flex-1 flex flex-col items-center">
+                  <div class="relative w-full my-2">
+                    <div class="h-px bg-gray-300 w-full absolute top-1/2"></div>
+                    <div class="bg-white p-1 relative z-10 mx-auto w-8">
+                      <i class="fas fa-plane text-delta-blue"></i>
                     </div>
+                  </div>
+                  <p class="text-gray-500 text-xs mt-1">UA 2041 — Non-stop</p>
                 </div>
+
+                <div class="flex-1 text-center">
+                  <p class="font-bold text-2xl">02:10 PM</p>
+                  <p class="text-gray-500">Nov 25, 2025</p>
+                  <p class="font-medium">Orlando Intl (MCO)</p>
+                </div>
+              </div>
+
+              <div
+                class="bg-blue-50 p-3 rounded-lg border border-blue-100 text-sm"
+              >
+                Economy Class • 1 × 23kg checked bag + 1 cabin bag • United
+                Airlines
+              </div>
             </div>
+          </div>
         </div>
+
+        <!-- Return Flight -->
+        <div class="mb-12 relative">
+          <!-- Return Badge -->
+          <div
+            class="absolute -top-2 -right-2 bg-gradient-to-br from-cyan-400 to-emerald-400 text-white rounded-full px-3 py-1 text-xs font-semibold shadow-lg z-10"
+          >
+            Return
+          </div>
+
+          <div class="flex items-center mb-4">
+            <div
+              class="bg-delta-blue text-white rounded-full w-8 h-8 flex items-center justify-center mr-3"
+            >
+              <i class="fas fa-plane-arrival"></i>
+            </div>
+            <h3
+              class="flex items-center gap-x-1 leading-tight"
+              title="Orlando (MCO) → Houston (IAH) → Jackson (JAN)"
+              style="font-size: clamp(0.875rem, 2vw, 1.25rem)"
+            >
+              <span class="text-gray-600">Orlando Intl</span
+              ><span class="font-semibold">(MCO)</span>
+              <span class="mx-1 text-delta-blue">→</span>
+              <span class="text-gray-600">Houston</span
+              ><span class="font-semibold">(IAH)</span>
+              <span class="mx-1 text-delta-blue">→</span>
+              <span class="text-gray-600">Jackson Intl</span
+              ><span class="font-semibold">(JAN)</span>
+            </h3>
+          </div>
+
+          <div class="border rounded-lg overflow-hidden border-delta-blue">
+            <div
+              class="bg-gray-50 p-4 border-b flex justify-between flex-wrap gap-3"
+            >
+              <div class="min-w-[200px]">
+                <p class="text-gray-500 text-sm">Flights</p>
+                <p class="font-bold">
+                  United Airlines
+                  <small class="text-gray-600">• Boeing 737 Series</small>
+                </p>
+              </div>
+              <div class="text-end min-w-[120px]">
+                <p class="text-gray-500 text-sm">Duration</p>
+                <p class="font-bold">5h 35m (1 stop)</p>
+              </div>
+            </div>
+
+            <div class="p-4 space-y-6">
+              <!-- Leg 1 -->
+              <div class="flex flex-wrap justify-between items-center gap-4">
+                <div class="flex-1 text-center">
+                  <p class="font-bold text-2xl">03:20 PM</p>
+                  <p class="text-gray-500">Nov 28, 2025</p>
+                  <p class="font-medium">Orlando Intl (MCO)</p>
+                </div>
+
+                <div class="flex-1 flex flex-col items-center">
+                  <div class="relative w-full my-2">
+                    <div class="h-px bg-gray-300 w-full absolute top-1/2"></div>
+                    <div class="bg-white p-1 relative z-10 mx-auto w-8">
+                      <i class="fas fa-plane text-delta-blue"></i>
+                    </div>
+                  </div>
+                  <p class="text-gray-500 text-xs mt-1">UA 1735 — Non-stop</p>
+                  <p class="text-delta-blue font-medium text-xs mt-1">2h 30m</p>
+                </div>
+
+                <div class="flex-1 text-center">
+                  <p class="font-bold text-2xl">04:50 PM</p>
+                  <p class="text-gray-500">Nov 28, 2025</p>
+                  <p class="font-medium">Houston (IAH)</p>
+                </div>
+              </div>
+
+              <!-- Layover -->
+              <div class="text-center mb-2">
+                <p class="text-gray-500 text-sm">Layover in Houston: 1h 10m</p>
+              </div>
+
+              <!-- Leg 2 -->
+              <div class="flex flex-wrap justify-between items-center gap-4">
+                <div class="flex-1 text-center">
+                  <p class="font-bold text-2xl">06:00 PM</p>
+                  <p class="text-gray-500">Nov 28, 2025</p>
+                  <p class="font-medium">Houston (IAH)</p>
+                </div>
+
+                <div class="flex-1 flex flex-col items-center">
+                  <div class="relative w-full my-2">
+                    <div class="h-px bg-gray-300 w-full absolute top-1/2"></div>
+                    <div class="bg-white p-1 relative z-10 mx-auto w-8">
+                      <i class="fas fa-plane text-delta-blue"></i>
+                    </div>
+                  </div>
+                  <p class="text-gray-500 text-xs mt-1">UA 3922 — Non-stop</p>
+                  <p class="text-delta-blue font-medium text-xs mt-1">1h 55m</p>
+                </div>
+
+                <div class="flex-1 text-center">
+                  <p class="font-bold text-2xl">07:55 PM</p>
+                  <p class="text-gray-500">Nov 28, 2025</p>
+                  <p class="font-medium">Jackson Intl (JAN)</p>
+                </div>
+              </div>
+
+              <div
+                class="bg-blue-50 p-3 rounded-lg border border-blue-100 text-sm"
+              >
+                Economy Class • 1 × 23kg checked bag + 1 cabin bag • United
+                Airlines
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Payment Summary -->
+      <section
+        class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid"
+      >
+        <h2
+          class="text-xl font-bold mb-4 text-delta-blue border-b pb-2 flex items-center"
+        >
+          <i class="fas fa-receipt mr-2"></i>Payment Summary
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-bold mb-2 text-delta-light-blue">
+              Price breakdown
+            </h3>
+            <div class="space-y-2">
+              <div class="flex justify-between">
+                <p class="text-gray-600">1 Adult Fare</p>
+                <p>$380.00</p>
+              </div>
+              <div class="flex justify-between">
+                <p class="text-gray-600">Taxes and fees</p>
+                <p>$70.00</p>
+              </div>
+              <div
+                class="flex justify-between border-t border-dashed pt-2 mt-2"
+              >
+                <p class="font-medium text-delta-light-blue">Subtotal</p>
+                <p class="font-medium">$450.00</p>
+              </div>
+
+              <div class="border-t pt-2 mt-2">
+                <div
+                  class="flex justify-between font-bold text-lg text-delta-blue"
+                >
+                  <p>Total Paid</p>
+                  <p>$450.00</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 class="font-bold mb-2 text-delta-light-blue">Payment method</h3>
+            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+              <div class="bg-gray-100 p-2 rounded mr-3">
+                <i class="fab fa-cc-visa text-2xl text-blue-800"></i>
+              </div>
+              <div>
+                <p class="font-medium">Visa •••• •••• •••• 4297</p>
+                <p class="text-sm text-gray-500">Paid on oct 28, 2025</p>
+              </div>
+            </div>
+
+            <h3 class="font-bold mb-2 mt-4 text-dFelta-light-blue">
+              Fare Rules
+            </h3>
+            <ul class="text-sm list-disc pl-5 space-y-1">
+              <li>Changes allowed with fee</li>
+              <li>Refundable with cancellation fee</li>
+              <li>Fare difference may apply</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Important Information -->
+      <section
+        class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid"
+      >
+        <h2
+          class="text-xl font-bold mb-4 text-delta-blue border-b pb-2 flex items-center"
+        >
+          <i class="fas fa-exclamation-circle mr-2"></i>Important Information
+        </h2>
+        <div class="space-y-4">
+          <div class="flex">
+            <div
+              class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0"
+            >
+              <i class="fas fa-passport text-xs"></i>
+            </div>
+            <div>
+              <p class="font-bold mb-1">Travel Documents</p>
+              <p class="text-sm text-gray-600">
+                Ensure you have a valid passport.Your passport must be valid for
+                at least 6 months beyond your stay.
+              </p>
+            </div>
+          </div>
+          <div class="flex">
+            <div
+              class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0"
+            >
+              <i class="fas fa-suitcase text-xs"></i>
+            </div>
+            <div>
+              <p class="font-bold mb-1">Baggage Policy</p>
+              <p class="text-sm text-gray-600">
+                Your ticket includes 2 checked bags (max 23kg each) and 1 cabin
+                bag (max 7kg). Excess baggage fees apply for additional or
+                overweight items.
+              </p>
+            </div>
+          </div>
+          <div class="flex">
+            <div
+              class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0"
+            >
+              <i class="fas fa-clipboard-check text-xs"></i>
+            </div>
+            <div>
+              <p class="font-bold mb-1">Check-in Information</p>
+              <p class="text-sm text-gray-600">
+                Online check-in opens 48 hours before departure and closes 3
+                hours before flight time. Airport check-in closes 60 minutes
+                before departure.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Help Section -->
+      <section
+        class="bg-white rounded-lg print-shadow p-6 border border-gray-200 print:border-0 break-inside-avoid"
+      >
+        <h2
+          class="text-xl font-bold mb-4 text-delta-blue border-b pb-2 flex items-center"
+        >
+          <i class="fas fa-headset mr-2"></i>Customer Support
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="border rounded-lg p-4 text-center bg-gray-50">
+            <div
+              class="bg-delta-blue text-white rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3"
+            >
+              <i class="fas fa-phone-alt"></i>
+            </div>
+            <p class="font-bold mb-1">Call us</p>
+            <p class="text-sm text-gray-600">+1 800 221 1212</p>
+            <p class="text-xs text-gray-500">24/7 customer service</p>
+          </div>
+          <div class="border rounded-lg p-4 text-center bg-gray-50">
+            <div
+              class="bg-delta-blue text-white rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3"
+            >
+              <i class="fas fa-envelope"></i>
+            </div>
+            <p class="font-bold mb-1">Email us</p>
+            <p class="text-sm text-gray-600">help@delta.com</p>
+            <p class="text-xs text-gray-500">Response within 24 hours</p>
+          </div>
+          <div class="border rounded-lg p-4 text-center bg-gray-50">
+            <div
+              class="bg-delta-blue text-white rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3"
+            >
+              <i class="fas fa-comments"></i>
+            </div>
+            <p class="font-bold mb-1">Live chat</p>
+            <p class="text-sm text-gray-600">Available on our website</p>
+            <p class="text-xs text-gray-500">24/7 support</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="mt-8 text-center text-sm text-gray-500 no-print">
+        <p>© 2025 Delta Air Lines. All rights reserved.</p>
+        <p class="mt-2">
+          This is an automated message, please do not reply. For any inquiries,
+          please contact our customer service.
+        </p>
+      </footer>
     </div>
-</section>
-
-
-
-
-
-        <!-- Payment Summary -->
-        <section class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid">
-            <h2 class="text-xl font-bold mb-4 text-delta-blue border-b pb-2 flex items-center">
-                <i class="fas fa-receipt mr-2"></i>Payment Summary
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <h3 class="font-bold mb-2 text-delta-light-blue">Price breakdown</h3>
-                    <div class="space-y-2">
-                        <div class="flex justify-between">
-                            <p class="text-gray-600">1 Adult Fare</p>
-                            <p>$260.00</p>
-                        </div>
-                        <div class="flex justify-between">
-                            <p class="text-gray-600">Taxes and fees</p>
-                            <p>$35.00</p>
-                        </div>
-                        <div class="flex justify-between border-t border-dashed pt-2 mt-2">
-                            <p class="font-medium text-delta-light-blue">Subtotal</p>
-                            <p class="font-medium">$295.00</p>
-                        </div>
-
-                        <div class="border-t pt-2 mt-2">
-                            <div class="flex justify-between font-bold text-lg text-delta-blue">
-                                <p>Total Paid</p>
-                                <p>$295.00</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="font-bold mb-2 text-delta-light-blue">Payment method</h3>
-                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
-                        <div class="bg-gray-100 p-2 rounded mr-3">
-                            <i class="fab fa-cc-visa text-2xl text-blue-800"></i>
-                        </div>
-                        <div>
-                            <p class="font-medium">Visa •••• •••• •••• 4297</p>
-                            <p class="text-sm text-gray-500">Paid on oct 28, 2025</p>
-                        </div>
-                    </div>
-                    
-                    <h3 class="font-bold mb-2 mt-4 text-delta-light-blue">Fare Rules</h3>
-                    <ul class="text-sm list-disc pl-5 space-y-1">
-                        <li>Changes allowed with fee</li>
-                        <li>Refundable with cancellation fee</li>
-                        <li>Fare difference may apply</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Important Information -->
-        <section class="bg-white rounded-lg print-shadow p-6 mb-6 border border-gray-200 print:border-0 break-inside-avoid">
-            <h2 class="text-xl font-bold mb-4 text-delta-blue border-b pb-2 flex items-center">
-                <i class="fas fa-exclamation-circle mr-2"></i>Important Information
-            </h2>
-            <div class="space-y-4">
-                <div class="flex">
-                    <div class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                        <i class="fas fa-passport text-xs"></i>
-                    </div>
-                    <div>
-                        <p class="font-bold mb-1">Travel Documents</p>
-                        <p class="text-sm text-gray-600">Ensure you have a valid passport.Your passport must be valid for at least 6 months beyond your stay.</p>
-                    </div>
-                </div>
-                <div class="flex">
-                    <div class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                        <i class="fas fa-suitcase text-xs"></i>
-                    </div>
-                    <div>
-                        <p class="font-bold mb-1">Baggage Policy</p>
-                        <p class="text-sm text-gray-600">Your ticket includes 2 checked bags (max 23kg each) and 1 cabin bag (max 7kg). Excess baggage fees apply for additional or overweight items.</p>
-                    </div>
-                </div>
-                <div class="flex">
-                    <div class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                        <i class="fas fa-clipboard-check text-xs"></i>
-                    </div>
-                    <div>
-                        <p class="font-bold mb-1">Check-in Information</p>
-                        <p class="text-sm text-gray-600">Online check-in opens 48 hours before departure and closes 3 hours before flight time. Airport check-in closes 60 minutes before departure.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Help Section -->
-        <section class="bg-white rounded-lg print-shadow p-6 border border-gray-200 print:border-0 break-inside-avoid">
-            <h2 class="text-xl font-bold mb-4 text-delta-blue border-b pb-2 flex items-center">
-                <i class="fas fa-headset mr-2"></i>Customer Support
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="border rounded-lg p-4 text-center bg-gray-50">
-                    <div class="bg-delta-blue text-white rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3">
-                        <i class="fas fa-phone-alt"></i>
-                    </div>
-                    <p class="font-bold mb-1">Call us</p>
-                    <p class="text-sm text-gray-600">+1 800 221 1212</p>
-                    <p class="text-xs text-gray-500">24/7 customer service</p>
-                </div>
-                <div class="border rounded-lg p-4 text-center bg-gray-50">
-                    <div class="bg-delta-blue text-white rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <p class="font-bold mb-1">Email us</p>
-                    <p class="text-sm text-gray-600">help@delta.com</p>
-                    <p class="text-xs text-gray-500">Response within 24 hours</p>
-                </div>
-                <div class="border rounded-lg p-4 text-center bg-gray-50">
-                    <div class="bg-delta-blue text-white rounded-full w-10 h-10 flex items-center justify-center mx-auto mb-3">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <p class="font-bold mb-1">Live chat</p>
-                    <p class="text-sm text-gray-600">Available on our website</p>
-                    <p class="text-xs text-gray-500">24/7 support</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="mt-8 text-center text-sm text-gray-500 no-print">
-            <p>© 2025 Delta Air Lines. All rights reserved.</p>
-            <p class="mt-2">This is an automated message, please do not reply. For any inquiries, please contact our customer service.</p>
-        </footer>
-    </div>
-</body>
+  </body>
 </html>
