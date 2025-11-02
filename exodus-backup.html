@@ -78,6 +78,11 @@
       .overlay-scroll-container {
         max-height: calc(100vh - 100px);
       }
+      
+      /* Drag handle area */
+      .drag-area {
+        touch-action: pan-y;
+      }
     </style>
   </head>
   <body>
@@ -216,13 +221,6 @@
 <div 
   x-show="overlayOpen" 
   class="fixed inset-0 z-50 flex items-end"
-  @touchstart="startDrag($event)"
-  @touchmove="handleDrag($event)"
-  @touchend="endDrag()"
-  @mousedown="startDrag($event)"
-  @mousemove="handleDrag($event)"
-  @mouseup="endDrag()"
-  @mouseleave="endDrag()"
 >
   <!-- Backdrop -->
   <div 
@@ -231,32 +229,41 @@
     @click="minimizeOverlay()"
   ></div>
   
-  <!-- Overlay Content - Entire overlay is draggable -->
+  <!-- Overlay Content -->
   <div 
     class="overlay-content w-full swipe-transition bg-[#17182a]"
     :class="overlayMinimized ? 'overlay-minimized' : 'max-h-[90vh]'"
     :style="`transform: translateY(${overlayOffset}px)`"
   >
-    <!-- Drag Handle -->
-    <div class="relative">
-      <div class="drag-handle" @click="toggleOverlay()"></div>
-      <!-- Swipe Down Hint -->
-      <div 
-        x-show="!overlayMinimized" 
-        class="swipe-hint absolute top-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-xs"
-        :class="{ 'show': showSwipeHint }"
-      >
-        Swipe down to minimize
+    <!-- Drag Handle Area - Only this area handles drag events -->
+    <div 
+      class="drag-area"
+      @touchstart="startDrag($event)"
+      @touchmove="handleDrag($event)"
+      @touchend="endDrag()"
+      @mousedown="startDrag($event)"
+      @mousemove="handleDrag($event)"
+      @mouseup="endDrag()"
+      @mouseleave="endDrag()"
+    >
+      <div class="relative">
+        <div class="drag-handle" @click="toggleOverlay()"></div>
+        <!-- Swipe Down Hint -->
+        <div 
+          x-show="!overlayMinimized" 
+          class="swipe-hint absolute top-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-xs"
+          :class="{ 'show': showSwipeHint }"
+        >
+          Swipe down to minimize
+        </div>
       </div>
     </div>
     
-    <!-- Scrollable Content -->
+    <!-- Scrollable Content - No drag events here -->
     <div 
       x-show="!overlayMinimized" 
       class="p-6 pb-8 scrollable-content hide-scrollbar scroll-container smooth-scroll overlay-scroll-container"
       @scroll="handleScroll($event)"
-      @touchstart="handleContentTouchStart($event)"
-      @touchmove="handleContentTouchMove($event)"
     >
       <!-- Logo and Welcome Text -->
       <div class="flex flex-col items-center text-center mb-6">
@@ -444,11 +451,8 @@
       </div>
     </div>
 
-    <!-- Minimized State - Entire minimized area is draggable -->
-    <div 
-      x-show="overlayMinimized" 
-      class="flex flex-col items-center justify-center px-4 py-3"
-    >
+    <!-- Minimized State -->
+    <div x-show="overlayMinimized" class="flex flex-col items-center justify-center px-4 py-3">
       <div class="w-full mb-2">
         <p class="text-gray-400 text-xs text-center mb-2">Swipe up to view</p>
       </div>
@@ -483,9 +487,6 @@
           currentY: 0,
           showSwipeHint: false,
           scrollTop: 0,
-          contentTouchStartY: 0,
-          contentScrollStartY: 0,
-          isContentScrolling: false,
 
           init() {
             // Auto-open overlay on page load
@@ -534,34 +535,9 @@
             this.scrollTop = event.target.scrollTop;
           },
 
-          handleContentTouchStart(event) {
-            this.contentTouchStartY = event.touches[0].clientY;
-            this.contentScrollStartY = this.scrollTop;
-            this.isContentScrolling = false;
-          },
-
-          handleContentTouchMove(event) {
-            // If we're not at the top of the content, we're definitely scrolling
-            if (this.scrollTop > 0) {
-              this.isContentScrolling = true;
-              return;
-            }
-
-            const touchY = event.touches[0].clientY;
-            const deltaY = touchY - this.contentTouchStartY;
-            
-            // If user is scrolling down from the top, allow natural scrolling
-            if (deltaY > 0) {
-              this.isContentScrolling = true;
-            } else {
-              // If scrolling up from top, allow overlay drag
-              this.isContentScrolling = false;
-            }
-          },
-
           startDrag(event) {
-            // Don't start drag if we're in the middle of content scrolling
-            if (this.isContentScrolling && !this.overlayMinimized) return;
+            // Only allow drag when scrolled to top
+            if (this.scrollTop > 0 && !this.overlayMinimized) return;
             
             this.isDragging = true;
             this.startY = event.type.includes('mouse') ? event.clientY : event.touches[0].clientY;
@@ -571,20 +547,22 @@
           handleDrag(event) {
             if (!this.isDragging) return;
 
-            // NEVER call preventDefault() on touchmove events
-            // This allows natural scrolling to work
+            // Only prevent default when we're actually dragging (not scrolling)
+            if (this.overlayMinimized || this.scrollTop === 0) {
+              event.preventDefault();
+            }
             
             const clientY = event.type.includes('mouse') ? event.clientY : event.touches[0].clientY;
             const deltaY = clientY - this.startY;
 
             if (this.overlayMinimized) {
-              // Swiping up from minimized state - allow from anywhere
+              // Swiping up from minimized state
               if (deltaY < 0) {
                 this.overlayOffset = deltaY;
               }
             } else {
-              // Swiping down from expanded state - only when at top
-              if (deltaY > 0 && this.scrollTop === 0) {
+              // Swiping down from expanded state
+              if (deltaY > 0) {
                 this.overlayOffset = deltaY;
               }
             }
@@ -594,7 +572,6 @@
             if (!this.isDragging) return;
 
             this.isDragging = false;
-            this.isContentScrolling = false;
 
             if (this.overlayMinimized) {
               // If swiped up more than 40px, expand overlay
