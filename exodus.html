@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exodus Wallet</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-      defer
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
       body {
         background-color: #17182a;
@@ -39,17 +36,40 @@
       }
 
       .overlay-minimized {
-        height: 80px;
+        height: 70px;
         border-radius: 24px 24px 0 0;
+      }
+
+      /* Enable scrolling on mobile */
+      .scrollable-content {
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+      }
+
+      /* Swipe animation text */
+      .swipe-hint {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .swipe-hint.show {
+        opacity: 1;
+      }
+
+      /* Hide scrollbar but keep functionality */
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
       }
     </style>
   </head>
   <body>
     <!-- Main App Content -->
-    <div
-      class="h-screen overflow-y-auto pb-20"
-      :class="{ 'opacity-50': overlayOpen && !overlayMinimized }"
-    >
+    <div class="h-screen overflow-y-auto pb-20 hide-scrollbar" :class="{ 'opacity-50': overlayOpen && !overlayMinimized }">
       <div class="p-4">
         <!-- Header -->
         <div class="grid place-items-center mb-6">
@@ -61,18 +81,8 @@
           <div class="flex items-center gap-2 mt-2">
             <h3 class="text-base font-semibold">Exodus</h3>
             <button class="text-gray-500 hover:text-blue-500 transition-colors">
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                ></path>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
               </svg>
             </button>
           </div>
@@ -82,22 +92,10 @@
         <div class="grid grid-cols-2 gap-4 max-w-md mx-auto mb-6">
           <!-- Assets -->
           <div class="text-center group cursor-pointer" @click="openOverlay()">
-            <div
-              class="bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors"
-            >
+            <div class="bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors">
               <div class="flex justify-center mb-2">
-                <svg
-                  class="w-6 h-6 text-blue-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
-                  ></path>
+                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                 </svg>
               </div>
               <h4 class="font-semibold text-sm">Assets</h4>
@@ -106,22 +104,10 @@
 
           <!-- Web3 -->
           <div class="text-center group cursor-pointer">
-            <div
-              class="bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors"
-            >
+            <div class="bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors">
               <div class="flex justify-center mb-2">
-                <svg
-                  class="w-6 h-6 text-green-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                  ></path>
+                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
                 </svg>
               </div>
               <h4 class="font-semibold text-sm">Web3</h4>
@@ -130,22 +116,10 @@
 
           <!-- Staking -->
           <div class="text-center group cursor-pointer">
-            <div
-              class="bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors"
-            >
+            <div class="bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors">
               <div class="flex justify-center mb-2">
-                <svg
-                  class="w-6 h-6 text-yellow-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z"
-                  ></path>
+                <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z"></path>
                 </svg>
               </div>
               <h4 class="font-semibold text-sm">Staking</h4>
@@ -154,22 +128,10 @@
 
           <!-- NFTs -->
           <div class="text-center group cursor-pointer">
-            <div
-              class="bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors"
-            >
+            <div class="bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors">
               <div class="flex justify-center mb-2">
-                <svg
-                  class="w-6 h-6 text-purple-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  ></path>
+                <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                 </svg>
               </div>
               <h4 class="font-semibold text-sm">NFTs</h4>
@@ -180,133 +142,56 @@
         <!-- Settings Blocks -->
         <div class="max-w-md mx-auto space-y-3">
           <!-- Settings -->
-          <div
-            class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer"
-          >
+          <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
             <div class="flex items-center gap-3">
               <div class="bg-blue-500 rounded-lg p-2">
-                <svg
-                  class="w-5 h-5 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                  ></path>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  ></path>
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                 </svg>
               </div>
               <div class="flex-1">
                 <h4 class="font-semibold text-base">Settings</h4>
-                <p class="text-gray-400 text-xs">
-                  Manage your wallet preferences
-                </p>
+                <p class="text-gray-400 text-xs">Manage your wallet preferences</p>
               </div>
-              <svg
-                class="w-4 h-4 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                ></path>
+              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
             </div>
           </div>
 
           <!-- Support -->
-          <div
-            class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer"
-          >
+          <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
             <div class="flex items-center gap-3">
               <div class="bg-green-500 rounded-lg p-2">
-                <svg
-                  class="w-5 h-5 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
               </div>
               <div class="flex-1">
                 <h4 class="font-semibold text-base">Support</h4>
-                <p class="text-gray-400 text-xs">
-                  Get help and contact support
-                </p>
+                <p class="text-gray-400 text-xs">Get help and contact support</p>
               </div>
-              <svg
-                class="w-4 h-4 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                ></path>
+              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
             </div>
           </div>
 
           <!-- Exodus Spend Card -->
-          <div
-            class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer"
-          >
+          <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
             <div class="flex items-center gap-3">
               <div class="bg-white bg-opacity-20 rounded-lg p-2">
-                <svg
-                  class="w-5 h-5 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                  ></path>
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
                 </svg>
               </div>
               <div class="flex-1">
                 <h4 class="font-semibold text-base">Exodus Spend Card</h4>
-                <p class="text-white text-opacity-80 text-xs">
-                  Spend your crypto anywhere
-                </p>
+                <p class="text-white text-opacity-80 text-xs">Spend your crypto anywhere</p>
               </div>
-              <svg
-                class="w-4 h-4 text-white text-opacity-80"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                ></path>
+              <svg class="w-4 h-4 text-white text-opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
             </div>
           </div>
@@ -315,8 +200,8 @@
     </div>
 
     <!-- Swipeable Overlay -->
-    <div
-      x-show="overlayOpen"
+    <div 
+      x-show="overlayOpen" 
       class="fixed inset-0 z-50 flex items-end"
       @touchstart="startDrag($event)"
       @touchmove="handleDrag($event)"
@@ -327,297 +212,245 @@
       @mouseleave="endDrag()"
     >
       <!-- Backdrop -->
-      <div
-        class="absolute inset-0 bg-black transition-opacity duration-300"
+      <div 
+        class="absolute inset-0 bg-black transition-opacity duration-300" 
         :class="overlayMinimized ? 'bg-opacity-0' : 'bg-opacity-50'"
         @click="minimizeOverlay()"
       ></div>
-
+      
       <!-- Overlay Content -->
-      <div
+      <div 
         class="overlay-content w-full swipe-transition bg-[#17182a]"
-        :class="overlayMinimized ? 'overlay-minimized' : 'max-h-[90vh]'"
+        :class="overlayMinimized ? 'overlay-minimized' : 'max-h-[85vh]'"
         :style="`transform: translateY(${overlayOffset}px)`"
       >
-        <!-- Drag Handle -->
-        <div class="drag-handle" @click="toggleOverlay()"></div>
-
-        <div
-          x-show="!overlayMinimized"
-          class="p-6 pb-8 overflow-y-auto max-h-[80vh]"
+        <!-- Drag Handle with Swipe Hint -->
+        <div class="relative">
+          <div class="drag-handle" @click="toggleOverlay()"></div>
+          <!-- Swipe Down Hint -->
+          <div 
+            x-show="!overlayMinimized" 
+            class="swipe-hint absolute top-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-xs"
+            :class="{ 'show': showSwipeHint }"
+          >
+            Swipe down to minimize
+          </div>
+        </div>
+        
+        <div 
+          x-show="!overlayMinimized" 
+          class="p-6 pb-8 scrollable-content hide-scrollbar"
+          style="max-height: calc(85vh - 80px);"
+          @scroll="handleScroll($event)"
         >
           <!-- Logo and Welcome Text -->
-          <div class="flex flex-col items-center text-center mb-8">
+          <div class="flex flex-col items-center text-center mb-6">
             <img
               src="./exodus-removebg-preview.png"
               alt="Exodus Logo"
-              class="w-16 h-16 mb-4"
+              class="w-14 h-14 mb-3"
             />
-            <h1 class="text-xl font-bold mb-2">Welcome to Exodus</h1>
-            <p class="text-gray-400">Self-custody starts here.</p>
+            <h1 class="text-lg font-bold mb-1">Welcome to Exodus</h1>
+            <p class="text-gray-400 text-sm">Self-custody starts here.</p>
           </div>
 
           <!-- Action Buttons with "or" -->
-          <div class="flex items-center justify-center gap-4 mb-8">
-            <button
-              class="bg-[#232639] hover:bg-gray-700 text-white font-semibold py-4 px-8 rounded-full transition-colors flex-1 text-center"
-            >
+          <div class="flex items-center justify-center gap-3 mb-6">
+            <button class="bg-[#232639] hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-full transition-colors flex-1 text-center text-sm">
               Receive
             </button>
-            <span class="text-gray-500 text-sm font-medium">or</span>
-            <button
-              class="bg-[#232639] hover:bg-gray-700 text-white font-semibold py-4 px-8 rounded-full transition-colors flex-1 text-center"
-            >
+            <span class="text-gray-500 text-xs font-medium">or</span>
+            <button class="bg-[#232639] hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-full transition-colors flex-1 text-center text-sm">
               Buy
             </button>
           </div>
 
           <!-- Crypto List - 10 Cryptocurrencies -->
-          <div class="space-y-3">
+          <div class="space-y-2">
             <!-- Bitcoin -->
-            <div
-              class="block bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors cursor-pointer"
-            >
+            <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-10 h-10 bg-orange-500 bg-opacity-20 rounded-lg flex items-center justify-center"
-                  >
-                    <span class="text-orange-400 font-bold text-sm">BTC</span>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-orange-500 bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <span class="text-orange-400 font-bold text-xs">BTC</span>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-base">Bitcoin</h4>
-                    <p class="text-gray-400 text-xs">
-                      $110,791.45 <span class="text-green-400">+0.7%</span>
-                    </p>
+                    <h4 class="font-semibold text-sm">Bitcoin</h4>
+                    <p class="text-gray-400 text-xs">$110,791.45 <span class="text-green-400">+0.7%</span></p>
                   </div>
                 </div>
-                <span class="text-gray-400 font-medium">BTC</span>
+                <span class="text-gray-400 font-medium text-sm">BTC</span>
               </div>
             </div>
 
             <!-- Ethereum -->
-            <div
-              class="block bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors cursor-pointer"
-            >
+            <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-10 h-10 bg-purple-500 bg-opacity-20 rounded-lg flex items-center justify-center"
-                  >
-                    <span class="text-purple-400 font-bold text-sm">ETH</span>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-purple-500 bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <span class="text-purple-400 font-bold text-xs">ETH</span>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-base">Ethereum</h4>
-                    <p class="text-gray-400 text-xs">
-                      $3,845.67 <span class="text-green-400">+1.2%</span>
-                    </p>
+                    <h4 class="font-semibold text-sm">Ethereum</h4>
+                    <p class="text-gray-400 text-xs">$3,845.67 <span class="text-green-400">+1.2%</span></p>
                   </div>
                 </div>
-                <span class="text-gray-400 font-medium">ETH</span>
+                <span class="text-gray-400 font-medium text-sm">ETH</span>
               </div>
             </div>
 
             <!-- Solana -->
-            <div
-              class="block bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors cursor-pointer"
-            >
+            <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-10 h-10 bg-pink-500 bg-opacity-20 rounded-lg flex items-center justify-center"
-                  >
-                    <span class="text-pink-400 font-bold text-sm">SOL</span>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-pink-500 bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <span class="text-pink-400 font-bold text-xs">SOL</span>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-base">Solana</h4>
-                    <p class="text-gray-400 text-xs">
-                      $187.32 <span class="text-green-400">+5.8%</span>
-                    </p>
+                    <h4 class="font-semibold text-sm">Solana</h4>
+                    <p class="text-gray-400 text-xs">$187.32 <span class="text-green-400">+5.8%</span></p>
                   </div>
                 </div>
-                <span class="text-gray-400 font-medium">SOL</span>
+                <span class="text-gray-400 font-medium text-sm">SOL</span>
               </div>
             </div>
 
             <!-- Cardano -->
-            <div
-              class="block bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors cursor-pointer"
-            >
+            <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-10 h-10 bg-blue-500 bg-opacity-20 rounded-lg flex items-center justify-center"
-                  >
-                    <span class="text-blue-400 font-bold text-sm">ADA</span>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-blue-500 bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <span class="text-blue-400 font-bold text-xs">ADA</span>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-base">Cardano</h4>
-                    <p class="text-gray-400 text-xs">
-                      $0.78 <span class="text-red-400">-0.3%</span>
-                    </p>
+                    <h4 class="font-semibold text-sm">Cardano</h4>
+                    <p class="text-gray-400 text-xs">$0.78 <span class="text-red-400">-0.3%</span></p>
                   </div>
                 </div>
-                <span class="text-gray-400 font-medium">ADA</span>
+                <span class="text-gray-400 font-medium text-sm">ADA</span>
               </div>
             </div>
 
             <!-- Ripple -->
-            <div
-              class="block bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors cursor-pointer"
-            >
+            <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-10 h-10 bg-gray-500 bg-opacity-20 rounded-lg flex items-center justify-center"
-                  >
-                    <span class="text-gray-400 font-bold text-sm">XRP</span>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-gray-500 bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <span class="text-gray-400 font-bold text-xs">XRP</span>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-base">Ripple</h4>
-                    <p class="text-gray-400 text-xs">
-                      $0.62 <span class="text-green-400">+0.9%</span>
-                    </p>
+                    <h4 class="font-semibold text-sm">Ripple</h4>
+                    <p class="text-gray-400 text-xs">$0.62 <span class="text-green-400">+0.9%</span></p>
                   </div>
                 </div>
-                <span class="text-gray-400 font-medium">XRP</span>
+                <span class="text-gray-400 font-medium text-sm">XRP</span>
               </div>
             </div>
 
             <!-- Dogecoin -->
-            <div
-              class="block bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors cursor-pointer"
-            >
+            <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-10 h-10 bg-yellow-500 bg-opacity-20 rounded-lg flex items-center justify-center"
-                  >
-                    <span class="text-yellow-400 font-bold text-sm">DOGE</span>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-yellow-500 bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <span class="text-yellow-400 font-bold text-xs">DOGE</span>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-base">Dogecoin</h4>
-                    <p class="text-gray-400 text-xs">
-                      $0.15 <span class="text-green-400">+2.1%</span>
-                    </p>
+                    <h4 class="font-semibold text-sm">Dogecoin</h4>
+                    <p class="text-gray-400 text-xs">$0.15 <span class="text-green-400">+2.1%</span></p>
                   </div>
                 </div>
-                <span class="text-gray-400 font-medium">DOGE</span>
+                <span class="text-gray-400 font-medium text-sm">DOGE</span>
               </div>
             </div>
 
             <!-- Polkadot -->
-            <div
-              class="block bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors cursor-pointer"
-            >
+            <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-10 h-10 bg-pink-400 bg-opacity-20 rounded-lg flex items-center justify-center"
-                  >
-                    <span class="text-pink-300 font-bold text-sm">DOT</span>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-pink-400 bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <span class="text-pink-300 font-bold text-xs">DOT</span>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-base">Polkadot</h4>
-                    <p class="text-gray-400 text-xs">
-                      $9.45 <span class="text-red-400">-1.2%</span>
-                    </p>
+                    <h4 class="font-semibold text-sm">Polkadot</h4>
+                    <p class="text-gray-400 text-xs">$9.45 <span class="text-red-400">-1.2%</span></p>
                   </div>
                 </div>
-                <span class="text-gray-400 font-medium">DOT</span>
+                <span class="text-gray-400 font-medium text-sm">DOT</span>
               </div>
             </div>
 
             <!-- Polygon -->
-            <div
-              class="block bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors cursor-pointer"
-            >
+            <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-10 h-10 bg-purple-600 bg-opacity-20 rounded-lg flex items-center justify-center"
-                  >
-                    <span class="text-purple-300 font-bold text-sm">MATIC</span>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-purple-600 bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <span class="text-purple-300 font-bold text-xs">MATIC</span>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-base">Polygon</h4>
-                    <p class="text-gray-400 text-xs">
-                      $1.23 <span class="text-green-400">+3.4%</span>
-                    </p>
+                    <h4 class="font-semibold text-sm">Polygon</h4>
+                    <p class="text-gray-400 text-xs">$1.23 <span class="text-green-400">+3.4%</span></p>
                   </div>
                 </div>
-                <span class="text-gray-400 font-medium">MATIC</span>
+                <span class="text-gray-400 font-medium text-sm">MATIC</span>
               </div>
             </div>
 
             <!-- Chainlink -->
-            <div
-              class="block bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors cursor-pointer"
-            >
+            <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-10 h-10 bg-blue-400 bg-opacity-20 rounded-lg flex items-center justify-center"
-                  >
-                    <span class="text-blue-300 font-bold text-sm">LINK</span>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-blue-400 bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <span class="text-blue-300 font-bold text-xs">LINK</span>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-base">Chainlink</h4>
-                    <p class="text-gray-400 text-xs">
-                      $18.90 <span class="text-green-400">+1.7%</span>
-                    </p>
+                    <h4 class="font-semibold text-sm">Chainlink</h4>
+                    <p class="text-gray-400 text-xs">$18.90 <span class="text-green-400">+1.7%</span></p>
                   </div>
                 </div>
-                <span class="text-gray-400 font-medium">LINK</span>
+                <span class="text-gray-400 font-medium text-sm">LINK</span>
               </div>
             </div>
 
             <!-- Avalanche -->
-            <div
-              class="block bg-[#232639] rounded-xl p-4 hover:bg-gray-700 transition-colors cursor-pointer"
-            >
+            <div class="block bg-[#232639] rounded-xl p-3 hover:bg-gray-700 transition-colors cursor-pointer">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                  <div
-                    class="w-10 h-10 bg-red-500 bg-opacity-20 rounded-lg flex items-center justify-center"
-                  >
-                    <span class="text-red-400 font-bold text-sm">AVAX</span>
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-red-500 bg-opacity-20 rounded-lg flex items-center justify-center">
+                    <span class="text-red-400 font-bold text-xs">AVAX</span>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-base">Avalanche</h4>
-                    <p class="text-gray-400 text-xs">
-                      $42.15 <span class="text-green-400">+4.2%</span>
-                    </p>
+                    <h4 class="font-semibold text-sm">Avalanche</h4>
+                    <p class="text-gray-400 text-xs">$42.15 <span class="text-green-400">+4.2%</span></p>
                   </div>
                 </div>
-                <span class="text-gray-400 font-medium">AVAX</span>
+                <span class="text-gray-400 font-medium text-sm">AVAX</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Minimized State -->
-        <div
-          x-show="overlayMinimized"
-          class="flex items-center justify-between px-6 py-4"
-        >
-          <div class="flex items-center gap-3">
-            <img
-              src="./exodus-removebg-preview.png"
-              alt="Exodus Logo"
-              class="w-8 h-8"
-            />
-            <div class="pt-12">
-                <br>
-              <h3 class="font-semibold text-sm">Exodus Assets</h3>
-              <p class="text-gray-400 text-xs">Swipe up to view</p>
-            </div>
-          </div>
-          <div class="text-right">
-            <p class="font-semibold text-sm">$156,842</p>
-            <p class="text-green-400 text-xs">+2.8%</p>
-          </div>
+    <!-- Minimized State -->
+    <div x-show="overlayMinimized" class="flex flex-col items-center justify-center px-4 py-3">
+    <div class="w-full mb-2">
+        <p class="text-gray-400 text-xs text-center mb-2">Swipe up to view</p>
+    </div>
+    <div class="flex items-center justify-between w-full">
+        <div class="flex items-center gap-2">
+        <img
+            src="./exodus-removebg-preview.png"
+            alt="Exodus Logo"
+            class="w-6 h-6"
+        />
+        <div>
+            <h3 class="font-semibold text-xs">Exodus Assets</h3>
         </div>
+        </div>
+        <div class="text-right">
+        <p class="font-semibold text-xs">$156,842</p>
+        <p class="text-green-400 text-xs">+2.8%</p>
+        </div>
+    </div>
+    </div>
       </div>
     </div>
 
@@ -630,6 +463,8 @@
           isDragging: false,
           startY: 0,
           currentY: 0,
+          showSwipeHint: false,
+          scrollTop: 0,
 
           init() {
             // Auto-open overlay on page load
@@ -637,6 +472,16 @@
               this.overlayOpen = true;
               this.overlayMinimized = false;
             }, 300);
+
+            // Show swipe hint briefly when expanded
+            setTimeout(() => {
+              if (!this.overlayMinimized) {
+                this.showSwipeHint = true;
+                setTimeout(() => {
+                  this.showSwipeHint = false;
+                }, 2000);
+              }
+            }, 1000);
           },
 
           openOverlay() {
@@ -648,18 +493,32 @@
           minimizeOverlay() {
             this.overlayMinimized = true;
             this.overlayOffset = 0;
+            this.showSwipeHint = false;
           },
 
           toggleOverlay() {
             this.overlayMinimized = !this.overlayMinimized;
             this.overlayOffset = 0;
+            
+            // Show appropriate swipe hint
+            if (!this.overlayMinimized) {
+              this.showSwipeHint = true;
+              setTimeout(() => {
+                this.showSwipeHint = false;
+              }, 2000);
+            }
+          },
+
+          handleScroll(event) {
+            this.scrollTop = event.target.scrollTop;
           },
 
           startDrag(event) {
+            // Only allow drag from top when scrolled to top
+            if (this.scrollTop > 10 && !this.overlayMinimized) return;
+            
             this.isDragging = true;
-            this.startY = event.type.includes("mouse")
-              ? event.clientY
-              : event.touches[0].clientY;
+            this.startY = event.type.includes('mouse') ? event.clientY : event.touches[0].clientY;
             this.currentY = this.startY;
           },
 
@@ -667,9 +526,7 @@
             if (!this.isDragging) return;
 
             event.preventDefault();
-            const clientY = event.type.includes("mouse")
-              ? event.clientY
-              : event.touches[0].clientY;
+            const clientY = event.type.includes('mouse') ? event.clientY : event.touches[0].clientY;
             const deltaY = clientY - this.startY;
 
             if (this.overlayMinimized) {
@@ -691,21 +548,25 @@
             this.isDragging = false;
 
             if (this.overlayMinimized) {
-              // If swiped up more than 50px, expand overlay
-              if (this.overlayOffset < -50) {
+              // If swiped up more than 40px, expand overlay
+              if (this.overlayOffset < -40) {
                 this.overlayMinimized = false;
+                this.showSwipeHint = true;
+                setTimeout(() => {
+                  this.showSwipeHint = false;
+                }, 2000);
               }
             } else {
-              // If swiped down more than 100px, minimize overlay
-              if (this.overlayOffset > 100) {
+              // If swiped down more than 80px, minimize overlay
+              if (this.overlayOffset > 80) {
                 this.overlayMinimized = true;
               }
             }
 
             // Reset offset
             this.overlayOffset = 0;
-          },
-        };
+          }
+        }
       }
     </script>
   </body>
