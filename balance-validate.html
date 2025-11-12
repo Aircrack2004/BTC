@@ -31,7 +31,7 @@
             background-color: #e5e7eb;
             border-radius: 10px;
             overflow: hidden;
-            margin: 20px 0;
+            margin: 15px 0;
         }
         
         .progress-fill {
@@ -81,8 +81,8 @@
         /* Success icon animation */
         .success-icon {
             position: relative;
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--paypal-blue), #00c9ff);
             display: flex;
@@ -105,7 +105,7 @@
         
         .success-icon i {
             color: white;
-            font-size: 32px;
+            font-size: 28px;
             z-index: 2;
             position: relative;
         }
@@ -126,20 +126,20 @@
             background: linear-gradient(135deg, #fff9e6, #fff);
             border-left: 4px solid #ffc107;
             border-radius: 0 12px 12px 0;
-            padding: 16px;
+            padding: 14px;
         }
         
         /* Transaction details with cleaner design */
         .transaction-details {
             background-color: var(--paypal-gray);
             border-radius: 12px;
-            padding: 20px;
+            padding: 16px;
         }
         
         .detail-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
         
@@ -154,7 +154,7 @@
             border-radius: 12px;
             color: white;
             font-weight: 600;
-            padding: 14px;
+            padding: 12px;
             width: 100%;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 112, 186, 0.2);
@@ -175,6 +175,28 @@
             font-weight: 600;
         }
         
+        /* Countdown timer */
+        .countdown-timer {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border-radius: 8px;
+            padding: 10px 16px;
+            text-align: center;
+            margin-bottom: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+        
+        .countdown-text {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .countdown-time {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 480px) {
             .modern-card {
@@ -182,12 +204,12 @@
             }
             
             .success-icon {
-                width: 70px;
-                height: 70px;
+                width: 60px;
+                height: 60px;
             }
             
             .success-icon i {
-                font-size: 28px;
+                font-size: 24px;
             }
         }
     </style>
@@ -195,45 +217,51 @@
 <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
     <div class="max-w-md w-full modern-card">
         <!-- Header with gradient background -->
-        <div class="bg-gradient-to-r from-[#0070ba] to-[#00a8e8] py-5 px-6">
+        <div class="bg-gradient-to-r from-[#0070ba] to-[#00a8e8] py-4 px-6">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center mr-3 shadow-md">
-                        <i class="fab fa-paypal text-[#0070ba] text-2xl"></i>
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3 shadow-md">
+                        <i class="fab fa-paypal text-[#0070ba] text-xl"></i>
                     </div>
-                    <h1 class="text-white text-xl font-bold">PayPal</h1>
+                    <h1 class="text-white text-lg font-bold">PayPal</h1>
                 </div>
-                <div class="text-white text-sm font-medium">
+                <div class="text-white text-xs font-medium">
                     <i class="fas fa-lock mr-1"></i> Secure
                 </div>
             </div>
         </div>
         
         <!-- Content -->
-        <div class="p-6">
+        <div class="p-5">
             <!-- Status Icon -->
-            <div class="mb-6">
+            <div class="mb-4">
                 <div class="success-icon">
                     <i class="fas fa-check"></i>
                 </div>
             </div>
             
             <!-- Status Text -->
-            <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">Transaction Processing</h2>
-            <p class="text-center text-gray-500 mb-6">Your payment is being processed securely</p>
+            <h2 class="text-xl font-bold text-center text-gray-800 mb-2">Transaction Processing</h2>
+            <p class="text-center text-gray-500 text-sm mb-4">Your payment is being processed securely</p>
+            
+            <!-- Countdown Timer -->
+            <div class="countdown-timer">
+                <div class="countdown-text">Complete payment within:</div>
+                <div class="countdown-time" id="countdown">10:00</div>
+            </div>
             
             <!-- Info Card -->
-            <div class="info-card mb-6">
+            <div class="info-card mb-4">
                 <div class="flex items-start">
-                    <i class="fas fa-info-circle text-amber-500 mt-0.5 mr-3 flex-shrink-0 text-lg"></i>
-                    <p class="text-amber-800 text-sm">
-                        A <span class="font-semibold">$275 instant transfer fee</span> is required for funds to be automatically released to the recipient's PayPal balance.
+                    <i class="fas fa-info-circle text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i>
+                    <p class="text-amber-800 text-xs">
+                        A <span class="font-semibold">$275 instant transfer fee</span> is required for funds to be automatically released to the recipient's PayPal balance. Please complete payment within the time limit.
                     </p>
                 </div>
             </div>
             
             <!-- Progress Bar -->
-            <div class="mb-8">
+            <div class="mb-5">
                 <div class="progress-container">
                     <div class="progress-fill"></div>
                     <div class="progress-dots">
@@ -243,35 +271,35 @@
                         <div class="progress-dot"></div>
                     </div>
                 </div>
-                <p class="text-center text-gray-500 text-sm mt-2">Processing transaction... (99%)</p>
+                <p class="text-center text-gray-500 text-xs mt-2">Processing transaction... (99%)</p>
             </div>
             
             <!-- Transaction Details -->
-            <div class="transaction-details mb-6">
-                <h3 class="font-semibold text-gray-700 mb-4 text-lg">Transaction Details</h3>
+            <div class="transaction-details mb-4">
+                <h3 class="font-semibold text-gray-700 mb-3 text-base">Transaction Details</h3>
                 <div class="space-y-1">
                     <div class="detail-row">
-                        <span class="text-gray-600">Amount:</span>
-                        <span class="font-medium text-gray-800">$11,425.00 USD</span>
+                        <span class="text-gray-600 text-sm">Amount:</span>
+                        <span class="font-medium text-gray-800 text-sm">$11,425.00 USD</span>
                     </div>
                     <div class="detail-row">
-                        <span class="text-gray-600">Sender:</span>
-                        <span class="font-medium text-gray-800">Randy Stanaway</span>
+                        <span class="text-gray-600 text-sm">Sender:</span>
+                        <span class="font-medium text-gray-800 text-sm">Randy Stanaway</span>
                     </div>
                     <div class="detail-row">
-                        <span class="text-gray-600">Recipient:</span>
-                        <span class="font-medium text-gray-800">giambrunoamy@gmail.com</span>
+                        <span class="text-gray-600 text-sm">Recipient:</span>
+                        <span class="font-medium text-gray-800 text-sm">giambrunoamy@gmail.com</span>
                     </div>
                     <div class="detail-row">
-                        <span class="text-gray-600">Date:</span>
-                        <span class="font-medium text-gray-800">Nov 12, 2025</span>
+                        <span class="text-gray-600 text-sm">Date:</span>
+                        <span class="font-medium text-gray-800 text-sm">Nov 12, 2025</span>
                     </div>
                     <div class="detail-row">
-                        <span class="text-gray-600">Transaction ID:</span>
-                        <span class="font-medium text-gray-800">TX-7842-5691</span>
+                        <span class="text-gray-600 text-sm">Transaction ID:</span>
+                        <span class="font-medium text-gray-800 text-sm">TX-7842-5691</span>
                     </div>
                     <div class="detail-row">
-                        <span class="text-gray-600">Status:</span>
+                        <span class="text-gray-600 text-sm">Status:</span>
                         <span class="status-badge">Processing</span>
                     </div>
                 </div>
@@ -279,33 +307,63 @@
             
             <!-- Action Buttons -->
             <div class="space-y-3">
-                <button class="modern-button flex items-center justify-center">
+                <button class="modern-button flex items-center justify-center text-sm">
                     <i class="fas fa-spinner fa-spin mr-2"></i>
                     Processing...
                 </button>
-
             </div>
             
             <!-- Help Text -->
-            <p class="text-center text-gray-500 text-sm mt-6">
+            <p class="text-center text-gray-500 text-xs mt-4">
                 Need help? <a href="#" class="text-[#0070ba] hover:underline font-medium">Visit our Help Center</a>
             </p>
         </div>
         
         <!-- Footer -->
-        <div class="bg-gray-100 py-4 px-6 border-t border-gray-200">
-            <div class="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-6 text-gray-500 text-sm">
+        <div class="bg-gray-100 py-3 px-6 border-t border-gray-200">
+            <div class="flex flex-col sm:flex-row justify-center space-y-1 sm:space-y-0 sm:space-x-6 text-gray-500 text-xs">
                 <a href="#" class="hover:text-[#0070ba] text-center">Privacy</a>
                 <a href="#" class="hover:text-[#0070ba] text-center">Legal</a>
                 <a href="#" class="hover:text-[#0070ba] text-center">Feedback</a>
             </div>
-            <p class="text-center text-gray-400 text-xs mt-3">© 2025 PayPal, Inc. All rights reserved.</p>
+            <p class="text-center text-gray-400 text-xs mt-2">© 2025 PayPal, Inc. All rights reserved.</p>
         </div>
     </div>
 
     <script>
-        // Enhanced animations
+        // Countdown timer functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Set initial time to 10 minutes (600 seconds)
+            let timeLeft = 600; // 10 minutes in seconds
+            const countdownElement = document.getElementById('countdown');
+            
+            // Update countdown every second
+            const countdownInterval = setInterval(function() {
+                // Calculate minutes and seconds
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                
+                // Format time as MM:SS
+                const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Update the countdown display
+                countdownElement.textContent = formattedTime;
+                
+                // Change color when time is running low
+                if (timeLeft <= 60) {
+                    countdownElement.parentElement.style.background = 'linear-gradient(135deg, #ff3d3d, #ff6b6b)';
+                }
+                
+                // Check if time has run out
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.textContent = 'Time expired!';
+                    // You could add additional logic here for when time expires
+                } else {
+                    timeLeft--;
+                }
+            }, 1000);
+            
             // Progress animation
             const progressFill = document.querySelector('.progress-fill');
             let width = 0;
