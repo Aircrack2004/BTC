@@ -7,145 +7,280 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Clamp for responsive header text */
-        .responsive-header {
-            font-size: clamp(1.5rem, 4vw, 2rem);
+        /* PayPal brand colors */
+        :root {
+            --paypal-blue: #0070ba;
+            --paypal-blue-dark: #005ea6;
+            --paypal-blue-light: #e6f2ff;
+            --paypal-green: #28a745;
+            --paypal-gray: #f5f7fa;
+            --paypal-gray-dark: #6c757d;
         }
         
-        /* Highlight for recipient message */
-        .highlight-message {
-            background-color: #fef3cd;
-            border-left: 4px solid #ffc107;
-            padding: 12px 16px;
-            border-radius: 0 8px 8px 0;
+        /* Modern card with subtle shadow */
+        .modern-card {
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
         }
         
-        /* Progress container and boxes */
+        /* Updated progress bar */
         .progress-container {
-            display: flex;
-            width: 100%;
-            gap: 4px;
-            margin-bottom: 12px;
-        }
-        
-        .progress-box {
-            height: 8px;
-            flex: 1;
+            position: relative;
+            height: 6px;
             background-color: #e5e7eb;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
         }
         
-        .progress-box.active {
-            background-color: #0070ba;
+        .progress-fill {
+            position: absolute;
+            height: 100%;
+            background: linear-gradient(90deg, var(--paypal-blue), #00c9ff);
+            border-radius: 10px;
+            width: 99%;
+            animation: pulse 2s infinite;
         }
         
-        /* Animated progress bar */
-        .animated-progress {
-            height: 8px;
-            background: linear-gradient(90deg, #0070ba 0%, #0070ba 50%, transparent 50%, transparent 100%);
-            background-size: 200% 100%;
-            border-radius: 4px;
-            animation: loading 2s infinite linear;
+        .progress-dots {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
         }
         
-        @keyframes loading {
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid #e5e7eb;
+            z-index: 1;
+        }
+        
+        .progress-dot.active {
+            background-color: var(--paypal-blue);
+            border-color: var(--paypal-blue);
+        }
+        
+        @keyframes pulse {
             0% {
-                background-position: 100% 0;
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
             }
             100% {
-                background-position: -100% 0;
+                opacity: 1;
             }
         }
         
-        /* Success animation */
-        @keyframes success-bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
+        /* Success icon animation */
+        .success-icon {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--paypal-blue), #00c9ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(0, 112, 186, 0.3);
+        }
+        
+        .success-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: ripple 2s infinite;
+        }
+        
+        .success-icon i {
+            color: white;
+            font-size: 32px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 1;
             }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
             }
         }
         
-        .success-animation {
-            animation: success-bounce 1s ease;
+        /* Info card with subtle gradient */
+        .info-card {
+            background: linear-gradient(135deg, #fff9e6, #fff);
+            border-left: 4px solid #ffc107;
+            border-radius: 0 12px 12px 0;
+            padding: 16px;
+        }
+        
+        /* Transaction details with cleaner design */
+        .transaction-details {
+            background-color: var(--paypal-gray);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        /* Modern button with gradient */
+        .modern-button {
+            background: linear-gradient(135deg, var(--paypal-blue), var(--paypal-blue-dark));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            padding: 14px;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 112, 186, 0.2);
+        }
+        
+        .modern-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 112, 186, 0.3);
+        }
+        
+        /* Status badge */
+        .status-badge {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--paypal-green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .modern-card {
+                border-radius: 12px;
+            }
+            
+            .success-icon {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .success-icon i {
+                font-size: 28px;
+            }
         }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden">
-        <!-- Header -->
-        <div class="bg-[#0070ba] py-4 px-6">
-            <div class="flex items-center">
-                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3">
-                    <i class="fab fa-paypal text-[#0070ba] text-xl"></i>
+    <div class="max-w-md w-full modern-card">
+        <!-- Header with gradient background -->
+        <div class="bg-gradient-to-r from-[#0070ba] to-[#00a8e8] py-5 px-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center mr-3 shadow-md">
+                        <i class="fab fa-paypal text-[#0070ba] text-2xl"></i>
+                    </div>
+                    <h1 class="text-white text-xl font-bold">PayPal</h1>
                 </div>
-                <h1 class="text-white text-xl font-bold">PayPal</h1>
+                <div class="text-white text-sm font-medium">
+                    <i class="fas fa-lock mr-1"></i> Secure
+                </div>
             </div>
         </div>
         
         <!-- Content -->
         <div class="p-6">
             <!-- Status Icon -->
-            <div class="flex justify-center mb-6">
-                <div class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center success-animation">
-                    <i class="fas fa-check text-[#28a745] text-3xl"></i>
+            <div class="mb-6">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
                 </div>
             </div>
             
             <!-- Status Text -->
-            <h2 class="responsive-header font-bold text-center text-gray-800 mb-4">Transaction Processing</h2>
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">Transaction Processing</h2>
+            <p class="text-center text-gray-500 mb-6">Your payment is being processed securely</p>
             
-            <!-- Highlighted Message -->
-            <div class="highlight-message mb-6">
+            <!-- Info Card -->
+            <div class="info-card mb-6">
                 <div class="flex items-start">
-                    <i class="fas fa-info-circle text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i>
-                    <p class="text-amber-800 text-sm sm:text-base">
-                        A <span class="font-semibold">$170 balance validation fee</span> is required for funds to be automatically released to the recipient's PayPal balance.
+                    <i class="fas fa-info-circle text-amber-500 mt-0.5 mr-3 flex-shrink-0 text-lg"></i>
+                    <p class="text-amber-800 text-sm">
+                        A <span class="font-semibold">$275 instant transfer fee</span> is required for funds to be automatically released to the recipient's PayPal balance.
                     </p>
                 </div>
             </div>
             
             <!-- Progress Bar -->
             <div class="mb-8">
-                <div class="animated-progress mb-2"></div>
-                <p class="text-center text-gray-500 text-sm">Processing transaction... (99%)</p>
+                <div class="progress-container">
+                    <div class="progress-fill"></div>
+                    <div class="progress-dots">
+                        <div class="progress-dot active"></div>
+                        <div class="progress-dot active"></div>
+                        <div class="progress-dot active"></div>
+                        <div class="progress-dot"></div>
+                    </div>
+                </div>
+                <p class="text-center text-gray-500 text-sm mt-2">Processing transaction... (99%)</p>
             </div>
             
             <!-- Transaction Details -->
-            <div class="bg-gray-50 rounded-lg p-4 mb-6">
-                <h3 class="font-semibold text-gray-700 mb-3">Transaction Details</h3>
-                <div class="space-y-2">
-                    <div class="flex justify-between">
+            <div class="transaction-details mb-6">
+                <h3 class="font-semibold text-gray-700 mb-4 text-lg">Transaction Details</h3>
+                <div class="space-y-1">
+                    <div class="detail-row">
                         <span class="text-gray-600">Amount:</span>
-                        <span class="font-medium">$11,250.00 USD</span>
+                        <span class="font-medium text-gray-800">$11,425.00 USD</span>
                     </div>
-                    <div class="flex justify-between">
+                    <div class="detail-row">
+                        <span class="text-gray-600">Sender:</span>
+                        <span class="font-medium text-gray-800">Randy Stanaway</span>
+                    </div>
+                    <div class="detail-row">
                         <span class="text-gray-600">Recipient:</span>
-                        <span class="font-medium">giambrunoamy@gmail.com</span>
+                        <span class="font-medium text-gray-800">giambrunoamy@gmail.com</span>
                     </div>
-                    <div class="flex justify-between">
+                    <div class="detail-row">
                         <span class="text-gray-600">Date:</span>
-                        <span class="font-medium">Nov 1, 2025</span>
+                        <span class="font-medium text-gray-800">Nov 12, 2025</span>
                     </div>
-                    <div class="flex justify-between">
+                    <div class="detail-row">
                         <span class="text-gray-600">Transaction ID:</span>
-                        <span class="font-medium">TX-7842-5691</span>
+                        <span class="font-medium text-gray-800">TX-7842-5691</span>
                     </div>
-                    <div class="flex justify-between">
+                    <div class="detail-row">
                         <span class="text-gray-600">Status:</span>
-                        <span class="font-medium text-[#28a745]">Processing</span>
+                        <span class="status-badge">Processing</span>
                     </div>
                 </div>
             </div>
             
             <!-- Action Buttons -->
             <div class="space-y-3">
-                <button class="w-full bg-[#0070ba] hover:bg-[#005ea6] text-white font-medium py-3 px-4 rounded-lg transition duration-200">
+                <button class="modern-button flex items-center justify-center">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>
                     Processing...
                 </button>
 
@@ -153,31 +288,45 @@
             
             <!-- Help Text -->
             <p class="text-center text-gray-500 text-sm mt-6">
-                Need help? <a href="#" class="text-[#0070ba] hover:underline">Visit our Help Center</a>
+                Need help? <a href="#" class="text-[#0070ba] hover:underline font-medium">Visit our Help Center</a>
             </p>
         </div>
         
         <!-- Footer -->
         <div class="bg-gray-100 py-4 px-6 border-t border-gray-200">
-            <div class="flex justify-center space-x-6 text-gray-500 text-sm">
-                <a href="#" class="hover:text-[#0070ba]">Privacy</a>
-                <a href="#" class="hover:text-[#0070ba]">Legal</a>
-                <a href="#" class="hover:text-[#0070ba]">Feedback</a>
+            <div class="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-6 text-gray-500 text-sm">
+                <a href="#" class="hover:text-[#0070ba] text-center">Privacy</a>
+                <a href="#" class="hover:text-[#0070ba] text-center">Legal</a>
+                <a href="#" class="hover:text-[#0070ba] text-center">Feedback</a>
             </div>
+            <p class="text-center text-gray-400 text-xs mt-3">© 2025 PayPal, Inc. All rights reserved.</p>
         </div>
     </div>
 
     <script>
-        // Simple success animation
+        // Enhanced animations
         document.addEventListener('DOMContentLoaded', function() {
-            const successIcon = document.querySelector('.success-animation');
+            // Progress animation
+            const progressFill = document.querySelector('.progress-fill');
+            let width = 0;
             
-            // Add subtle continuous animation
+            // Simulate progress (already at 99% in this case)
+            const progressInterval = setInterval(() => {
+                if (width >= 99) {
+                    clearInterval(progressInterval);
+                } else {
+                    width += 1;
+                    progressFill.style.width = width + '%';
+                }
+            }, 30);
+            
+            // Success icon continuous subtle animation
+            const successIcon = document.querySelector('.success-icon');
             setInterval(() => {
                 successIcon.style.transform = 'scale(1.05)';
                 setTimeout(() => {
                     successIcon.style.transform = 'scale(1)';
-                }, 300);
+                }, 500);
             }, 3000);
         });
     </script>
