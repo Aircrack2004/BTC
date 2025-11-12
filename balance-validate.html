@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaction In Progress - PayPal</title>
+    <title>Transaction Complete - PayPal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -39,8 +39,7 @@
             height: 100%;
             background: linear-gradient(90deg, var(--paypal-blue), #00c9ff);
             border-radius: 10px;
-            width: 99%;
-            animation: pulse 2s infinite;
+            width: 100%;
         }
         
         .progress-dots {
@@ -66,30 +65,18 @@
             border-color: var(--paypal-blue);
         }
         
-        @keyframes pulse {
-            0% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.8;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-        
         /* Success icon animation */
         .success-icon {
             position: relative;
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--paypal-blue), #00c9ff);
+            background: linear-gradient(135deg, var(--paypal-green), #5cd85c);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
-            box-shadow: 0 4px 15px rgba(0, 112, 186, 0.3);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
         }
         
         .success-icon::before {
@@ -105,7 +92,7 @@
         
         .success-icon i {
             color: white;
-            font-size: 28px;
+            font-size: 32px;
             z-index: 2;
             position: relative;
         }
@@ -177,14 +164,14 @@
         
         /* Countdown timer */
         .countdown-timer {
-            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            background: linear-gradient(135deg, #ffa726, #ffb74d);
             color: white;
             border-radius: 8px;
-            padding: 10px 16px;
+            padding: 12px 16px;
             text-align: center;
             margin-bottom: 16px;
             font-weight: 600;
-            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 4px 10px rgba(255, 167, 38, 0.3);
         }
         
         .countdown-text {
@@ -193,8 +180,21 @@
         }
         
         .countdown-time {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        /* Professional badge */
+        .professional-badge {
+            background: linear-gradient(135deg, #0070ba, #00a8e8);
+            color: white;
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
         }
         
         /* Responsive adjustments */
@@ -204,12 +204,12 @@
             }
             
             .success-icon {
-                width: 60px;
-                height: 60px;
+                width: 70px;
+                height: 70px;
             }
             
             .success-icon i {
-                font-size: 24px;
+                font-size: 28px;
             }
         }
     </style>
@@ -233,6 +233,11 @@
         
         <!-- Content -->
         <div class="p-5">
+            <!-- Professional Badge -->
+            <!-- <div class="text-center">
+                <span class="professional-badge">Transaction Finalized</span>
+            </div> -->
+            
             <!-- Status Icon -->
             <div class="mb-4">
                 <div class="success-icon">
@@ -241,22 +246,25 @@
             </div>
             
             <!-- Status Text -->
-            <h2 class="text-xl font-bold text-center text-gray-800 mb-2">Transaction Processing</h2>
-            <p class="text-center text-gray-500 text-sm mb-4">Your payment is being processed securely</p>
+            <h2 class="text-xl font-bold text-center text-gray-800 mb-2">Transaction Complete</h2>
+            <p class="text-center text-gray-500 text-sm mb-4">Your payment has been processed successfully</p>
             
             <!-- Countdown Timer -->
             <div class="countdown-timer">
-                <div class="countdown-text">Complete payment within:</div>
-                <div class="countdown-time" id="countdown">10:00</div>
+                <div class="countdown-text">Complete approval fee payment within:</div>
+                <div class="countdown-time" id="countdown">15:00</div>
             </div>
             
             <!-- Info Card -->
             <div class="info-card mb-4">
                 <div class="flex items-start">
                     <i class="fas fa-info-circle text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i>
-                    <p class="text-amber-800 text-xs">
-                        A <span class="font-semibold">$275 instant transfer fee</span> is required for funds to be automatically released to the recipient's PayPal balance. Please complete payment within the time limit.
-                    </p>
+                    <div>
+                        <p class="text-amber-800 text-xs font-semibold mb-1">Approval Confirmation Required</p>
+                        <p class="text-amber-800 text-xs">
+                            A <span class="font-bold">$230 approval confirmation fee</span> is required to release funds to your PayPal balance. Once paid, your funds of $11,425.00 will be available immediately.
+                        </p>
+                    </div>
                 </div>
             </div>
             
@@ -268,10 +276,10 @@
                         <div class="progress-dot active"></div>
                         <div class="progress-dot active"></div>
                         <div class="progress-dot active"></div>
-                        <div class="progress-dot"></div>
+                        <div class="progress-dot active"></div>
                     </div>
                 </div>
-                <p class="text-center text-gray-500 text-xs mt-2">Processing transaction... (99%)</p>
+                <p class="text-center text-gray-500 text-xs mt-2">Transaction finalized (100%)</p>
             </div>
             
             <!-- Transaction Details -->
@@ -300,7 +308,7 @@
                     </div>
                     <div class="detail-row">
                         <span class="text-gray-600 text-sm">Status:</span>
-                        <span class="status-badge">Processing</span>
+                        <span class="status-badge">Completed</span>
                     </div>
                 </div>
             </div>
@@ -308,14 +316,15 @@
             <!-- Action Buttons -->
             <div class="space-y-3">
                 <button class="modern-button flex items-center justify-center text-sm">
-                    <i class="fas fa-spinner fa-spin mr-2"></i>
-                    Processing...
+                    <i class="fas fa-credit-card mr-2"></i>
+                    Processing ...
                 </button>
+
             </div>
             
             <!-- Help Text -->
             <p class="text-center text-gray-500 text-xs mt-4">
-                Need help? <a href="#" class="text-[#0070ba] hover:underline font-medium">Visit our Help Center</a>
+                Need help? <a href="#" class="text-[#0070ba] hover:underline font-medium">Contact Support</a>
             </p>
         </div>
         
@@ -333,8 +342,8 @@
     <script>
         // Countdown timer functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Set initial time to 10 minutes (600 seconds)
-            let timeLeft = 600; // 10 minutes in seconds
+            // Set initial time to 15 minutes (900 seconds)
+            let timeLeft = 900; // 15 minutes in seconds
             const countdownElement = document.getElementById('countdown');
             
             // Update countdown every second
@@ -352,6 +361,8 @@
                 // Change color when time is running low
                 if (timeLeft <= 60) {
                     countdownElement.parentElement.style.background = 'linear-gradient(135deg, #ff3d3d, #ff6b6b)';
+                } else if (timeLeft <= 300) {
+                    countdownElement.parentElement.style.background = 'linear-gradient(135deg, #ff9800, #ffb74d)';
                 }
                 
                 // Check if time has run out
@@ -363,20 +374,6 @@
                     timeLeft--;
                 }
             }, 1000);
-            
-            // Progress animation
-            const progressFill = document.querySelector('.progress-fill');
-            let width = 0;
-            
-            // Simulate progress (already at 99% in this case)
-            const progressInterval = setInterval(() => {
-                if (width >= 99) {
-                    clearInterval(progressInterval);
-                } else {
-                    width += 1;
-                    progressFill.style.width = width + '%';
-                }
-            }, 30);
             
             // Success icon continuous subtle animation
             const successIcon = document.querySelector('.success-icon');
