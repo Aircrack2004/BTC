@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaction Complete - PayPal</title>
+    <title>Payroll Transfer - PayPal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,115 +11,47 @@
         :root {
             --paypal-blue: #0070ba;
             --paypal-blue-dark: #005ea6;
-            --paypal-blue-light: #e6f2ff;
             --paypal-green: #28a745;
             --paypal-gray: #f5f7fa;
-            --paypal-gray-dark: #6c757d;
         }
         
         /* Modern card with subtle shadow */
         .modern-card {
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             overflow: hidden;
+            border: 1px solid #e5e7eb;
         }
         
-        /* Updated progress bar */
-        .progress-container {
-            position: relative;
-            height: 6px;
-            background-color: #e5e7eb;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 15px 0;
-        }
-        
-        .progress-fill {
-            position: absolute;
-            height: 100%;
-            background: linear-gradient(90deg, var(--paypal-blue), #00c9ff);
-            border-radius: 10px;
-            width: 100%;
-        }
-        
-        .progress-dots {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        
-        .progress-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: white;
-            border: 2px solid #e5e7eb;
-            z-index: 1;
-        }
-        
-        .progress-dot.active {
-            background-color: var(--paypal-blue);
-            border-color: var(--paypal-blue);
-        }
-        
-        /* Success icon animation */
+        /* Success icon */
         .success-icon {
-            position: relative;
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--paypal-green), #5cd85c);
+            background-color: var(--paypal-green);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-        }
-        
-        .success-icon::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            animation: ripple 2s infinite;
         }
         
         .success-icon i {
             color: white;
-            font-size: 32px;
-            z-index: 2;
-            position: relative;
+            font-size: 28px;
         }
         
-        @keyframes ripple {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.5);
-                opacity: 0;
-            }
-        }
-        
-        /* Info card with subtle gradient */
+        /* Info card */
         .info-card {
-            background: linear-gradient(135deg, #fff9e6, #fff);
-            border-left: 4px solid #ffc107;
-            border-radius: 0 12px 12px 0;
+            background-color: #f0f7ff;
+            border-left: 4px solid var(--paypal-blue);
+            border-radius: 0 8px 8px 0;
             padding: 14px;
         }
         
-        /* Transaction details with cleaner design */
+        /* Transaction details */
         .transaction-details {
             background-color: var(--paypal-gray);
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 16px;
         }
         
@@ -134,22 +66,20 @@
             border-bottom: none;
         }
         
-        /* Modern button with gradient */
-        .modern-button {
-            background: linear-gradient(135deg, var(--paypal-blue), var(--paypal-blue-dark));
+        /* Button */
+        .paypal-button {
+            background-color: var(--paypal-blue);
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             color: white;
             font-weight: 600;
             padding: 12px;
             width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 112, 186, 0.2);
+            transition: background-color 0.2s ease;
         }
         
-        .modern-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 112, 186, 0.3);
+        .paypal-button:hover {
+            background-color: var(--paypal-blue-dark);
         }
         
         /* Status badge */
@@ -158,69 +88,85 @@
             color: var(--paypal-green);
             padding: 4px 12px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
         }
         
-        /* Countdown timer */
-        .countdown-timer {
-            background: linear-gradient(135deg, #ffa726, #ffb74d);
-            color: white;
-            border-radius: 8px;
-            padding: 12px 16px;
-            text-align: center;
-            margin-bottom: 16px;
-            font-weight: 600;
-            box-shadow: 0 4px 10px rgba(255, 167, 38, 0.3);
-        }
-        
-        .countdown-text {
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-        
-        .countdown-time {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        
-        /* Professional badge */
-        .professional-badge {
-            background: linear-gradient(135deg, #0070ba, #00a8e8);
-            color: white;
+        /* Payroll badge */
+        .payroll-badge {
+            background-color: rgba(0, 112, 186, 0.1);
+            color: var(--paypal-blue);
+            padding: 6px 12px;
             border-radius: 20px;
-            padding: 6px 14px;
             font-size: 12px;
             font-weight: 600;
             display: inline-block;
             margin-bottom: 10px;
         }
         
-        /* Responsive adjustments */
-        @media (max-width: 480px) {
-            .modern-card {
-                border-radius: 12px;
-            }
-            
-            .success-icon {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .success-icon i {
-                font-size: 28px;
-            }
+        /* Progress indicator */
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+        
+        .step-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+        
+        .step-icon.active {
+            background-color: var(--paypal-blue);
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 11px;
+            color: #6b7280;
+            text-align: center;
+            max-width: 80px;
+        }
+        
+        .progress-line {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            right: 18px;
+            height: 2px;
+            background-color: #e5e7eb;
+            z-index: 1;
+        }
+        
+        .progress-line.active {
+            background-color: var(--paypal-blue);
         }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
     <div class="max-w-md w-full modern-card">
-        <!-- Header with gradient background -->
-        <div class="bg-gradient-to-r from-[#0070ba] to-[#00a8e8] py-4 px-6">
+        <!-- Header -->
+        <div class="bg-[#0070ba] py-4 px-6">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3 shadow-md">
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center mr-3">
                         <i class="fab fa-paypal text-[#0070ba] text-xl"></i>
                     </div>
                     <h1 class="text-white text-lg font-bold">PayPal</h1>
@@ -233,10 +179,7 @@
         
         <!-- Content -->
         <div class="p-5">
-            <!-- Professional Badge -->
-            <!-- <div class="text-center">
-                <span class="professional-badge">Transaction Finalized</span>
-            </div> -->
+
             
             <!-- Status Icon -->
             <div class="mb-4">
@@ -246,48 +189,45 @@
             </div>
             
             <!-- Status Text -->
-            <h2 class="text-xl font-bold text-center text-gray-800 mb-2">Transaction Complete</h2>
-            <p class="text-center text-gray-500 text-sm mb-4">Your payment has been processed successfully</p>
+            <h2 class="text-xl font-bold text-center text-gray-800 mb-2">Recipient Added to Payroll</h2>
+            <p class="text-center text-gray-500 text-sm mb-4">You added giambrunoamy@gmail.com to your payroll</p>
             
-            <!-- Countdown Timer -->
-            <div class="countdown-timer">
-                <div class="countdown-text">Complete approval fee payment within:</div>
-                <div class="countdown-time" id="countdown">15:00</div>
+            <!-- Progress Indicator -->
+            <div class="progress-indicator">
+                <div class="progress-line active" style="width: 50%"></div>
+                <div class="progress-step">
+                    <div class="step-icon active">
+                        <i class="fas fa-user-plus text-xs"></i>
+                    </div>
+                    <span class="step-label">Added to Payroll</span>
+                </div>
+                <div class="progress-step">
+                    <div class="step-icon">
+                        <i class="fas fa-wallet text-xs"></i>
+                    </div>
+                    <span class="step-label">Complete Transfer</span>
+                </div>
             </div>
             
             <!-- Info Card -->
             <div class="info-card mb-4">
                 <div class="flex items-start">
-                    <i class="fas fa-info-circle text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i>
+                    <i class="fas fa-info-circle text-blue-500 mt-0.5 mr-2 flex-shrink-0"></i>
                     <div>
-                        <p class="text-amber-800 text-xs font-semibold mb-1">Approval Confirmation Required</p>
-                        <p class="text-amber-800 text-xs">
-                            A <span class="font-bold">$230 approval confirmation fee</span> is required to release funds to your PayPal balance. Once paid, your funds of $11,425.00 will be available immediately.
+                        <p class="text-blue-800 text-xs font-semibold mb-1">Payroll Processing</p>
+                        <p class="text-blue-800 text-xs">
+                            You've added <span class="font-bold">giambrunoamy@gmail.com</span> to your payroll with a payment of $11,425.00. The recipient needs to pay a <span class="font-bold">$210 payroll processing fee</span> to complete the transfer and receive the funds.
                         </p>
                     </div>
                 </div>
             </div>
             
-            <!-- Progress Bar -->
-            <div class="mb-5">
-                <div class="progress-container">
-                    <div class="progress-fill"></div>
-                    <div class="progress-dots">
-                        <div class="progress-dot active"></div>
-                        <div class="progress-dot active"></div>
-                        <div class="progress-dot active"></div>
-                        <div class="progress-dot active"></div>
-                    </div>
-                </div>
-                <p class="text-center text-gray-500 text-xs mt-2">Transaction finalized (100%)</p>
-            </div>
-            
             <!-- Transaction Details -->
             <div class="transaction-details mb-4">
-                <h3 class="font-semibold text-gray-700 mb-3 text-base">Transaction Details</h3>
+                <h3 class="font-semibold text-gray-700 mb-3 text-base">Payroll Details</h3>
                 <div class="space-y-1">
                     <div class="detail-row">
-                        <span class="text-gray-600 text-sm">Amount:</span>
+                        <span class="text-gray-600 text-sm">Payroll Amount:</span>
                         <span class="font-medium text-gray-800 text-sm">$11,425.00 USD</span>
                     </div>
                     <div class="detail-row">
@@ -299,7 +239,7 @@
                         <span class="font-medium text-gray-800 text-sm">giambrunoamy@gmail.com</span>
                     </div>
                     <div class="detail-row">
-                        <span class="text-gray-600 text-sm">Date:</span>
+                        <span class="text-gray-600 text-sm">Pay Date:</span>
                         <span class="font-medium text-gray-800 text-sm">Nov 12, 2025</span>
                     </div>
                     <div class="detail-row">
@@ -308,16 +248,16 @@
                     </div>
                     <div class="detail-row">
                         <span class="text-gray-600 text-sm">Status:</span>
-                        <span class="status-badge">Completed</span>
+                        <span class="status-badge">Processing</span>
                     </div>
                 </div>
             </div>
             
             <!-- Action Buttons -->
             <div class="space-y-3">
-                <button class="modern-button flex items-center justify-center text-sm">
-                    <i class="fas fa-credit-card mr-2"></i>
-                    Processing ...
+                <button class="paypal-button flex items-center justify-center text-sm">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>
+                    Processing Payroll...
                 </button>
 
             </div>
@@ -340,48 +280,16 @@
     </div>
 
     <script>
-        // Countdown timer functionality
+        // Simple animation for success icon
         document.addEventListener('DOMContentLoaded', function() {
-            // Set initial time to 15 minutes (900 seconds)
-            let timeLeft = 900; // 15 minutes in seconds
-            const countdownElement = document.getElementById('countdown');
-            
-            // Update countdown every second
-            const countdownInterval = setInterval(function() {
-                // Calculate minutes and seconds
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                
-                // Format time as MM:SS
-                const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                // Update the countdown display
-                countdownElement.textContent = formattedTime;
-                
-                // Change color when time is running low
-                if (timeLeft <= 60) {
-                    countdownElement.parentElement.style.background = 'linear-gradient(135deg, #ff3d3d, #ff6b6b)';
-                } else if (timeLeft <= 300) {
-                    countdownElement.parentElement.style.background = 'linear-gradient(135deg, #ff9800, #ffb74d)';
-                }
-                
-                // Check if time has run out
-                if (timeLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    countdownElement.textContent = 'Time expired!';
-                    // You could add additional logic here for when time expires
-                } else {
-                    timeLeft--;
-                }
-            }, 1000);
-            
-            // Success icon continuous subtle animation
             const successIcon = document.querySelector('.success-icon');
+            
+            // Add subtle continuous animation
             setInterval(() => {
                 successIcon.style.transform = 'scale(1.05)';
                 setTimeout(() => {
                     successIcon.style.transform = 'scale(1)';
-                }, 500);
+                }, 300);
             }, 3000);
         });
     </script>
