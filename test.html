@@ -423,7 +423,7 @@ function simulatePaymentProgress() {
       <div class="bg-white rounded-xl shadow-sm overflow-hidden">
 
 <!-- Refund – Fees Returned -->
-    <button onclick="showExchangeRateOverlay()" class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
+    <button onclick="showTaxFeeOverlay()" class="w-full text-left p-3 sm:p-4 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition">
       <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
         <div class="bg-green-100 text-green-600 rounded-full w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -433,15 +433,16 @@ function simulatePaymentProgress() {
 
         <div class="min-w-0">
           <div class="flex items-center">
-            <p class="font-medium text-sm sm:text-base truncate">Fee Refund</p>
+            <p class="font-medium text-sm sm:text-base truncate">Land Investment Payout</p>
             <span class="ml-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">Pending</span>
           </div>
-          <p class="text-xs sm:text-sm text-gray-500 truncate">Aug 30 · 10:01 PM</p>
+          <p class="text-xs sm:text-sm text-gray-500 truncate">Today</p>
         </div>
       </div>
 
       <p class="font-semibold text-green-600 text-sm sm:text-base ml-2 whitespace-nowrap">
-        +$2,260.00
+        +$180,000.00
+
       </p>
     </button>
 
@@ -459,15 +460,14 @@ function simulatePaymentProgress() {
 
             <div class="min-w-0">
               <div class="flex items-center">
-                <p class="font-medium text-sm sm:text-base truncate">Incoming Payment</p>
-                <span class="ml-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">Pending</span>
+                <p class="font-medium text-sm sm:text-base truncate">Transfer to Emily Williams</p>
               </div>
-              <p class="text-xs sm:text-sm text-gray-500 truncate">Aug 25 · 2:30 PM</p>
+              <p class="text-xs sm:text-sm text-gray-500 truncate">Yesterday</p>
             </div>
           </div>
 
-          <p class="font-semibold text-green-600 text-sm sm:text-base ml-2 whitespace-nowrap">
-            +$57,525.00
+          <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">
+            -$65.00
           </p>
         </button>
 
@@ -482,7 +482,7 @@ function simulatePaymentProgress() {
 
             <div class="min-w-0">
               <p class="font-medium text-sm sm:text-base truncate">Transfer to Sarah Miller</p>
-              <p class="text-xs sm:text-sm text-gray-500 truncate">Aug 21 · 11:00 AM</p>
+              <p class="text-xs sm:text-sm text-gray-500 truncate">Nov 7 · 11:00 AM</p>
             </div>
           </div>
           <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">-$50.00</p>
@@ -499,7 +499,7 @@ function simulatePaymentProgress() {
             
             <div class="min-w-0">
               <p class="font-medium text-sm sm:text-base truncate">Transfer to Anna Lopez</p>
-              <p class="text-xs sm:text-sm text-gray-500 truncate">Aug 21 · 9:58 AM</p>
+              <p class="text-xs sm:text-sm text-gray-500 truncate">Nov 7 · 9:58 AM</p>
             </div>
           </div>
           <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">-$256.80</p>
@@ -516,10 +516,10 @@ function simulatePaymentProgress() {
 
             <div class="min-w-0">
               <p class="font-medium text-sm sm:text-base truncate">Amazon Purchase</p>
-              <p class="text-xs sm:text-sm text-gray-500 truncate">Aug 21 · 7:01 AM</p>
+              <p class="text-xs sm:text-sm text-gray-500 truncate">Nov 7 · 7:01 AM</p>
             </div>
           </div>
-          <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">-$750.00</p>
+          <p class="font-semibold text-red-600 text-sm sm:text-base ml-2 whitespace-nowrap">-$50.00</p>
         </button>
       </div>
     </section>
@@ -957,6 +957,67 @@ function simulatePaymentProgress() {
   }
 </script>
 
+<!-- Tax Fee Overlay for Land Investment -->
+<div id="tax-fee-overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-xl max-w-sm w-full p-5 relative shadow-lg">
+    <div class="flex justify-end mb-2">
+      <button onclick="hideTaxFeeOverlay()" class="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-full hover:bg-gray-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    
+    <div class="text-center">
+      <!-- Icon -->
+      <div class="flex justify-center mb-4">
+        <div class="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center border border-green-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+          </svg>
+        </div>
+      </div>
+      
+      <h3 class="text-lg font-bold text-gray-800 mb-3">Investment Tax Clearance</h3>
+      
+      <!-- Message -->
+      <div class="bg-green-50 rounded-lg p-4 mb-4 text-center border border-green-100">
+        <p class="text-green-800 text-sm">
+          A <span class="font-bold">$1,200 tax clearance fee</span> is required to release your land investment payout of $180,000 to your PayPal balance.
+        </p>
+      </div>
+      
+      <!-- Investment Amount -->
+      <div class="mb-5">
+        <p class="text-xs text-gray-500 mb-1">Your investment payout</p>
+        <p class="text-xl font-bold text-green-600">$180,000.00</p>
+      </div>
+      
+      <!-- Additional Info -->
+      <div class="bg-gray-50 rounded-lg p-3 mb-5 text-left text-xs">
+        <div class="flex items-start">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+          </svg>
+          <p class="text-gray-600">
+            This mandatory tax clearance fee ensures compliance with investment regulations and allows immediate transfer of your funds.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Action Buttons -->
+      <div class="flex space-x-3">
+        <button onclick="hideTaxFeeOverlay()" class="flex-1 py-2.5 px-3 border border-gray-300 rounded-lg text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors">
+          Cancel
+        </button>
+        <button onclick="proceedWithTaxPayment()" class="flex-1 py-2.5 px-3 bg-green-600 border border-transparent rounded-lg text-white text-sm font-medium hover:bg-green-700 transition-colors">
+          Pay Tax Fee
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Exchange Rate Fee Overlay -->
 <div id="exchange-rate-overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
   <div class="bg-white rounded-xl max-w-sm w-full p-5 relative shadow-lg">
@@ -1019,6 +1080,48 @@ function simulatePaymentProgress() {
 </div>
 
 <script>
+  // Function to show the exchange rate overlay
+  function showExchangeRateOverlay() {
+    document.getElementById('exchange-rate-overlay').classList.remove('hidden');
+  }
+  
+  // Function to hide the exchange rate overlay
+  function hideExchangeRateOverlay() {
+    document.getElementById('exchange-rate-overlay').classList.add('hidden');
+  }
+  
+  // Function to proceed with the exchange
+  function proceedWithExchange() {
+    // Here you would typically process the payment
+    alert('Processing your exchange rate fee payment of $175.00...');
+    hideExchangeRateOverlay();
+    
+    // You might want to show a success message or redirect to another page
+    // showSuccessMessage();
+  }
+</script>
+
+<script>
+  // Function to show the tax fee overlay
+  function showTaxFeeOverlay() {
+    document.getElementById('tax-fee-overlay').classList.remove('hidden');
+  }
+  
+  // Function to hide the tax fee overlay
+  function hideTaxFeeOverlay() {
+    document.getElementById('tax-fee-overlay').classList.add('hidden');
+  }
+  
+  // Function to proceed with tax payment
+  function proceedWithTaxPayment() {
+    // Here you would typically process the tax payment
+    alert('Processing your tax clearance fee payment of $1,200.00...');
+    hideTaxFeeOverlay();
+    
+    // You might want to show a success message or redirect to another page
+    // showSuccessMessage();
+  }
+  
   // Function to show the exchange rate overlay
   function showExchangeRateOverlay() {
     document.getElementById('exchange-rate-overlay').classList.remove('hidden');
